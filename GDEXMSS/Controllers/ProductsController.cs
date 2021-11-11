@@ -27,7 +27,6 @@ namespace GDEXMSS.Controllers
                 ProductCategories.Categories = db.productCategories.ToList<productCategory>();
             }
             dynamic mymodel = new ExpandoObject();
-            mymodel.productCategory = GetCategories();
             return View(dbModel);
         }
         [HttpPost]
