@@ -1,0 +1,622 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mssdbEntity.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="administrator">
+          <Key>
+            <PropertyRef Name="adminID" />
+          </Key>
+          <Property Name="adminID" Type="int" Nullable="false" />
+          <Property Name="password" Type="varchar(max)" />
+          <Property Name="name" Type="varchar" MaxLength="300" />
+          <Property Name="department" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="cartID" />
+          </Key>
+          <Property Name="cartID" Type="int" Nullable="false" />
+          <Property Name="userID" Type="int" />
+          <Property Name="dateCreated" Type="date" />
+        </EntityType>
+        <EntityType Name="cartItem">
+          <Key>
+            <PropertyRef Name="itemID" />
+          </Key>
+          <Property Name="itemID" Type="int" Nullable="false" />
+          <Property Name="productID" Type="int" />
+          <Property Name="variationID" Type="int" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="cartID" Type="int" />
+        </EntityType>
+        <EntityType Name="eWallet">
+          <Key>
+            <PropertyRef Name="walletID" />
+          </Key>
+          <Property Name="walletID" Type="int" Nullable="false" />
+          <Property Name="userID" Type="int" />
+          <Property Name="availablePoints" Type="int" />
+          <Property Name="amount" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="orderLine">
+          <Key>
+            <PropertyRef Name="lineID" />
+          </Key>
+          <Property Name="lineID" Type="int" Nullable="false" />
+          <Property Name="orderID" Type="int" />
+          <Property Name="productID" Type="int" />
+          <Property Name="variationID" Type="int" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="unitCost" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="createdDT" Type="datetime" />
+          <Property Name="shippedDT" Type="datetime" />
+          <Property Name="userID" Type="int" />
+          <Property Name="status" Type="varchar" MaxLength="50" />
+          <Property Name="shippingID" Type="int" />
+          <Property Name="pointRedeemed" Type="int" />
+          <Property Name="amountPaid" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="consignment" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="orderShippingInfo">
+          <Key>
+            <PropertyRef Name="shippingID" />
+          </Key>
+          <Property Name="shippingID" Type="int" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="50" />
+          <Property Name="cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="address" Type="varchar" MaxLength="500" />
+          <Property Name="poscode" Type="int" />
+          <Property Name="city" Type="varchar" MaxLength="200" />
+          <Property Name="state" Type="varchar" MaxLength="200" />
+          <Property Name="branchID" Type="int" />
+          <Property Name="isPickup" Type="bit" />
+        </EntityType>
+        <EntityType Name="pointLine">
+          <Key>
+            <PropertyRef Name="pointID" />
+          </Key>
+          <Property Name="pointID" Type="int" Nullable="false" />
+          <Property Name="userID" Type="int" />
+          <Property Name="amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="transactionDT" Type="datetime" />
+          <Property Name="referenceID" Type="varchar(max)" />
+          <Property Name="adminID" Type="int" />
+        </EntityType>
+        <EntityType Name="productCategory">
+          <Key>
+            <PropertyRef Name="categoryID" />
+          </Key>
+          <Property Name="categoryID" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="200" />
+          <Property Name="isExist" Type="bit" />
+        </EntityType>
+        <EntityType Name="productCategoryLine">
+          <Key>
+            <PropertyRef Name="lineID" />
+          </Key>
+          <Property Name="lineID" Type="int" Nullable="false" />
+          <Property Name="productID" Type="int" />
+          <Property Name="categoryID" Type="int" />
+          <Property Name="isExist" Type="bit" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="200" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="unitCost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="categoryID" Type="int" />
+          <Property Name="isVariation" Type="bit" />
+          <Property Name="isExist" Type="bit" />
+          <Property Name="imagePath" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="productVariation">
+          <Key>
+            <PropertyRef Name="variationID" />
+          </Key>
+          <Property Name="variationID" Type="int" Nullable="false" />
+          <Property Name="productID" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="200" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="isExist" Type="bit" />
+        </EntityType>
+        <EntityType Name="transactionHistoryOrder">
+          <Key>
+            <PropertyRef Name="transactionID" />
+          </Key>
+          <Property Name="transactionID" Type="int" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="referenceID" Type="varchar" MaxLength="300" />
+          <Property Name="paymentMethod" Type="varchar" MaxLength="50" />
+          <Property Name="paidDT" Type="datetime" />
+          <Property Name="orderID" Type="int" />
+        </EntityType>
+        <EntityType Name="transactionHistoryWallet">
+          <Key>
+            <PropertyRef Name="transactionID" />
+          </Key>
+          <Property Name="transactionID" Type="int" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="referenceID" Type="varchar" MaxLength="300" />
+          <Property Name="paymentMethod" Type="varchar" MaxLength="50" />
+          <Property Name="paidDT" Type="datetime" />
+          <Property Name="walletID" Type="int" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_type" Type="varchar" MaxLength="100" />
+          <Property Name="fullname" Type="varchar" MaxLength="300" />
+          <Property Name="email" Type="varchar" MaxLength="300" />
+          <Property Name="password" Type="varchar(max)" />
+          <Property Name="race" Type="varchar" MaxLength="50" />
+          <Property Name="icnumber" Type="bigint" />
+          <Property Name="contact_number" Type="bigint" />
+          <Property Name="bank_name" Type="varchar" MaxLength="50" />
+          <Property Name="bank_number" Type="bigint" />
+          <Property Name="home_address" Type="varchar(max)" />
+          <Property Name="home_poscode" Type="varchar" MaxLength="50" />
+          <Property Name="home_city" Type="varchar" MaxLength="300" />
+          <Property Name="home_state" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="userRole">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="user_type" Type="varchar" MaxLength="50" />
+          <Property Name="employee_ID" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityContainer Name="mssdbEntityStoreContainer">
+          <EntitySet Name="administrator" EntityType="Self.administrator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cart" EntityType="Self.cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cartItem" EntityType="Self.cartItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="eWallet" EntityType="Self.eWallet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orderLine" EntityType="Self.orderLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orderShippingInfo" EntityType="Self.orderShippingInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pointLine" EntityType="Self.pointLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="productCategory" EntityType="Self.productCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="productCategoryLine" EntityType="Self.productCategoryLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="productVariation" EntityType="Self.productVariation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactionHistoryOrder" EntityType="Self.transactionHistoryOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactionHistoryWallet" EntityType="Self.transactionHistoryWallet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userRole" EntityType="Self.userRole" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mssdbEntity" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="administrator">
+          <Key>
+            <PropertyRef Name="adminID" />
+          </Key>
+          <Property Name="adminID" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="department" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="cartID" />
+          </Key>
+          <Property Name="cartID" Type="Int32" Nullable="false" />
+          <Property Name="userID" Type="Int32" />
+          <Property Name="dateCreated" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="cartItem">
+          <Key>
+            <PropertyRef Name="itemID" />
+          </Key>
+          <Property Name="itemID" Type="Int32" Nullable="false" />
+          <Property Name="productID" Type="Int32" />
+          <Property Name="variationID" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="cartID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="eWallet">
+          <Key>
+            <PropertyRef Name="walletID" />
+          </Key>
+          <Property Name="walletID" Type="Int32" Nullable="false" />
+          <Property Name="userID" Type="Int32" />
+          <Property Name="availablePoints" Type="Int32" />
+          <Property Name="amount" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="orderLine">
+          <Key>
+            <PropertyRef Name="lineID" />
+          </Key>
+          <Property Name="lineID" Type="Int32" Nullable="false" />
+          <Property Name="orderID" Type="Int32" />
+          <Property Name="productID" Type="Int32" />
+          <Property Name="variationID" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="unitCost" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="Int32" Nullable="false" />
+          <Property Name="createdDT" Type="DateTime" Precision="3" />
+          <Property Name="shippedDT" Type="DateTime" Precision="3" />
+          <Property Name="userID" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="shippingID" Type="Int32" />
+          <Property Name="pointRedeemed" Type="Int32" />
+          <Property Name="amountPaid" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="consignment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="orderShippingInfo">
+          <Key>
+            <PropertyRef Name="shippingID" />
+          </Key>
+          <Property Name="shippingID" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="poscode" Type="Int32" />
+          <Property Name="city" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="branchID" Type="Int32" />
+          <Property Name="isPickup" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="pointLine">
+          <Key>
+            <PropertyRef Name="pointID" />
+          </Key>
+          <Property Name="pointID" Type="Int32" Nullable="false" />
+          <Property Name="userID" Type="Int32" />
+          <Property Name="amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="transactionDT" Type="DateTime" Precision="3" />
+          <Property Name="referenceID" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="adminID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="productCategory">
+          <Key>
+            <PropertyRef Name="categoryID" />
+          </Key>
+          <Property Name="categoryID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isExist" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="productCategoryLine">
+          <Key>
+            <PropertyRef Name="lineID" />
+          </Key>
+          <Property Name="lineID" Type="Int32" Nullable="false" />
+          <Property Name="productID" Type="Int32" />
+          <Property Name="categoryID" Type="Int32" />
+          <Property Name="isExist" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="unitCost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="categoryID" Type="Int32" />
+          <Property Name="isVariation" Type="Boolean" />
+          <Property Name="isExist" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="productVariation">
+          <Key>
+            <PropertyRef Name="variationID" />
+          </Key>
+          <Property Name="variationID" Type="Int32" Nullable="false" />
+          <Property Name="productID" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="isExist" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="transactionHistoryOrder">
+          <Key>
+            <PropertyRef Name="transactionID" />
+          </Key>
+          <Property Name="transactionID" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="referenceID" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="paymentMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="paidDT" Type="DateTime" Precision="3" />
+          <Property Name="orderID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="transactionHistoryWallet">
+          <Key>
+            <PropertyRef Name="transactionID" />
+          </Key>
+          <Property Name="transactionID" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="referenceID" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="paymentMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="paidDT" Type="DateTime" Precision="3" />
+          <Property Name="walletID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fullname" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="race" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="icnumber" Type="Int64" />
+          <Property Name="contact_number" Type="Int64" />
+          <Property Name="bank_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bank_number" Type="Int64" />
+          <Property Name="home_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="home_poscode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="home_city" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="home_state" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="userRole">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="user_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="employee_ID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="mssdbModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="administrators" EntityType="Self.administrator" />
+          <EntitySet Name="carts" EntityType="Self.cart" />
+          <EntitySet Name="cartItems" EntityType="Self.cartItem" />
+          <EntitySet Name="eWallets" EntityType="Self.eWallet" />
+          <EntitySet Name="orderLines" EntityType="Self.orderLine" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="orderShippingInfoes" EntityType="Self.orderShippingInfo" />
+          <EntitySet Name="pointLines" EntityType="Self.pointLine" />
+          <EntitySet Name="productCategories" EntityType="Self.productCategory" />
+          <EntitySet Name="productCategoryLines" EntityType="Self.productCategoryLine" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="productVariations" EntityType="Self.productVariation" />
+          <EntitySet Name="transactionHistoryOrders" EntityType="Self.transactionHistoryOrder" />
+          <EntitySet Name="transactionHistoryWallets" EntityType="Self.transactionHistoryWallet" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="userRoles" EntityType="Self.userRole" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mssdbEntityStoreContainer" CdmEntityContainer="mssdbModel">
+          <EntitySetMapping Name="administrators">
+            <EntityTypeMapping TypeName="mssdbEntity.administrator">
+              <MappingFragment StoreEntitySet="administrator">
+                <ScalarProperty Name="adminID" ColumnName="adminID" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="department" ColumnName="department" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carts">
+            <EntityTypeMapping TypeName="mssdbEntity.cart">
+              <MappingFragment StoreEntitySet="cart">
+                <ScalarProperty Name="cartID" ColumnName="cartID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cartItems">
+            <EntityTypeMapping TypeName="mssdbEntity.cartItem">
+              <MappingFragment StoreEntitySet="cartItem">
+                <ScalarProperty Name="cartID" ColumnName="cartID" />
+                <ScalarProperty Name="itemID" ColumnName="itemID" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="variationID" ColumnName="variationID" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="eWallets">
+            <EntityTypeMapping TypeName="mssdbEntity.eWallet">
+              <MappingFragment StoreEntitySet="eWallet">
+                <ScalarProperty Name="walletID" ColumnName="walletID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="availablePoints" ColumnName="availablePoints" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderLines">
+            <EntityTypeMapping TypeName="mssdbEntity.orderLine">
+              <MappingFragment StoreEntitySet="orderLine">
+                <ScalarProperty Name="lineID" ColumnName="lineID" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="variationID" ColumnName="variationID" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="unitCost" ColumnName="unitCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="mssdbEntity.order">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="createdDT" ColumnName="createdDT" />
+                <ScalarProperty Name="shippedDT" ColumnName="shippedDT" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="shippingID" ColumnName="shippingID" />
+                <ScalarProperty Name="pointRedeemed" ColumnName="pointRedeemed" />
+                <ScalarProperty Name="amountPaid" ColumnName="amountPaid" />
+                <ScalarProperty Name="consignment" ColumnName="consignment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderShippingInfoes">
+            <EntityTypeMapping TypeName="mssdbEntity.orderShippingInfo">
+              <MappingFragment StoreEntitySet="orderShippingInfo">
+                <ScalarProperty Name="shippingID" ColumnName="shippingID" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="poscode" ColumnName="poscode" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="branchID" ColumnName="branchID" />
+                <ScalarProperty Name="isPickup" ColumnName="isPickup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pointLines">
+            <EntityTypeMapping TypeName="mssdbEntity.pointLine">
+              <MappingFragment StoreEntitySet="pointLine">
+                <ScalarProperty Name="pointID" ColumnName="pointID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="transactionDT" ColumnName="transactionDT" />
+                <ScalarProperty Name="referenceID" ColumnName="referenceID" />
+                <ScalarProperty Name="adminID" ColumnName="adminID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="productCategories">
+            <EntityTypeMapping TypeName="mssdbEntity.productCategory">
+              <MappingFragment StoreEntitySet="productCategory">
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="isExist" ColumnName="isExist" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="productCategoryLines">
+            <EntityTypeMapping TypeName="mssdbEntity.productCategoryLine">
+              <MappingFragment StoreEntitySet="productCategoryLine">
+                <ScalarProperty Name="lineID" ColumnName="lineID" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="isExist" ColumnName="isExist" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="mssdbEntity.product">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="unitCost" ColumnName="unitCost" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="isVariation" ColumnName="isVariation" />
+                <ScalarProperty Name="isExist" ColumnName="isExist" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="productVariations">
+            <EntityTypeMapping TypeName="mssdbEntity.productVariation">
+              <MappingFragment StoreEntitySet="productVariation">
+                <ScalarProperty Name="variationID" ColumnName="variationID" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="isExist" ColumnName="isExist" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactionHistoryOrders">
+            <EntityTypeMapping TypeName="mssdbEntity.transactionHistoryOrder">
+              <MappingFragment StoreEntitySet="transactionHistoryOrder">
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="transactionID" ColumnName="transactionID" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="referenceID" ColumnName="referenceID" />
+                <ScalarProperty Name="paymentMethod" ColumnName="paymentMethod" />
+                <ScalarProperty Name="paidDT" ColumnName="paidDT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactionHistoryWallets">
+            <EntityTypeMapping TypeName="mssdbEntity.transactionHistoryWallet">
+              <MappingFragment StoreEntitySet="transactionHistoryWallet">
+                <ScalarProperty Name="walletID" ColumnName="walletID" />
+                <ScalarProperty Name="transactionID" ColumnName="transactionID" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="referenceID" ColumnName="referenceID" />
+                <ScalarProperty Name="paymentMethod" ColumnName="paymentMethod" />
+                <ScalarProperty Name="paidDT" ColumnName="paidDT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="mssdbEntity.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="user_type" ColumnName="user_type" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="race" ColumnName="race" />
+                <ScalarProperty Name="icnumber" ColumnName="icnumber" />
+                <ScalarProperty Name="contact_number" ColumnName="contact_number" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+                <ScalarProperty Name="bank_number" ColumnName="bank_number" />
+                <ScalarProperty Name="home_address" ColumnName="home_address" />
+                <ScalarProperty Name="home_poscode" ColumnName="home_poscode" />
+                <ScalarProperty Name="home_city" ColumnName="home_city" />
+                <ScalarProperty Name="home_state" ColumnName="home_state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userRoles">
+            <EntityTypeMapping TypeName="mssdbEntity.userRole">
+              <MappingFragment StoreEntitySet="userRole">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="user_type" ColumnName="user_type" />
+                <ScalarProperty Name="employee_ID" ColumnName="employee_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
