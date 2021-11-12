@@ -19,37 +19,51 @@ namespace GDEXMSS.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            product dbModel = new product();
-            //to get the categories list from the model -> get from productCategory.cs
-            categoryModel ProductCategories = new categoryModel();
-            using(mssdbModel db = new mssdbModel())
-            {
-                ProductCategories.Categories = db.productCategories.ToList<productCategory>();
-            }
-            dynamic mymodel = new ExpandoObject();
-            return View(dbModel);
+            mssdbModel db = new mssdbModel();
+            //product dbModel = new product();
+            //test
+            //productModel productModel = new productModel();
+            //productCategoryModel productCategoryModel = new productCategoryModel();
+            CombinedProductCategories objModel = new CombinedProductCategories();
+            objModel.product = new product();
+            objModel.product.CategoriesList = new SelectList(db.productCategories, "categoryID", "name");
+
+            return View(objModel);
         }
         [HttpPost]
-        public ActionResult Add(product productModel, categoryModel categoryModel)
+        //public ActionResult Add(product productModel)
+        //{
+        //    string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
+        //    string extension = Path.GetExtension(productModel.ImageFile.FileName);
+        //    fileName = productModel.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
+        //    productModel.imagePath = "../Image/" + fileName;
+        //    fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
+        //    productModel.ImageFile.SaveAs(fileName);
+        //    using (mssdbModel dbModel = new mssdbModel())
+        //    {
+        //        dbModel.products.Add(productModel);
+        //        dbModel.SaveChanges();
+        //    }
+        //    ModelState.Clear();
+        //    ViewBag.SuccessMassage = "Add Successful";
+        //    return View("Add", new product());
+        //}
+        public ActionResult Add(CombinedProductCategories productModel)
         {
-            //store the checkboxes to string
-            var selectedCategories = categoryModel.Categories.Where(x => x.IsChecked == true).ToList<productCategory>();
-            var strBoxes = Content(String.Join(",", selectedCategories.Select(x => x.categoryID)));
-
             string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
             string extension = Path.GetExtension(productModel.ImageFile.FileName);
-            fileName = productModel.name.ToString() + "-" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + extension;
-            productModel.imagePath = "../Image/" + fileName;
+            fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
+            productModel.product.imagePath = "../Image/" + fileName;
             fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
             productModel.ImageFile.SaveAs(fileName);
-            using (productdbModel dbModel = new productdbModel())
+            using (mssdbModel dbModel = new mssdbModel())
             {
-                dbModel.products.Add(productModel);
+                dbModel.products.Add(productModel.product);
                 dbModel.SaveChanges();
             }
             ModelState.Clear();
             ViewBag.SuccessMassage = "Add Successful";
-            return View("Add", new product());
+            return View("List");
         }
         public ActionResult List()
         {

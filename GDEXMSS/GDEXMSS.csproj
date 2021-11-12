@@ -243,28 +243,13 @@
       <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\product.cs">
-      <DependentUpon>productdbModel.tt</DependentUpon>
+      <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\productCategory.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\productCategoryLine.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\productdbModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>productdbModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\productdbModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>productdbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\productdbModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>productdbModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\productVariation.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
@@ -411,16 +396,6 @@
       <DependentUpon>mssdbModel.edmx</DependentUpon>
       <LastGenOutput>mssdbModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\productdbModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>productdbModel.edmx</DependentUpon>
-      <LastGenOutput>productdbModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\productdbModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>productdbModel.edmx</DependentUpon>
-      <LastGenOutput>productdbModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -459,13 +434,6 @@
     </EntityDeploy>
     <Content Include="Models\mssdbModel.edmx.diagram">
       <DependentUpon>mssdbModel.edmx</DependentUpon>
-    </Content>
-    <EntityDeploy Include="Models\productdbModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>productdbModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\productdbModel.edmx.diagram">
-      <DependentUpon>productdbModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Chart.js" />

@@ -11,31 +11,13 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class productCategory
     {
         public int categoryID { get; set; }
         public string name { get; set; }
         public Nullable<bool> isExist { get; set; }
-        //reference https://www.c-sharpcorner.com/UploadFile/ff2f08/multiple-models-in-single-view-in-mvc/ 
-        //how to convert data model to list? --> https://www.c-sharpcorner.com/UploadFile/ee01e6/different-way-to-convert-datatable-to-list/
-        private List<productCategory> GetCategories()
-        {
-            List<productCategory> categories = new List<productCategory>();
-            categories.Add(new productCategory { categoryID = 1, name = "Tejas Trivedi" });
-            categories.Add(new productCategory { categoryID = 2, name = "Jignesh Trivedi" });
-            categories.Add(new productCategory { categoryID = 3, name = "Rakesh Trivedi" });
-            return categories;
-        }
-    }
-    public class categoryModel
-    {
-        public List<productCategory> Categories { get; set; }
-    }
-    //add view model to dynamically combine into the product model
-    //reference https://www.c-sharpcorner.com/UploadFile/ff2f08/multiple-models-in-single-view-in-mvc/ 
-    public class ViewModel
-    {
-        public IEnumerable<productCategory> categories { get; set; }
+        //add checkboxes for list of the categories
+        //public bool isChecked { get; set; }
     }
 }

@@ -112,7 +112,7 @@
           <Key>
             <PropertyRef Name="productID" />
           </Key>
-          <Property Name="productID" Type="int" Nullable="false" />
+          <Property Name="productID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="200" />
           <Property Name="description" Type="varchar(max)" />
           <Property Name="quantity" Type="int" />
@@ -319,6 +319,7 @@
           <Property Name="categoryID" Type="Int32" />
           <Property Name="isVariation" Type="Boolean" />
           <Property Name="isExist" Type="Boolean" />
+          <Property Name="imagePath" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="productVariation">
           <Key>
@@ -528,6 +529,7 @@
                 <ScalarProperty Name="categoryID" ColumnName="categoryID" />
                 <ScalarProperty Name="isVariation" ColumnName="isVariation" />
                 <ScalarProperty Name="isExist" ColumnName="isExist" />
+                <ScalarProperty Name="imagePath" ColumnName="imagePath" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

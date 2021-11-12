@@ -1,4 +1,4 @@
-﻿@model GDEXMSS.Models.product
+﻿@model GDEXMSS.Models.CombinedProductCategories
 @{
     ViewBag.Title = "Add";
     Layout = null;
@@ -201,17 +201,21 @@
                         <h2>Add new product</h2>
                         <p></p>
                         <!-- Form -->
+                        @*@Html.Partial("_PartialViewName", Model.product, new System.Web.Mvc.ViewDataDictionary())*@
                         @using (Html.BeginForm("Add", "products", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.isExist, new { @Value = true })
+                            //@Html.HiddenFor(model => model.isExist, new { @Value = true })
+                            @Html.HiddenFor(model => model.product.isExist, new { @Value = true })
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Product Name<span class="text-danger">*</span></label>
-                                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                        @*@Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })*@
+                                        @Html.EditorFor(model => model.product.name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -219,8 +223,10 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Product Description<span class="text-danger">*</span></label>
-                                        @Html.TextAreaFor(model => model.description, new { cols = 35, @rows = 3, htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                        @*@Html.TextAreaFor(model => model.description, new { cols = 35, @rows = 3, htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })*@
+                                        @Html.TextAreaFor(model => model.product.description, new { cols = 35, @rows = 3, htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.description, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -229,41 +235,42 @@
                                     <div class="form-group">
                                         <label>Select categories<span class="text-danger">*</span></label>
                                         <!-- Category list-->
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <div class="form-group create-account">
-                                                    <div class="form-check">
-                                                        @Html.CheckBox("Limited", false)
-                                                        <label for="cb_limited">Limitied Edition</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group create-account">
-                                                    <div class="form-check">
-                                                        @Html.CheckBox("Clothes", false)
-                                                        <label for="cb_limited">Clothes</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group create-account">
-                                                    <div class="form-check">
-                                                        @Html.CheckBox("Stationery", false)
-                                                        <label for="cb_limited">Stationery</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group create-account">
-                                                    <div class="form-check">
-                                                        @Html.CheckBox("Miniature", false)
-                                                        <label for="cb_limited">Miniature</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @*<div class="row">
+                            <div class="col-4">
+                                <div class="form-group create-account">
+                                    <div class="form-check">
+                                        @Html.CheckBox("Limited", false)
+                                        <label for="cb_limited">Limitied Edition</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group create-account">
+                                    <div class="form-check">
+                                        @Html.CheckBox("Clothes", false)
+                                        <label for="cb_limited">Clothes</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group create-account">
+                                    <div class="form-check">
+                                        @Html.CheckBox("Stationery", false)
+                                        <label for="cb_limited">Stationery</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group create-account">
+                                    <div class="form-check">
+                                        @Html.CheckBox("Miniature", false)
+                                        <label for="cb_limited">Miniature</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
                                         <!-- End of category list-->
+                                        @Html.DropDownListFor(model => model.product.categoryID, Model.product.CategoriesList, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -279,12 +286,14 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Is there variations?<span class="text-danger">*</span></label>
-                                        @Html.DropDownListFor(model => model.isVariation, new[]
+                                        @* @Html.DropDownListFor(model => model.isVariation, new[]*@
+                                        @Html.DropDownListFor(model => model.product.isVariation, new[]
                                    {
                                        new SelectListItem() {Text = "Yes", Value = "True"},
                                        new SelectListItem() {Text = "No", Value = "False"},
                                    }, "Choose an option")
-                                        @Html.ValidationMessageFor(model => model.isVariation, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.product.isVariation, "", new { @class = "text-danger" })
+                                        @*@Html.ValidationMessageFor(model => model.isVariation, "", new { @class = "text-danger" })*@
                                     </div>
                                 </div>
                             </div>
@@ -292,8 +301,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Price per unit (RM)<span class="text-danger">*</span></label>
-                                        @Html.EditorFor(model => model.unitCost, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.unitCost, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.product.unitCost, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.unitCost, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -301,8 +310,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Product Quantity<span class="text-danger">*</span></label>
-                                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.product.quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.quantity, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

@@ -12,6 +12,7 @@ namespace GDEXMSS.Models
     using System;
     using System.Collections.Generic;
     using System.Web;
+    using System.Web.Mvc;
 
     public partial class product
     {
@@ -24,10 +25,12 @@ namespace GDEXMSS.Models
         public Nullable<bool> isVariation { get; set; }
         public Nullable<bool> isExist { get; set; }
         public string imagePath { get; set; }
-        public HttpPostedFileBase ImageFile { get; set; }
+        public virtual SelectList CategoriesList { get; set; }
     }
-    public class productModel
+    public class CombinedProductCategories
     {
-        public List<product> Languages { get; set; }
+        public productCategory productCategory { get; set; }
+        public product product { get; set; }
+        public HttpPostedFileBase ImageFile { get; set; }
     }
 }
