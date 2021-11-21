@@ -11,13 +11,22 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class order
     {
+        [Key]
+        [DisplayName("Order ID")]
         public int orderID { get; set; }
+        [DisplayName("Created Date Time")]
         public Nullable<System.DateTime> createdDT { get; set; }
+        [DisplayName("Shipped Date Time")]
         public Nullable<System.DateTime> shippedDT { get; set; }
+        [DisplayName("Purchaser ID")]
         public Nullable<int> userID { get; set; }
+        [DisplayName("Status")]
         public string status { get; set; }
         public Nullable<int> shippingID { get; set; }
         public Nullable<int> pointRedeemed { get; set; }

@@ -1,6 +1,6 @@
-﻿
+﻿@model IEnumerable<GDEXMSS.Models.order>
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Incoming_order";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -214,57 +214,40 @@
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Date Time</th>
-                                        <th>Order ID</th>
-                                        <th>Total Cost</th>
-                                        <th>Delivery Method</th>
+                                        <th>@Html.DisplayNameFor(model => model.createdDT)</th>
+                                        <th>@Html.DisplayNameFor(model => model.orderID)</th>
+                                        <th>@Html.DisplayNameFor(model => model.userID)</th>
+                                        <th>@Html.DisplayNameFor(model => model.amountPaid)</th>
+                                        <th>@Html.DisplayNameFor(model => model.consignment)</th>
                                         <th>Items</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                     <tr>
-                                        <td>06/01/21 04:11:05</td>
-                                        <td>321421</td>
-                                        <td>RM120.00</td>
-                                        <td>Delivery</td>
-                                        <td><ul><li>Batu Tshirt</li>
-                                            <li>Poscard</li>
-                                            </ul></td>
                                         <td>
-                                            <div class="text-primary"><a href="https://localhost:44319/Order/Process">Process</a></div>
+                                            @Html.DisplayFor(modelItem => item.createdDT)
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>04/01/21 10:13:05</td>
-                                        <td>321420</td>
-                                        <td>RM80.00</td>
-                                        <td>Delivery</td>
-                                        <td><ul><li>Jacket</li></ul></td>
                                         <td>
-                                            <div class="text-primary"><a href="">Process</a></div>
+                                            @Html.DisplayFor(modelItem => item.orderID)
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>01/01/21 14:41:10</td>
-                                        <td>321419</td>
-                                        <td>RM30.00</td>
-                                        <td>Pickup</td>
-                                        <td><ul><li>Sampul Raya</li></ul></td>
                                         <td>
-                                            <div class="text-primary"><a href="">Process</a></div>
+                                            @Html.DisplayFor(modelItem => item.userID)
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>01/01/21 12:13:10</td>
-                                        <td>321418</td>
-                                        <td>RM25.00</td>
-                                        <td>Pickup</td>
-                                        <td><ul><li>GDEX Lorry Toy</li></ul></td>
+                                        <td>RM
+                                            @Html.DisplayFor(modelItem => item.amountPaid)
+                                        </td>
                                         <td>
-                                            <div class="text-primary"><a href="">Process</a></div>
+                                            @Html.DisplayFor(modelItem => item.consignment)
                                         </td>
+                                        <td></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.status)
+                                        </td>
+
                                     </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

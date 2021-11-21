@@ -1,4 +1,4 @@
-﻿@model GDEXMSS.Models.product
+﻿@model IEnumerable<GDEXMSS.Models.order>
 @{
     ViewBag.Title = "Registration";
     Layout = null;
@@ -227,55 +227,41 @@
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Date Time</th>
-                                        <th>Order ID</th>
-                                        <th>Status</th>
-                                        <th>Delivery Method</th>
-                                        <th>Total Price</th>
+                                        <th>@Html.DisplayNameFor(model => model.createdDT)</th>
+                                        <th>@Html.DisplayNameFor(model => model.orderID)</th>
+                                        <th>@Html.DisplayNameFor(model => model.userID)</th>
+                                        <th>@Html.DisplayNameFor(model => model.amountPaid)</th>
+                                        <th>@Html.DisplayNameFor(model => model.consignment)</th>
+                                        <th>Items</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                @foreach (var item in Model)
+                                {
                                     <tr>
-                                        <td>06/01/21 04:11:05</td>
-                                        <td>12321</td>
-                                        <td><h5><span class="badge bg-warning">Delivering</span></h5></td>
-                                        <td>Delivery</td>
-                                        <td>RM30.40</td>
                                         <td>
-                                            <div class="text-primary"><a href="https://localhost:44319/Order/Details">View</a></div>
+                                            @Html.DisplayFor(modelItem => item.createdDT)
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>04/01/21 10:14:05</td>
-                                        <td>12320</td>
-                                        <td><h5><span class="badge bg-danger">Cancelled</span></h5></td>
-                                        <td>Pickup</td>
-                                        <td>RM49.10</td>
                                         <td>
-                                            <div class="text-primary"><a href="https://localhost:44319/Order/View">View</a></div>
+                                            @Html.DisplayFor(modelItem => item.orderID)
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>03/01/21 10:11:05</td>
-                                        <td>12318</td>
-                                        <td><h5><span class="badge bg-success">Arrived</span></h5></td>
-                                        <td>Delivery</td>
-                                        <td>RM97.30</td>
                                         <td>
-                                            <div class="text-primary"><a href="https://localhost:44319/Order/View">View</a></div>
+                                            @Html.DisplayFor(modelItem => item.userID)
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>01/01/21 01:11:05</td>
-                                        <td>12321</td>
-                                        <td><h5><span class="badge bg-success">Arrived</span></h5></td>
-                                        <td>Delivery</td>
-                                        <td>RM33.00</td>
                                         <td>
-                                            <div class="text-primary"><a href="https://localhost:44319/Order/View">View</a></div>
+                                            RM
+                                            @Html.DisplayFor(modelItem => item.amountPaid)
                                         </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.consignment)
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.status)
+                                        </td>
+
                                     </tr>
+                                }
                                 </tbody>
                             </table>
                         </div>
