@@ -64,8 +64,26 @@ namespace GDEXMSS.Controllers
             product dbModel = new product();
             return View(dbModel);
         }
-        public ActionResult Edit(int productID)
+        public ActionResult Edit(int productID, string actions)
         {
+            if (actions == "delete")
+            {
+                bool oldValidateOnSaveEnabled = dbModel.Configuration.ValidateOnSaveEnabled;
+                try
+                {
+                    dbModel.Configuration.ValidateOnSaveEnabled = false;
+                    var tryProductID = new product { productID = productID };
+                    dbModel.products.Attach(tryProductID);
+                    dbModel.Entry(tryProductID).State = System.Data.Entity.EntityState.Deleted;
+                    dbModel.SaveChanges();
+                }
+                finally
+                {
+                    dbModel.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
+                }
+                return RedirectToAction("List");
+            }
+            //if the actions is not delete then show all the records in edit form
             var editedProduct = (from product in dbModel.products where product.productID == productID select product).FirstOrDefault();
             CombinedProductCategories objModel = new CombinedProductCategories();
             //it works lol. attached the list to the combined object model
@@ -76,25 +94,14 @@ namespace GDEXMSS.Controllers
         [HttpPost]
         public ActionResult Edit(CombinedProductCategories productModel)
         {
-
-            bool oldValidateOnSaveEnabled = dbModel.Configuration.ValidateOnSaveEnabled;
-            try
-            {
-                dbModel.Configuration.ValidateOnSaveEnabled = false;
-                var tryProductID = new product { productID = productModel.product.productID };
-                dbModel.products.Attach(tryProductID);
-                dbModel.Entry(tryProductID).State = System.Data.Entity.EntityState.Deleted;
-                dbModel.SaveChanges();
-            }
-            finally
-            {
-                dbModel.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
-            }
             if (productModel.ImageFile == null)
             {
                 using (mssdbModel dbModel = new mssdbModel())
                 {
-                    dbModel.products.Add(productModel.product);
+                    var EditedObj = dbModel.products.Where(x => x.productID == productModel.product.productID).FirstOrDefault();
+                    productModel.product.productID = EditedObj.productID;
+                    dbModel.Entry(EditedObj).CurrentValues.SetValues(productModel.product);
+                    //dbModel.products.Add(productModel.product);
                     dbModel.SaveChanges();
                 }
                 ModelState.Clear();
@@ -108,10 +115,12 @@ namespace GDEXMSS.Controllers
                 fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
                 productModel.product.imagePath = "../Image/" + fileName;
                 fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
-                productModel.ImageFile.SaveAs(fileName);
                 using (mssdbModel dbModel = new mssdbModel())
                 {
-                    dbModel.products.Add(productModel.product);
+                    var EditedObj = dbModel.products.Where(x => x.productID == productModel.product.productID).FirstOrDefault();
+                    productModel.product.productID = EditedObj.productID;
+                    dbModel.Entry(EditedObj).CurrentValues.SetValues(productModel.product);
+                    //dbModel.products.Add(productModel.product);
                     dbModel.SaveChanges();
                 }
                 ModelState.Clear();

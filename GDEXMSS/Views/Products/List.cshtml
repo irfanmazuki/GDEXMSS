@@ -276,7 +276,9 @@
 
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "Edit", new { productID = item.productID })
+                                            @* Route value more than 1? how *@
+                                            @Html.ActionLink("Edit", "Edit", new { productID = item.productID, actions = "edit" }, new { @class = "badge bg-primary" }) 
+                                            @Html.ActionLink("Delete", "Edit", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-danger" })
                                         </td>
                                     </tr>
                                     }
