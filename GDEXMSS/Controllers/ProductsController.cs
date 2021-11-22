@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace GDEXMSS.Controllers
 {
     public class ProductsController : Controller
     {
+        private mssdbModel dbModel = new mssdbModel();
         // GET: Products
         public ActionResult Index()
         {
@@ -43,11 +45,14 @@ namespace GDEXMSS.Controllers
             }
             ModelState.Clear();
             ViewBag.SuccessMassage = "Add Successful";
-            return View("List");
+            return RedirectToAction("List");
         }
+        [HttpGet]
         public ActionResult List()
         {
-            return View();
+            mssdbModel db = new mssdbModel();
+            var productList = (from product in db.products select product).ToList();
+            return View(productList);
         }
         public ActionResult Suggested()
         {
@@ -58,6 +63,61 @@ namespace GDEXMSS.Controllers
         {
             product dbModel = new product();
             return View(dbModel);
+        }
+        public ActionResult Edit(int productID)
+        {
+            var editedProduct = (from product in dbModel.products where product.productID == productID select product).FirstOrDefault();
+            CombinedProductCategories objModel = new CombinedProductCategories();
+            //it works lol. attached the list to the combined object model
+            objModel.product = editedProduct;
+            objModel.product.CategoriesList = new SelectList(dbModel.productCategories, "categoryID", "name");
+            return View(objModel);
+        }
+        [HttpPost]
+        public ActionResult Edit(CombinedProductCategories productModel)
+        {
+
+            bool oldValidateOnSaveEnabled = dbModel.Configuration.ValidateOnSaveEnabled;
+            try
+            {
+                dbModel.Configuration.ValidateOnSaveEnabled = false;
+                var tryProductID = new product { productID = productModel.product.productID };
+                dbModel.products.Attach(tryProductID);
+                dbModel.Entry(tryProductID).State = System.Data.Entity.EntityState.Deleted;
+                dbModel.SaveChanges();
+            }
+            finally
+            {
+                dbModel.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
+            }
+            if (productModel.ImageFile == null)
+            {
+                using (mssdbModel dbModel = new mssdbModel())
+                {
+                    dbModel.products.Add(productModel.product);
+                    dbModel.SaveChanges();
+                }
+                ModelState.Clear();
+                ViewBag.SuccessMassage = "Add Successful";
+                return RedirectToAction("List");
+            }
+            else
+            {
+                string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
+                string extension = Path.GetExtension(productModel.ImageFile.FileName);
+                fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
+                productModel.product.imagePath = "../Image/" + fileName;
+                fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
+                productModel.ImageFile.SaveAs(fileName);
+                using (mssdbModel dbModel = new mssdbModel())
+                {
+                    dbModel.products.Add(productModel.product);
+                    dbModel.SaveChanges();
+                }
+                ModelState.Clear();
+                ViewBag.SuccessMassage = "Add Successful";
+                return RedirectToAction("List");
+            }
         }
 
     }

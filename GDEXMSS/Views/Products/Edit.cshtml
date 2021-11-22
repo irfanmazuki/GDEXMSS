@@ -1,6 +1,6 @@
-﻿@model IEnumerable<GDEXMSS.Models.order>
+﻿@model GDEXMSS.Models.CombinedProductCategories
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Add";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -20,7 +20,9 @@
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 
-    <!-- StyleSheet -->
+    <!-- StyleSheet --
+    <!--ADDED adminLTE-->
+    <link rel="stylesheet" href="~/Content/css/adminltev2.css" runat="server" type="text/css">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/Content/css/bootstrap.css" type="text/css" runat="server">
     <!-- Magnific Popup -->
@@ -41,8 +43,6 @@
     <link rel="stylesheet" href="~/Content/css/owl-carousel.css" type="text/css" runat="server">
     <!-- Slicknav -->
     <link rel="stylesheet" href="~/Content/css/slicknav.min.css" runat="server" type="text/css">
-    <!--ADDED adminLTE-->
-    <!-- <link rel="stylesheet" href="../css/adminlte.css"> -->
     <!-- Eshop StyleSheet -->
     <link rel="stylesheet" href="~/Content/css/reset.css" type="text/css" runat="server">
     <link rel="stylesheet" href="~/Content/css/responsive.css" type="text/css" runat="server">
@@ -82,9 +82,7 @@
                         <div class="right-content">
                             <ul class="list-main">
                                 <li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
-                                <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>
                                 <li><i class="fa fa-solid fa-user"></i> <a href="#">My account</a></li>
-                                <li><i class="fa fa-solid fa-power-off"></i>@Html.ActionLink("Login", "Login")</li>
                             </ul>
                         </div>
                         <!-- End Top Right -->
@@ -99,84 +97,10 @@
                     <div class="col-lg-2 col-md-2 col-12">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html"><img src="https://seeklogo.com/images/G/gdex-logo-6838448C0F-seeklogo.com.png" alt="logo"></a>
+                            <a href="https://localhost:44319/Employee/New"><img src="https://seeklogo.com/images/G/gdex-logo-6838448C0F-seeklogo.com.png" alt="logo"></a>
                         </div>
                         <!--/ End Logo -->
-                        <!-- Search Form -->
-                        <div class="search-top">
-                            <div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
-                            <!-- Search Form -->
-                            <div class="search-top">
-                                <form class="search-form">
-                                    <input type="text" placeholder="Search here..." name="search">
-                                    <button value="search" type="submit"><i class="ti-search"></i></button>
-                                </form>
-                            </div>
-                            <!--/ End Search Form -->
-                        </div>
-                        <!--/ End Search Form -->
                         <div class="mobile-nav"></div>
-                    </div>
-                    <div class="col-lg-8 col-md-7 col-12">
-                        <div class="search-bar-top">
-                            <div class="search-bar">
-                                <select>
-                                    <option selected="selected">All Category</option>
-                                    <option>Limited Edition</option>
-                                    <option>Clothes</option>
-                                    <option>Stationery</option>
-                                    <option>Miniature</option>
-                                </select>
-                                <form>
-                                    <input name="search" placeholder="Search Products Here....." type="search">
-                                    <button class="btnn"><i class="fas fa-solid fa-search"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-12">
-                        <div class="right-bar">
-                            <!-- Search Form -->
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-solid fa-heart"></i></a>
-                            </div>
-                            <!--
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-user-circle-o"></i></a>
-                            </div>-->
-                            <div class="sinlge-bar shopping">
-                                <a href="#" class="single-icon"><i class="fa fa-solid fa-shopping-bag"></i></i> <span class="total-count">2</span></a>
-                                <!-- Shopping Item -->
-                                <div class="shopping-item">
-                                    <div class="dropdown-cart-header">
-                                        <span>2 Items</span>
-                                        <a href="#">View Cart</a>
-                                    </div>
-                                    <ul class="shopping-list">
-                                        <li>
-                                            <a href="#" class="remove" title="Remove this item"><i class="fa fa solid fa-times"></i></a>
-                                            <a class="cart-img" href="#"><img src="~/Content/images/sampulraya.jpg" alt="#"></a>
-                                            <h4><a href="#">Sampul Raya 2021</a></h4>
-                                            <p class="quantity">1x - <span class="amount">RM20.00</span></p>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="remove" title="Remove this item"><i class="fa fa solid fa-times"></i></a>
-                                            <a class="cart-img" href="#"><img src="~/Content/images/shirt.png" alt="#"></a>
-                                            <h4><a href="#">GDEX Limited Shirt (M)</a></h4>
-                                            <p class="quantity">2x - <span class="amount">RM80.00</span></p>
-                                        </li>
-                                    </ul>
-                                    <div class="bottom">
-                                        <div class="total">
-                                            <span>Total</span>
-                                            <span class="total-amount">RM100.00</span>
-                                        </div>
-                                        <a href="checkout.html" class="btn animate">Checkout</a>
-                                    </div>
-                                </div>
-                                <!--/ End Shopping Item -->
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -192,18 +116,53 @@
                                 <nav class="navbar navbar-expand-lg">
                                     <div class="navbar-collapse">
                                         <div class="nav-inner">
-                                            <ul class="nav main-menu menu navbar-nav">
-                                                <li><a href="https://localhost:44319/products">Home</a></li>
-                                                <li><a href="https://localhost:44319/User/Profile">Profile</a></li>
-                                                <li class="active"><a href="https://localhost:44319/Order/History">Order History</a></li>
-                                                <li>
-                                                    <a href="#">eWallet<i class="fa fa-solid fa-chevron-down"></i></a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="https://localhost:44319/Wallet/Balance">Balance</a></li>
-                                                        <li><a href="https://localhost:44319/Wallet/Topup">Topup</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
+                                            <nav class="navbar navbar-expand-lg">
+                                                <div class="navbar-collapse">
+                                                    <div class="nav-inner">
+                                                        <ul class="nav main-menu menu navbar-nav">
+                                                            <li class="active">
+                                                                <a href="#">Product<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Products/Add">Add New Product</a></li>
+                                                                    <li><a href="https://localhost:44319/Products/List">Product List</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Order<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Order/Incoming">Incoming</a></li>
+                                                                    <li><a href="https://localhost:44319/Order/List">History</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Application<i class="fa fa-solid fa-chevron-down"></i><span class="new">4</span></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Employee/New">Employee Application</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">User<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/User/List">User List</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Reporting<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Report/Sales">Sales & orders</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Points<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Points/Assign">Assign Point</a></li>
+                                                                    <li><a href="https://localhost:44319/Points/Users">Check Users Points</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </nav>
                                         </div>
                                     </div>
                                 </nav>
@@ -224,8 +183,8 @@
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
-                            <li><a href="index.html">Order<i class="fa fa-solid fa-arrow-right"></i></a></li>
-                            <li class="active"><a href="new.html">History</a></li>
+                            <li><a href="index.html">Product<i class="fa fa-solid fa-arrow-right"></i></a></li>
+                            <li class="active"><a href="new.html">New</a></li>
                         </ul>
                     </div>
                 </div>
@@ -233,92 +192,104 @@
         </div>
     </div>
     <!-- End Breadcrumbs -->
+    <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="navbar nav ml-auto">
-                                <li class="mr-auto p-2">
-                                    <h2 class="card-title">Order History</h2>
-                                </li>
-                                <li class="p-2">
-                                    <div class="form-group form-group-sm" style="width: 210px;">
-                                        <select name="state-province" id="state-province">
-                                            <option selected="selected" disabled>Sort by</option>
-                                            <option>Default</option>
-                                            <option>ID (Ascending)</option>
-                                            <option>ID (Descending)</option>
-                                            <option>Delivering</option>
-                                            <option>Cancelled</option>
-                                            <option>Delivered</option>
-                                        </select>
+                    <div class="checkout-form">
+                        <h2>Add new product</h2>
+                        <p></p>
+                        @using (Html.BeginForm("Edit", "products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.product.isExist, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.product.productID, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.product.imagePath, new { htmlAttributes = new { @readonly = "readonly" } })
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Product Name<span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.product.name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.name, "", new { @class = "text-danger" })
                                     </div>
-                                </li>
-                                <li class="p-2">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Product Description<span class="text-danger">*</span></label>
+                                        @Html.TextAreaFor(model => model.product.description, new { cols = 35, @rows = 3, htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.description, "", new { @class = "text-danger" })
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>@Html.DisplayNameFor(model => model.createdDT)</th>
-                                        <th>@Html.DisplayNameFor(model => model.orderID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.userID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.amountPaid)</th>
-                                        <th>@Html.DisplayNameFor(model => model.consignment)</th>
-                                        <th>Items</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.createdDT)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.orderID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.userID)
-                                        </td>
-                                        <td>
-                                            RM
-                                            @Html.DisplayFor(modelItem => item.amountPaid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.consignment)
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.status)
-                                        </td>
-
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Select categories<span class="text-danger">*</span></label>
+                                        @Html.DropDownListFor(model => model.product.categoryID, Model.product.CategoriesList, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="customFile">Upload image file</label>
+                                        <input type="file" class="form-control" id="ImageFile" name="ImageFile" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Is there variations?<span class="text-danger">*</span></label>
+                                        @Html.DropDownListFor(model => model.product.isVariation, new[]
+                                   {
+                                       new SelectListItem() {Text = "Yes", Value = "True"},
+                                       new SelectListItem() {Text = "No", Value = "False"},
+                                   }, "Choose an option")
+                                        @Html.ValidationMessageFor(model => model.product.isVariation, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Price per unit (RM)<span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.product.unitCost, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.unitCost, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Product Quantity<span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.product.quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.product.quantity, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Submit" class="btn btn-default" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10 text-success">
+                                    <label>@ViewBag.SuccessMessage</label>
+                                </div>
+                            </div>
+                        }
+                        <!--/ End Form -->
                     </div>
-                    <!-- /.card -->
                 </div>
             </div>
         </div>
     </section>
+    <!--/ End Checkout -->
     <!-- Start Footer Area -->
     <footer class="footer">
         <!-- Footer Top -->

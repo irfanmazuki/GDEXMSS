@@ -1,4 +1,4 @@
-﻿@model GDEXMSS.Models.product
+﻿@model IEnumerable<GDEXMSS.Models.product>
 @{
     ViewBag.Title = "Registration";
     Layout = null;
@@ -231,42 +231,55 @@
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Quantity</th>
-                                        <th>Unit Price</th>
+                                        <th>@Html.DisplayNameFor(model => model.productID)</th>
+                                        <th>@Html.DisplayNameFor(model => model.name)</th>
+                                        <th>@Html.DisplayNameFor(model => model.quantity)</th>
+                                        <th>@Html.DisplayNameFor(model => model.unitCost)</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                     <tr>
-                                        <td>183</td>
-                                        <td>Jacket</td>
-                                        <td>8</td>
-                                        <td>RM47.00</td>
-                                        <td><h5><span class="badge bg-warning">Sold Out</span></h5></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.productID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.quantity)
+                                        </td>
+                                        <td>
+                                            RM
+                                            @Html.DisplayFor(modelItem => item.unitCost)
+                                        </td>
+                                        <td>
+                                            @if (item.isExist == false)
+                                            {
+
+
+                                                <h5><span class="badge bg-danger">Discontinued</span></h5>
+                                            }
+                                            else
+                                            {
+                                                if (item.quantity == 0)
+                                                {
+                                                    <h5><span class="badge bg-warning">Sold Out</span></h5>
+                                                }if (item.quantity > 0)
+                                                {
+                                                    <h5><span class="badge bg-success">Available</span></h5>
+                                                }
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { productID = item.productID })
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>183</td>
-                                        <td>Jacket</td>
-                                        <td>8</td>
-                                        <td>RM47.00</td>
-                                        <td><h5><span class="badge bg-success">Available</span></h5></td>
-                                    </tr>
-                                    <tr>
-                                        <td>183</td>
-                                        <td>Jacket</td>
-                                        <td>8</td>
-                                        <td>RM47.00</td>
-                                        <td><h5><span class="badge bg-success">Available</span></h5></td>
-                                    </tr>
-                                    <tr>
-                                        <td>183</td>
-                                        <td>Jacket</td>
-                                        <td>8</td>
-                                        <td>RM47.00</td>
-                                        <td><h5><span class="badge bg-danger">Discontinued</span></h5></td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

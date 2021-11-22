@@ -11,16 +11,24 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Web;
     using System.Web.Mvc;
 
     public partial class product
     {
+        [DisplayName("Product ID")]
         public int productID { get; set; }
+        [DisplayName("Name")]
         public string name { get; set; }
+        [DisplayName("Description")]
         public string description { get; set; }
+        [DisplayName("Available Quantity")]
         public Nullable<int> quantity { get; set; }
+        [DisplayName("Price")]
         public Nullable<decimal> unitCost { get; set; }
+        [DisplayName("Category")]
         public Nullable<int> categoryID { get; set; }
         public Nullable<bool> isVariation { get; set; }
         public Nullable<bool> isExist { get; set; }
