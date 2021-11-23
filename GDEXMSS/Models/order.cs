@@ -28,9 +28,15 @@ namespace GDEXMSS.Models
         public Nullable<int> userID { get; set; }
         [DisplayName("Status")]
         public string status { get; set; }
-        public Nullable<int> shippingID { get; set; }
         public Nullable<int> pointRedeemed { get; set; }
         public Nullable<decimal> amountPaid { get; set; }
         public string consignment { get; set; }
+    }
+    public class combinedOrderModel
+    {
+        public order order { get; set; }
+        public orderShippingInfo orderShippingInfo { get; set; }
+        public orderLine orderLine { get; set; }
+        public List<orderLine> listItems { get; set; }
     }
 }

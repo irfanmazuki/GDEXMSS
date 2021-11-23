@@ -61,16 +61,15 @@
           <Property Name="shippedDT" Type="datetime" />
           <Property Name="userID" Type="int" />
           <Property Name="status" Type="varchar" MaxLength="50" />
-          <Property Name="shippingID" Type="int" />
           <Property Name="pointRedeemed" Type="int" />
           <Property Name="amountPaid" Type="decimal" Precision="10" Scale="2" />
           <Property Name="consignment" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="orderShippingInfo">
           <Key>
-            <PropertyRef Name="shippingID" />
+            <PropertyRef Name="orderID" />
           </Key>
-          <Property Name="shippingID" Type="int" Nullable="false" />
+          <Property Name="shippingID" Type="varchar" MaxLength="50" />
           <Property Name="type" Type="varchar" MaxLength="50" />
           <Property Name="cost" Type="decimal" Precision="10" Scale="2" />
           <Property Name="address" Type="varchar" MaxLength="500" />
@@ -79,6 +78,8 @@
           <Property Name="state" Type="varchar" MaxLength="200" />
           <Property Name="branchID" Type="int" />
           <Property Name="isPickup" Type="bit" />
+          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="pointLine">
           <Key>
@@ -260,16 +261,15 @@
           <Property Name="shippedDT" Type="DateTime" Precision="3" />
           <Property Name="userID" Type="Int32" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="shippingID" Type="Int32" />
           <Property Name="pointRedeemed" Type="Int32" />
           <Property Name="amountPaid" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="consignment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="orderShippingInfo">
           <Key>
-            <PropertyRef Name="shippingID" />
+            <PropertyRef Name="orderID" />
           </Key>
-          <Property Name="shippingID" Type="Int32" Nullable="false" />
+          <Property Name="shippingID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cost" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
@@ -278,6 +278,8 @@
           <Property Name="state" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="branchID" Type="Int32" />
           <Property Name="isPickup" Type="Boolean" />
+          <Property Name="orderID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="pointLine">
           <Key>
@@ -319,7 +321,7 @@
           <Property Name="categoryID" Type="Int32" />
           <Property Name="isVariation" Type="Boolean" />
           <Property Name="isExist" Type="Boolean" />
-          <Property Name="imagePath" Type="String" Nullable="false" />
+          <Property Name="imagePath" Type="String" Unicode="false" FixedLength="false" MaxLength="Max" />
         </EntityType>
         <EntityType Name="productVariation">
           <Key>
@@ -465,7 +467,6 @@
                 <ScalarProperty Name="shippedDT" ColumnName="shippedDT" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="shippingID" ColumnName="shippingID" />
                 <ScalarProperty Name="pointRedeemed" ColumnName="pointRedeemed" />
                 <ScalarProperty Name="amountPaid" ColumnName="amountPaid" />
                 <ScalarProperty Name="consignment" ColumnName="consignment" />
@@ -475,6 +476,7 @@
           <EntitySetMapping Name="orderShippingInfoes">
             <EntityTypeMapping TypeName="mssdbEntity.orderShippingInfo">
               <MappingFragment StoreEntitySet="orderShippingInfo">
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="shippingID" ColumnName="shippingID" />
                 <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="cost" ColumnName="cost" />
@@ -484,6 +486,7 @@
                 <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="branchID" ColumnName="branchID" />
                 <ScalarProperty Name="isPickup" ColumnName="isPickup" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

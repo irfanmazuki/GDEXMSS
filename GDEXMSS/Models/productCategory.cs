@@ -17,7 +17,5 @@ namespace GDEXMSS.Models
         public int categoryID { get; set; }
         public string name { get; set; }
         public Nullable<bool> isExist { get; set; }
-        //add checkboxes for list of the categories
-        //public bool isChecked { get; set; }
     }
 }

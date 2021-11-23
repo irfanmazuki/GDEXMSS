@@ -20,5 +20,12 @@ namespace GDEXMSS.Models
         public Nullable<int> variationID { get; set; }
         public Nullable<int> quantity { get; set; }
         public Nullable<decimal> unitCost { get; set; }
+        public Nullable<decimal> lineCost
+        {
+            get
+            {
+                return this.unitCost.GetValueOrDefault() * this.quantity.GetValueOrDefault();
+            }
+        }
     }
 }

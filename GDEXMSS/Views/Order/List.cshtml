@@ -232,35 +232,39 @@
                                         <th>@Html.DisplayNameFor(model => model.userID)</th>
                                         <th>@Html.DisplayNameFor(model => model.amountPaid)</th>
                                         <th>@Html.DisplayNameFor(model => model.consignment)</th>
+                                        <th>Status</th>
                                         <th>Items</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.createdDT)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.orderID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.userID)
-                                        </td>
-                                        <td>
-                                            RM
-                                            @Html.DisplayFor(modelItem => item.amountPaid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.consignment)
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.status)
-                                        </td>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.createdDT)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.orderID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.userID)
+                                </td>
+                                <td>
+                                    RM
+                                    @Html.DisplayFor(modelItem => item.amountPaid)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.consignment)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.status)
+                                </td>
+                                <td></td>
+                                <td>
+                                    @Html.ActionLink("Process", "Process", new { orderID = item.orderID}, new { @class = "badge bg-primary" })
+                                </td>
 
-                                    </tr>
+                            </tr>
                                 }
                                 </tbody>
                             </table>

@@ -86,7 +86,7 @@ namespace GDEXMSS.Controllers
             //if the actions is not delete then show all the records in edit form
             var editedProduct = (from product in dbModel.products where product.productID == productID select product).FirstOrDefault();
             CombinedProductCategories objModel = new CombinedProductCategories();
-            //it works lol. attached the list to the combined object model
+            //it works lol. attached the list to the combined object model. honestly i dont know how it works lol
             objModel.product = editedProduct;
             objModel.product.CategoriesList = new SelectList(dbModel.productCategories, "categoryID", "name");
             return View(objModel);

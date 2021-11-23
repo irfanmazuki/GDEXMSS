@@ -14,7 +14,7 @@ namespace GDEXMSS.Models
     
     public partial class orderShippingInfo
     {
-        public int shippingID { get; set; }
+        public string shippingID { get; set; }
         public string type { get; set; }
         public Nullable<decimal> cost { get; set; }
         public string address { get; set; }
@@ -23,5 +23,7 @@ namespace GDEXMSS.Models
         public string state { get; set; }
         public Nullable<int> branchID { get; set; }
         public Nullable<bool> isPickup { get; set; }
+        public int orderID { get; set; }
+        public string name { get; set; }
     }
 }

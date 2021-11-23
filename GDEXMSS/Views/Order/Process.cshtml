@@ -1,4 +1,4 @@
-﻿@model GDEXMSS.Models.product
+﻿@model GDEXMSS.Models.combinedOrderModel
 @{
     ViewBag.Title = "Registration";
     Layout = null;
@@ -183,8 +183,8 @@
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
-                            <li><a href="index.html">Points<i class="fa fa-solid fa-arrow-right"></i></a></li>
-                            <li class="active"><a href="new.html">Assign</a></li>
+                            <li><a href="index.html">Order<i class="fa fa-solid fa-arrow-right"></i></a></li>
+                            <li class="active"><a href="new.html">Process</a></li>
                         </ul>
                     </div>
                 </div>
@@ -201,12 +201,27 @@
                         <h2>Proccess Order</h2>
                         <p></p>
                         <!-- Form -->
-                        <form class="form" method="post" action="#">
+                        @using (Html.BeginForm("Process", "order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            //Hidden for the order
+                            @Html.HiddenFor(model => model.order.shippedDT, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.order.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.order.status, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.order.pointRedeemed, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.order.amountPaid, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.order.consignment, new { htmlAttributes = new { @readonly = "readonly" } })
+                            //Hidden for the orderShippingInfo
+                            @Html.HiddenFor(model => model.orderShippingInfo.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.orderShippingInfo.cost, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.orderShippingInfo.isPickup, new { htmlAttributes = new { @readonly = "readonly" } })
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Date Time</label>
-                                        <input type="text" name="name" value="06/01/21 04:11:05" disabled>
+                                        @Html.EditorFor(model => model.order.createdDT, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.order.createdDT, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +229,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Order ID</label>
-                                        <input type="number" name="name" value="321421" disabled>
+                                        @Html.EditorFor(model => model.order.orderID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.order.orderID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -222,7 +238,17 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Customer Name</label>
-                                        <input type="text" name="name" value="Muhammad Irfan bin Mazuki" disabled>
+                                        @Html.EditorFor(model => model.orderShippingInfo.name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Customer ID</label>
+                                        @Html.EditorFor(model => model.order.userID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -230,19 +256,62 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <textarea id="w3review" name="w3review" rows="4" cols="50" disabled>
-A101, Kolej Kediaman Ke-12,
-Universiti Malaya,
-50603 Kuala Lumpur,
-Wilayah Persekutuan Kuala Lumpur</textarea>
+                                        @Html.TextAreaFor(model => model.orderShippingInfo.address, new { cols = 35, @rows = 3, htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Tracking Number<span>*</span></label>
-                                        <input type="text" name="name">
+                                        <label>Poscode</label>
+                                        @Html.EditorFor(model => model.orderShippingInfo.poscode, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.poscode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        @Html.EditorFor(model => model.orderShippingInfo.city, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.city, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>State</label>
+                                        @Html.EditorFor(model => model.orderShippingInfo.state, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.state, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Tracking Number</label>
+                                        @Html.EditorFor(model => model.orderShippingInfo.shippingID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.shippingID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Type of delivery</label>
+                                        @Html.EditorFor(model => model.orderShippingInfo.type, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.type, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Branch ID</label>
+                                        @Html.EditorFor(model => model.orderShippingInfo.branchID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.branchID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -261,26 +330,34 @@ Wilayah Persekutuan Kuala Lumpur</textarea>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Batu Tshirt</td>
-                                                    <td>L</td>
-                                                    <td>2</td>
-                                                    <td>RM30.00</td>
-                                                    <td>RM60.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Poscard</td>
-                                                    <td>-</td>
-                                                    <td>6</td>
-                                                    <td>RM10.00</td>
-                                                    <td>RM60.00</td>
-                                                </tr>
+                                                @{ decimal totalcost = 0;}
+                                                @foreach (var item in Model.listItems)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.productID)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.variationID)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.quantity)
+                                                        </td>
+                                                        <td>
+                                                            RM @Html.DisplayFor(modelItem => item.unitCost)
+                                                        </td>
+                                                        <td>
+                                                            RM @Html.DisplayFor(modelItem => item.lineCost)
+                                                        </td>
+                                                        @{ totalcost += item.lineCost.GetValueOrDefault();}
+                                                    </tr>
+                                                }
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <th>Sub Total</th>
-                                                    <td>RM110.00</td>
+                                                    <td>RM @totalcost</td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
@@ -294,14 +371,15 @@ Wilayah Persekutuan Kuala Lumpur</textarea>
                                                     <td></td>
                                                     <td></td>
                                                     <th>Postage</th>
-                                                    <td>RM120.00</td>
+                                                    <td>RM @Html.DisplayFor(model => model.orderShippingInfo.cost)</td>
                                                 </tr>
                                                 <tr>
+                                                    @{ totalcost += Model.orderShippingInfo.cost.GetValueOrDefault();}
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <th>Total</th>
-                                                    <td>RM110.00</td>
+                                                    <td>RM @totalcost</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -318,7 +396,7 @@ Wilayah Persekutuan Kuala Lumpur</textarea>
                                     <input type="submit" value="Cancel" class="btn bg-danger" />
                                 </div>
                             </div>
-                        </form>
+                        }
                         <!--/ End Form -->
                     </div>
                 </div>
