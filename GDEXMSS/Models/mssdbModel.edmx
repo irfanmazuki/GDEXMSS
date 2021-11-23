@@ -51,6 +51,8 @@
           <Property Name="variationID" Type="int" />
           <Property Name="quantity" Type="int" />
           <Property Name="unitCost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="productName" Type="varchar" MaxLength="100" />
+          <Property Name="variationName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="orders">
           <Key>
@@ -251,6 +253,8 @@
           <Property Name="variationID" Type="Int32" />
           <Property Name="quantity" Type="Int32" />
           <Property Name="unitCost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="productName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="variationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -450,6 +454,8 @@
           <EntitySetMapping Name="orderLines">
             <EntityTypeMapping TypeName="mssdbEntity.orderLine">
               <MappingFragment StoreEntitySet="orderLine">
+                <ScalarProperty Name="variationName" ColumnName="variationName" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
                 <ScalarProperty Name="lineID" ColumnName="lineID" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="productID" ColumnName="productID" />
