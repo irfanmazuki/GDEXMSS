@@ -18,6 +18,7 @@ namespace GDEXMSS.Controllers
         {
             return View();
         }
+        [AdminSessionCheck]
         [HttpGet]
         public ActionResult Add()
         {
@@ -28,8 +29,8 @@ namespace GDEXMSS.Controllers
 
             return View(objModel);
         }
+        [AdminSessionCheck]
         [HttpPost]
-
         public ActionResult Add(CombinedProductCategories productModel)
         {
             string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
@@ -47,6 +48,7 @@ namespace GDEXMSS.Controllers
             ViewBag.SuccessMassage = "Add Successful";
             return RedirectToAction("List");
         }
+        [AdminSessionCheck]
         [HttpGet]
         public ActionResult List()
         {
@@ -58,12 +60,14 @@ namespace GDEXMSS.Controllers
         {
             return View();
         }
+        [AdminSessionCheck]
         [HttpGet]
         public ActionResult Details()
         {
             product dbModel = new product();
             return View(dbModel);
         }
+        [AdminSessionCheck]
         public ActionResult Edit(int productID, string actions)
         {
             if (actions == "delete")
@@ -91,6 +95,7 @@ namespace GDEXMSS.Controllers
             objModel.product.CategoriesList = new SelectList(dbModel.productCategories, "categoryID", "name");
             return View(objModel);
         }
+        [AdminSessionCheck]
         [HttpPost]
         public ActionResult Edit(CombinedProductCategories productModel)
         {

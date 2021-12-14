@@ -82,7 +82,12 @@
                         <div class="right-content">
                             <ul class="list-main">
                                 <li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
-                                <li><i class="fa fa-solid fa-user"></i> <a href="#">My account</a></li>
+                                @if (Session["UserID"] != null)
+                                {
+                                    <li><i class="fa fa-solid fa-user"></i> <a href="#">@Session["Name"].ToString()</a></li>
+                                }
+                            <a>@Html.ActionLink("Logout", "Logout", "Administrator")</a>
+
                             </ul>
                         </div>
                         <!-- End Top Right -->

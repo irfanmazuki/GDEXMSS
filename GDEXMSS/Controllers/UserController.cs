@@ -32,11 +32,48 @@ namespace GDEXMSS.Controllers
             ViewBag.SuccessMassage = "Registration Successful";
             return View("Registration", new user()); 
         }
-        public ActionResult Login()
+        [HttpGet]
+        public ActionResult Login(string error)
         {
             user userModel = new user();
+            if (error == "password")
+            {
+                ViewBag.errorMessage = "Wrong admin ID or Password";
+            }
+            if (Session["Email"] != null)
+            {
+                return RedirectToAction("Index", "Products");
+            }
             return View(userModel);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(user objUser)
+        {
+            if (ModelState.IsValid)
+            {
+                using (mssdbModel db = new mssdbModel())
+                {
+                    var obj = db.users.Where(a => a.email.Equals(objUser.email) && a.password.Equals(objUser.password)).FirstOrDefault();
+                    if (obj != null)
+                    {
+                        Session["Email"] = obj.email.ToString();
+                        Session["Name"] = obj.fullname.ToString();
+                        Session["Role"] = "User";
+                        Session["Type"] = obj.user_type.ToString();
+                        return RedirectToAction("Index", "Products");
+                    }
+                    return RedirectToAction("Login", new { error = "password" });
+                }
+            }
+            return View(objUser);
+        }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Login");
+        }
+        [AdminSessionCheck]
         public ActionResult List()
         {
             using (mssdbModel dbModel = new mssdbModel())
@@ -44,11 +81,13 @@ namespace GDEXMSS.Controllers
                 return View(dbModel.users.ToList());
             }
         }
+        [AdminSessionCheck]
         public ActionResult Edit()
         {
             user userModel = new user();
             return View(userModel);
         }
+        [UserSessionCheck]
         public ActionResult Profile()
         {
             user userModel = new user();

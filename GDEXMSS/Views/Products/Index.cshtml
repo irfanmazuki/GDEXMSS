@@ -84,7 +84,8 @@
                                 <li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
                                 <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>
                                 <li><i class="fa fa-solid fa-user"></i> <a href="#">My account</a></li>
-                                <li><i class="fa fa-solid fa-power-off"></i>@Html.ActionLink("Login", "Login")</li>
+                                <li><i class="fa fa-solid fa-power-off"></i>@Session["Name"].ToString()</li>
+                                <li>@Html.ActionLink("Logout", "Logout", "User")</li>
                             </ul>
                         </div>
                         <!-- End Top Right -->
