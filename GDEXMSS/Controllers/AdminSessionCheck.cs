@@ -17,7 +17,8 @@ namespace GDEXMSS.Controllers
                 filterContext.Result = new RedirectToRouteResult(
                     new RouteValueDictionary {
                                 { "Controller", "Administrator" },
-                                { "Action", "Login" }
+                                { "Action", "Login" },
+                                { "error", "login" }
                                 });
             }
         }

@@ -11,7 +11,9 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web;
+    using System.Web.Mvc;
+
     public partial class user
     {
         public int userID { get; set; }
@@ -28,5 +30,6 @@ namespace GDEXMSS.Models
         public string home_poscode { get; set; }
         public string home_city { get; set; }
         public string home_state { get; set; }
+        public Nullable<bool> isExist { get; set; }
     }
 }

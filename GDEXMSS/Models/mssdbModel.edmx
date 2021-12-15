@@ -176,6 +176,7 @@
           <Property Name="home_poscode" Type="varchar" MaxLength="50" />
           <Property Name="home_city" Type="varchar" MaxLength="300" />
           <Property Name="home_state" Type="varchar" MaxLength="300" />
+          <Property Name="isExist" Type="bit" />
         </EntityType>
         <EntityType Name="userRole">
           <Key>
@@ -378,6 +379,7 @@
           <Property Name="home_poscode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="home_city" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="home_state" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="isExist" Type="Boolean" />
         </EntityType>
         <EntityType Name="userRole">
           <Key>
@@ -581,6 +583,7 @@
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="mssdbEntity.user">
               <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="isExist" ColumnName="isExist" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="user_type" ColumnName="user_type" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />

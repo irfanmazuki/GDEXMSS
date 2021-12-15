@@ -13,6 +13,7 @@ namespace GDEXMSS.Controllers
     public class ProductsController : Controller
     {
         private mssdbModel dbModel = new mssdbModel();
+        [UserSessionCheck]
         // GET: Products
         public ActionResult Index()
         {

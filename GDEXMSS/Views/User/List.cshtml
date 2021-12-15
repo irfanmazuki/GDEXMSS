@@ -243,8 +243,17 @@
                                             <td>@Html.DisplayFor(modelItem => item.fullname)</td>
                                             <td>@Html.DisplayFor(modelItem => item.email)</td>
                                             <td>
-                                                <div class="text-primary"><a href="https://localhost:44319/Employee/Edit">Edit</a></div>
-                                                <div class="text-danger"><a href="">Deactivate</a></div>
+                                                @Html.ActionLink("Edit", "Edit", new { userID = item.userID, actions = "edit" }, new { @class = "text-primary" })
+                                                @{
+                                                    if (item.isExist == true)
+                                                    {
+                                                        @Html.ActionLink("Deactivate", "Edit", new { userID = item.userID, actions = "deactivate" }, new { @class = "text-danger" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.ActionLink("Activate", "Edit", new { userID = item.userID, actions = "activate" }, new { @class = "text-success" })
+                                                    }
+                                                }
                                             </td>
                                         </tr>
                                     }

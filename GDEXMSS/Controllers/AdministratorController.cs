@@ -20,6 +20,10 @@ namespace GDEXMSS.Controllers
             {
                 return RedirectToAction("List", "Products");
             }
+            if (error == "login")
+            {
+                ViewBag.errorMessage = "Please login first to continue";
+            }
             return View(userModel);
         }
         [HttpPost]
