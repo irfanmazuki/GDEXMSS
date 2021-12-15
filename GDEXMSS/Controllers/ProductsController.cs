@@ -14,10 +14,16 @@ namespace GDEXMSS.Controllers
     {
         private mssdbModel dbModel = new mssdbModel();
         [UserSessionCheck]
-        // GET: Products
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            mssdbModel dbModel = new mssdbModel();
+            CombinedProductIndex objModel = new CombinedProductIndex();
+            var categories = (from productCategory in dbModel.productCategories select productCategory).ToList();
+            var products = (from product in dbModel.products select product).ToList();
+            objModel.listCategories = categories;
+            objModel.listProduct = products;
+            return View(objModel);
         }
         [AdminSessionCheck]
         [HttpGet]
@@ -37,7 +43,7 @@ namespace GDEXMSS.Controllers
             string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
             string extension = Path.GetExtension(productModel.ImageFile.FileName);
             fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
-            productModel.product.imagePath = "../Image/" + fileName;
+            productModel.product.imagePath = "~/Image/" + fileName;
             fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
             productModel.ImageFile.SaveAs(fileName);
             using (mssdbModel dbModel = new mssdbModel())

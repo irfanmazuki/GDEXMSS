@@ -41,4 +41,9 @@ namespace GDEXMSS.Models
         public product product { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
     }
+    public class CombinedProductIndex
+    {
+        public List<productCategory> listCategories { get; set; }
+        public List<product> listProduct { get; set; }
+    }
 }

@@ -1,6 +1,6 @@
-﻿
+﻿@model GDEXMSS.Models.CombinedProductIndex
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Index";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -191,11 +191,10 @@
                             <div class="all-category">
                                 <h3 class="cat-heading"><i class="fa fa-bars" aria-hidden="true"></i>CATEGORIES</h3>
                                 <ul class="main-category">
-                                    <li><a href="#">Limited Edition</a></li>
-                                    <li><a href="#">Stationery</a></li>
-                                    <li><a href="#">Miniature</a></li>
-                                    <li><a href="#">Souvenirs</a></li>
-                                    <li><a href="#">Collectible</a></li>
+                                    @foreach (var item in Model.listCategories)
+                                    {
+                                        <li><a href="">@Html.DisplayFor(modelItem => item.name)</a></li>
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -273,122 +272,73 @@
                         <div class="nav-main">
                             <!-- Tab Nav -->
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#limited" role="tab">Limited</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#clothes" role="tab">Clothes</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#stationery" role="tab">Stationery</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#souvenirs" role="tab">Souvenirs</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#collectible" role="tab">Collectible</a></li>
+                                @{
+                                    var number = 0;
+                                }
+                                @foreach (var item in Model.listCategories)
+                                {
+                                    if (number == 0)
+                                    {
+                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#@Html.DisplayFor(modelItem => item.categoryID)" role="tab">@Html.DisplayFor(modelItem => item.name)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#@Html.DisplayFor(modelItem => item.categoryID)" role="tab">@Html.DisplayFor(modelItem => item.name)</a></li>
+                                    }
+                                    number++;
+
+                                }
                             </ul>
                             <!--/ End Tab Nav -->
                         </div>
                         <div class="tab-content" id="myTabContent">
                             <!-- Start Single Tab for limited-->
-                            <div class="tab-pane fade show active" id="limited" role="tabpanel">
-                                <div class="tab-single">
-                                    <div class="row">
-                                        <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                            <div class="single-product" id="limited">
-                                                <div class="product-img">
-                                                    <a href="product-details.html">
-                                                        <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                        <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                        <span class="new">New</span>
-                                                    </a>
-                                                    <div class="button-head">
-                                                        <div class="product-action">
-                                                            <a title="Wishlist" href="#"><i class="fa fa-solid fa-heart"></i><span>Add to Wishlist</span></a>
-                                                        </div>
-                                                        <div class="product-action-2">
-                                                            <a title="Add to cart" href="#">Add to cart</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3><a href="product-details.html">Women Pant Collectons</a></h3>
-                                                    <div class="product-price">
-                                                        <span>RM29.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                            <div class="single-product" id="limited">
-                                                <div class="product-img">
-                                                    <a href="product-details.html">
-                                                        <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                        <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                        <span class="price-dec">30% Off</span>
-                                                    </a>
-                                                    <div class="button-head">
-                                                        <div class="product-action">
-                                                            <a title="Wishlist" href="#"><i class="fa fa-solid fa-heart"></i><span>Add to Wishlist</span></a>
-                                                        </div>
-                                                        <div class="product-action-2">
-                                                            <a title="Add to cart" href="#">Add to cart</a>
+                            @{ Boolean first = true; }
+                            @foreach (var item in Model.listCategories)
+                            {
+                                <div class="tab-pane fade show @( first ? "active" : "" )" id="@Html.DisplayFor(modelItem => item.categoryID)" role="tabpanel">
+                                    <div class="tab-single">
+                                        <div class="row">
+                                            @{
+                                                var categoryID = item.categoryID;
+                                            }
+                                            @foreach (var product in Model.listProduct)
+                                            {
+                                                if (categoryID == product.categoryID)
+                                                {
+
+                                                    <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+                                                        <div class="single-product">
+                                                            <div class="product-img">
+                                                                <a href="product-details.html">
+                                                                    <img class="default-img" src="@Html.DisplayFor(modelItem => product.imagePath)" alt="#">
+                                                                    <img class="hover-img" src="@Html.DisplayFor(modelItem => product.imagePath)" alt="#">
+                                                                    <span class="new">New</span>
+                                                                </a>
+                                                                <div class="button-head">
+                                                                    <div class="product-action">
+                                                                        <a title="Wishlist" href="#"><i class="fa fa-solid fa-heart"></i><span>Add to Wishlist</span></a>
+                                                                    </div>
+                                                                    <div class="product-action-2">
+                                                                        <a title="Add to cart" href="#">Add to cart</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-content">
+                                                                <h3><a href="product-details.html">@Html.DisplayFor(modelItem => product.name)</a></h3>
+                                                                <div class="product-price">
+                                                                    <span>RM @Html.DisplayFor(modelItem => product.unitCost)</span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3><a href="product-details.html">Awesome Cap For Women</a></h3>
-                                                    <div class="product-price">
-                                                        <span>RM29.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                            <div class="single-product">
-                                                <div class="product-img">
-                                                    <a href="product-details.html">
-                                                        <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                        <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                    </a>
-                                                    <div class="button-head">
-                                                        <div class="product-action">
-                                                            <a title="Wishlist" href="#"><i class="fa fa-solid fa-heart"></i><span>Add to Wishlist</span></a>
-                                                        </div>
-                                                        <div class="product-action-2">
-                                                            <a title="Add to cart" href="#">Add to cart</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3><a href="product-details.html">Polo Dress For Women</a></h3>
-                                                    <div class="product-price">
-                                                        <span>RM29.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                            <div class="single-product">
-                                                <div class="product-img">
-                                                    <a href="product-details.html">
-                                                        <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                        <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                                                        <span class="out-of-stock">Hot</span>
-                                                    </a>
-                                                    <div class="button-head">
-                                                        <div class="product-action">
-                                                            <a title="Wishlist" href="#"><i class="fa fa-solid fa-heart"></i><span>Add to Wishlist</span></a>
-                                                        </div>
-                                                        <div class="product-action-2">
-                                                            <a title="Add to cart" href="#">Add to cart</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3><a href="product-details.html">Black Sunglass For Women</a></h3>
-                                                    <div class="product-price">
-                                                        <span class="old">RM60.00</span>
-                                                        <span>RM50.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                }
+                                                first = false;
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                             <!--/ End Single Tab -->
                             <!-- Start Single Tab for clothes-->
                             <div class="tab-pane fade show" id="clothes" role="tabpanel">
@@ -455,7 +405,6 @@
         </div>
     </div>
     <!-- End Product Area -->
-
     <!-- Start Footer Area -->
     <footer class="footer">
         <!-- Footer Top -->
