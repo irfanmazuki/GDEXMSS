@@ -238,15 +238,21 @@
             <div class="row">
                 <div class="col-12">
                     <div class="checkout-form">
-                        <h2>Edit User</h2>
+                        <h2>Your Profile</h2>
                         <p></p>
                         <!-- Form -->
-                        <form class="form" method="post" action="#">
+                        @using (Html.BeginForm("Profile_Edit", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.isExist, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.user_type, new { htmlAttributes = new { @readonly = "readonly" } })
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>User ID</label>
-                                        <input type="text" name="name" value="RM150.00" disabled>
+                                        @Html.EditorFor(model => model.userID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.userID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -254,23 +260,26 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Fullname</label>
-                                        <input type="text" name="name" value="Ali">
+                                        @Html.EditorFor(model => model.fullname, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.fullname, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Position</label>
-                                        <input type="number" name="name" value="Employee">
+                                        <label>Email</label>
+                                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Race</label>
-                                        <input type="text" name="name" value="Malay">
+                                        <label>Password</label>
+                                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @type = "password", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +287,17 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>IC Number</label>
-                                        <input type="password" name="name" value="990904115200">
+                                        @Html.EditorFor(model => model.icnumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.icnumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Race</label>
+                                        @Html.EditorFor(model => model.race, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.race, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -286,7 +305,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Contact Number</label>
-                                        <input type="text" name="name" value="01117975766" disabled>
+                                        @Html.EditorFor(model => model.contact_number, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.contact_number, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +314,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Bank Name</label>
-                                        <input type="text" name="name" value="Bank Islam" disabled>
+                                        @Html.EditorFor(model => model.bank_name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.bank_name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -302,7 +323,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Bank Number</label>
-                                        <input type="text" name="name" value="1211323112111" disabled>
+                                        @Html.EditorFor(model => model.bank_number, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.bank_number, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -310,7 +332,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Home Address</label>
-                                        <input type="text" name="name" value="B-1128, Jalan Mutiara" disabled>
+                                        @Html.EditorFor(model => model.home_address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.home_address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -318,7 +341,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Poscode</label>
-                                        <input type="text" name="name" value="23010" disabled>
+                                        @Html.EditorFor(model => model.home_poscode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.home_poscode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -326,7 +350,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>City</label>
-                                        <input type="text" name="name" value="Kuala Terengganu" disabled>
+                                        @Html.EditorFor(model => model.home_city, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.home_city, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +359,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>State</label>
-                                        <input type="text" name="name" value="Terengganu" disabled>
+                                        @Html.EditorFor(model => model.home_state, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.home_state, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -342,19 +368,12 @@
                                 <div class="col-2">
                                     <div class="form-group">
                                         <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Save" id="btnView" class="btn btn-default bg-primary" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Cancel" class="btn btn-default bg-danger" />
+                                            <input type="submit" value="Edit" id="btnView" class="btn btn-default bg-primary" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        }
                         <!--/ End Form -->
                     </div>
                 </div>

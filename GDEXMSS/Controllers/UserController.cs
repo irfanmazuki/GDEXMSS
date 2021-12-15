@@ -72,6 +72,7 @@ namespace GDEXMSS.Controllers
                         else
                         {
                             Session["Email"] = obj.email.ToString();
+                            Session["UserID"] = obj.userID.ToString();
                             Session["Name"] = obj.fullname.ToString();
                             Session["Role"] = "User";
                             Session["Type"] = obj.user_type.ToString();
@@ -136,8 +137,10 @@ namespace GDEXMSS.Controllers
         [UserSessionCheck]
         public ActionResult Profile()
         {
-            user userModel = new user();
-            return View(userModel);
+            mssdbModel dbModel = new mssdbModel();
+            int userID = Int32.Parse(Session["UserID"].ToString()) ;
+            var userRecord = dbModel.users.Where(x => x.userID == userID).FirstOrDefault();
+            return View(userRecord);
         }
 
         public ActionResult Test11()
