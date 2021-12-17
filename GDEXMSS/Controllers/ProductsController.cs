@@ -13,6 +13,12 @@ namespace GDEXMSS.Controllers
     public class ProductsController : Controller
     {
         private mssdbModel dbModel = new mssdbModel();
+        private List<cartItem> listCartItem;
+        public ProductsController()
+        {
+            dbModel = new mssdbModel();
+            listCartItem = new List<cartItem>();
+        }
         [UserSessionCheck]
         [HttpGet]
         public ActionResult Index()
@@ -24,6 +30,81 @@ namespace GDEXMSS.Controllers
             objModel.listCategories = categories;
             objModel.listProduct = products;
             return View(objModel);
+        }
+        public JsonResult Index(int ItemId)
+        {
+            cartItem objCartItem = new cartItem();
+            //product objProduct = (from product in dbModel.products where product.productID == ItemId select product).FirstOrDefault();
+            //listCartItem = (from cartItem in dbModel.cartItems where cartItem.productID == ItemId select cartItem).ToList();
+            product objProduct = dbModel.products.Single(model => model.productID == ItemId);
+            if (Session["CartItem"] != null)
+            {
+                listCartItem = Session["CartItem"] as List<cartItem>;
+            }
+            if (listCartItem.Any(Model => Model.productID == ItemId))
+            {
+                objCartItem = listCartItem.Single(model => model.productID == ItemId);
+                objCartItem.quantity = objCartItem.quantity + 1;
+                objCartItem.total = objCartItem.quantity * objCartItem.unitCost;
+            }
+            else
+            {
+                objCartItem.itemID = 0;
+                objCartItem.productID = ItemId;
+                objCartItem.imagePath = objProduct.imagePath;
+                objCartItem.productName = objProduct.name;
+                objCartItem.quantity = 1;
+                objCartItem.total = objProduct.unitCost;
+                objCartItem.unitCost = objProduct.unitCost;
+                listCartItem.Add(objCartItem);
+            }
+
+            Session["CartCounter"] = listCartItem.Count();
+            Session["CartItem"] = listCartItem;
+            return Json(new { Success = true, Counter = listCartItem.Count() }, JsonRequestBehavior.AllowGet);
+        }
+        [UserSessionCheck]
+        [HttpGet]
+        public ActionResult Cart()
+        {
+            listCartItem = Session["CartItem"] as List<cartItem>;
+            return View(listCartItem);
+        }
+        public ActionResult EditCart(int productID, string actions)
+        {
+            listCartItem = Session["CartItem"] as List<cartItem>;
+            if (actions == "delete")
+            {
+                foreach(var item in listCartItem)
+                {
+                    if (item.productID == productID)
+                    {
+                        int index = listCartItem.FindIndex(a => a.productID == productID);
+                        if (item.quantity > 1)
+                        {
+                            item.quantity--;
+                            item.total -= item.quantity * item.unitCost;
+                        }
+                        else
+                        {
+                            listCartItem.RemoveAt(index);
+                            return RedirectToAction("Cart");
+                        }
+                    }
+                }
+            }
+            if (actions == "add")
+            {
+                foreach (var item in listCartItem)
+                {
+                    if (item.productID == productID)
+                    {
+                        item.quantity++;
+                        item.total += item.quantity * item.unitCost;
+                    }
+                }
+            }
+            return RedirectToAction("Cart");
         }
         [AdminSessionCheck]
         [HttpGet]
@@ -43,7 +124,7 @@ namespace GDEXMSS.Controllers
             string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
             string extension = Path.GetExtension(productModel.ImageFile.FileName);
             fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
-            productModel.product.imagePath = "~/Image/" + fileName;
+            productModel.product.imagePath = "/Image/" + fileName;
             fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
             productModel.ImageFile.SaveAs(fileName);
             using (mssdbModel dbModel = new mssdbModel())

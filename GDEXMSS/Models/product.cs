@@ -45,5 +45,6 @@ namespace GDEXMSS.Models
     {
         public List<productCategory> listCategories { get; set; }
         public List<product> listProduct { get; set; }
+        public List<cartItem> listCartItem { get; set; }
     }
 }

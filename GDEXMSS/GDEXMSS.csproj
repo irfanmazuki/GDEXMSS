@@ -610,6 +610,8 @@
     <Content Include="Views\Administrator\Login.cshtml" />
     <Content Include="Views\Administrator\Logout.cshtml" />
     <Content Include="Views\User\Logout.cshtml" />
+    <Content Include="Views\Shared\_ShoppingCart.cshtml" />
+    <Content Include="Views\Products\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

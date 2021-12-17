@@ -19,5 +19,9 @@ namespace GDEXMSS.Models
         public Nullable<int> variationID { get; set; }
         public Nullable<int> quantity { get; set; }
         public Nullable<int> cartID { get; set; }
+        public string productName { get; set; }
+        public Nullable<decimal> unitCost { get; set; }
+        public Nullable<decimal> total { get; set; }
+        public string imagePath { get; set; }
     }
 }

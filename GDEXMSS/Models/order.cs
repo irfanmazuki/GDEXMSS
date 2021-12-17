@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GDEXMSS.Models
+	namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;

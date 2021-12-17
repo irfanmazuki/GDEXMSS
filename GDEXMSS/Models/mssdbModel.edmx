@@ -26,11 +26,15 @@
           <Key>
             <PropertyRef Name="itemID" />
           </Key>
-          <Property Name="itemID" Type="int" Nullable="false" />
+          <Property Name="itemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="productID" Type="int" />
           <Property Name="variationID" Type="int" />
           <Property Name="quantity" Type="int" />
           <Property Name="cartID" Type="int" />
+          <Property Name="productName" Type="varchar" MaxLength="200" />
+          <Property Name="unitCost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="total" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="imagePath" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="eWallet">
           <Key>
@@ -234,6 +238,10 @@
           <Property Name="variationID" Type="Int32" />
           <Property Name="quantity" Type="Int32" />
           <Property Name="cartID" Type="Int32" />
+          <Property Name="productName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="unitCost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="total" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="imagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="eWallet">
           <Key>
@@ -435,6 +443,10 @@
           <EntitySetMapping Name="cartItems">
             <EntityTypeMapping TypeName="mssdbEntity.cartItem">
               <MappingFragment StoreEntitySet="cartItem">
+                <ScalarProperty Name="imagePath" ColumnName="imagePath" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="unitCost" ColumnName="unitCost" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
                 <ScalarProperty Name="cartID" ColumnName="cartID" />
                 <ScalarProperty Name="itemID" ColumnName="itemID" />
                 <ScalarProperty Name="productID" ColumnName="productID" />

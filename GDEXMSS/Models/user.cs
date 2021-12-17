@@ -11,9 +11,7 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Web;
-    using System.Web.Mvc;
-
+    
     public partial class user
     {
         public int userID { get; set; }

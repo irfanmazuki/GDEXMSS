@@ -22,12 +22,5 @@ namespace GDEXMSS.Models
         public Nullable<decimal> unitCost { get; set; }
         public string productName { get; set; }
         public string variationName { get; set; }
-        public Nullable<decimal> lineCost
-        {
-            get
-            {
-                return this.unitCost.GetValueOrDefault() * this.quantity.GetValueOrDefault();
-            }
-        }
     }
 }
