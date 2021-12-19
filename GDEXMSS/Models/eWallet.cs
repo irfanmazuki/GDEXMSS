@@ -19,4 +19,14 @@ namespace GDEXMSS.Models
         public Nullable<int> availablePoints { get; set; }
         public Nullable<decimal> amount { get; set; }
     }
+    public class CombinedWalletUser
+    {
+        public user userObj { get; set; }
+        public eWallet eWallet { get; set; }
+    }
+    public class CombinedListWalletUser
+    {
+        public List<user> listUser { get; set; }
+        public List<eWallet> listWallet { get; set; }
+    }
 }

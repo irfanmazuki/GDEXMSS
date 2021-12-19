@@ -1,6 +1,6 @@
-﻿@model IEnumerable<GDEXMSS.Models.product>
+﻿@model GDEXMSS.Models.CombinedListWalletUser
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "User wallet and Points";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -86,7 +86,7 @@
                                 {
                                     <li><i class="fa fa-solid fa-user"></i> <a href="#">@Session["Name"].ToString()</a></li>
                                 }
-                            <a>@Html.ActionLink("Logout", "Logout", "Administrator")</a>
+                                <a>@Html.ActionLink("Logout", "Logout", "Administrator")</a>
 
                             </ul>
                         </div>
@@ -122,7 +122,7 @@
                                     <div class="navbar-collapse">
                                         <div class="nav-inner">
                                             <ul class="nav main-menu menu navbar-nav">
-                                                <li class="active">
+                                                <li>
                                                     <a href="#">Product<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
                                                         <li><a href="https://localhost:44319/Products/Add">Add New Product</a></li>
@@ -154,10 +154,11 @@
                                                         <li><a href="https://localhost:44319/Report/Sales">Sales & orders</a></li>
                                                     </ul>
                                                 </li>
-                                                <li>
-                                                    <a href="#">Wallet & Points<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                <li class="active">
+                                                    <a href="#">Points<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
-                                                        <li><a href="https://localhost:44319/Wallet/UserList">User List</a></li>
+                                                        <li><a href="https://localhost:44319/Points/Assign">Assign Point</a></li>
+                                                        <li><a href="https://localhost:44319/Points/Users">Check Users Points</a></li>
                                                     </ul>
                                                 </li>
                                                 <li>
@@ -206,24 +207,11 @@
                         <div class="card-header">
                             <ul class="navbar nav ml-auto">
                                 <li class="mr-auto p-2">
-                                    <h2 class="card-title">Products List</h2>
+                                    <h2 class="card-title">Category List</h2>
+                                    <h5>@ViewBag.Message</h5>
                                 </li>
                                 <li class="p-2">
-                                    <div class="form-group form-group-sm" style="width: 210px;">
-                                        <select name="state-province" id="state-province">
-                                            <option selected="selected" disabled>Sort by</option>
-                                            <option>Default</option>
-                                            <option>Name (Ascending)</option>
-                                            <option>Name (Descending)</option>
-                                            <option>Price (Ascending)</option>
-                                            <option>Price (Descending)</option>
-                                            <option>Quantity (Ascending)</option>
-                                            <option>Quantity (Descending)</option>
-                                            <option>Available</option>
-                                            <option>Sold Out</option>
-                                            <option>Discontinued</option>
-                                        </select>
-                                    </div>
+                                    @Html.ActionLink("Add New Category", "Add", "Category", null, new { @class = "btn bg-primary" })
                                 </li>
                                 <li class="p-2">
                                     <div class="input-group input-group-sm" style="width: 150px;">
@@ -242,56 +230,40 @@
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>@Html.DisplayNameFor(model => model.productID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.name)</th>
-                                        <th>@Html.DisplayNameFor(model => model.quantity)</th>
-                                        <th>@Html.DisplayNameFor(model => model.unitCost)</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Available Points</th>
+                                        <th>Available e-Wallet</th>
+                                        <th>Topup</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Model.listUser)
                                     {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.productID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.quantity)
-                                        </td>
-                                        <td>
-                                            RM
-                                            @Html.DisplayFor(modelItem => item.unitCost)
-                                        </td>
-                                        <td>
-                                            @if (item.isExist == false)
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.userID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.fullname)
+                                            </td>
+                                            @foreach (var wallet in Model.listWallet)
                                             {
-
-
-                                                <h5><span class="badge bg-danger">Discontinued</span></h5>
-                                            }
-                                            else
-                                            {
-                                                if (item.quantity == 0)
+                                                if (wallet.userID == item.userID)
                                                 {
-                                                    <h5><span class="badge bg-warning">Sold Out</span></h5>
-                                                }if (item.quantity > 0)
-                                                {
-                                                    <h5><span class="badge bg-success">Available</span></h5>
+                                                    <td>
+                                                        @Html.DisplayFor(modelWallet => wallet.availablePoints)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelWallet => wallet.amount)
+                                                    </td>
+                                                    <td>
+                                                        @* Route value more than 1? how *@
+                                                        @Html.ActionLink("Topup", "Topup", new { walletID = wallet.walletID}, new { @class = "badge bg-primary" })
+                                                    </td>
                                                 }
                                             }
-
-                                        </td>
-                                        <td>
-                                            @* Route value more than 1? how *@
-                                            @Html.ActionLink("Edit", "Edit", new { productID = item.productID, actions = "edit" }, new { @class = "badge bg-primary" }) 
-                                            @Html.ActionLink("Delete", "Edit", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-danger" })
-                                        </td>
-                                    </tr>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -379,7 +351,7 @@
                             <div class="right">
                                 <p>Download our app</p>
                                 <div class="logo">
-                                    <a href="index.html"><img src="http://assets.stickpng.com/images/5a902dbf7f96951c82922875.png" alt="logo" width="100"/></a>
+                                    <a href="index.html"><img src="http://assets.stickpng.com/images/5a902dbf7f96951c82922875.png" alt="logo" width="100" /></a>
                                 </div>
                             </div>
                         </div>

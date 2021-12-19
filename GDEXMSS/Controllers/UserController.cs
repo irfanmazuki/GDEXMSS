@@ -30,7 +30,7 @@ namespace GDEXMSS.Controllers
             }
             ModelState.Clear();
             ViewBag.SuccessMassage = "Registration Successful";
-            return View("Registration", new user()); 
+            return RedirectToAction("Login", new { error = "success" });
         }
         [HttpGet]
         public ActionResult Login(string error)
@@ -47,6 +47,10 @@ namespace GDEXMSS.Controllers
             if (error == "login")
             {
                 ViewBag.errorMessage = "Please login first to continue";
+            }
+            if (error == "success")
+            {
+                ViewBag.errorMessage = "Registration successful. Please log in to continue";
             }
             if (Session["Email"] != null)
             {

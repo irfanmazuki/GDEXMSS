@@ -1,6 +1,6 @@
-﻿
+﻿@model GDEXMSS.Models.eWallet
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Edit User";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -14,13 +14,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title Tag  -->
-    <title>Eshop - eCommerce HTML5 Template.</title>
+    <title>User Edit</title>
     <!-- Favicon -->
     <link rel="icon" type="../image/png" href="images/favicon.png">
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 
-    <!-- StyleSheet -->
+    <!-- StyleSheet --
+    <!--ADDED adminLTE-->
+    <link rel="stylesheet" href="~/Content/css/adminltev2.css" runat="server" type="text/css">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/Content/css/bootstrap.css" type="text/css" runat="server">
     <!-- Magnific Popup -->
@@ -41,8 +43,6 @@
     <link rel="stylesheet" href="~/Content/css/owl-carousel.css" type="text/css" runat="server">
     <!-- Slicknav -->
     <link rel="stylesheet" href="~/Content/css/slicknav.min.css" runat="server" type="text/css">
-    <!--ADDED adminLTE-->
-    <!-- <link rel="stylesheet" href="../css/adminlte.css"> -->
     <!-- Eshop StyleSheet -->
     <link rel="stylesheet" href="~/Content/css/reset.css" type="text/css" runat="server">
     <link rel="stylesheet" href="~/Content/css/responsive.css" type="text/css" runat="server">
@@ -82,9 +82,7 @@
                         <div class="right-content">
                             <ul class="list-main">
                                 <li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
-                                <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>
                                 <li><i class="fa fa-solid fa-user"></i> <a href="#">My account</a></li>
-                                <li><i class="fa fa-solid fa-power-off"></i>@Html.ActionLink("Login", "Login")</li>
                             </ul>
                         </div>
                         <!-- End Top Right -->
@@ -99,84 +97,10 @@
                     <div class="col-lg-2 col-md-2 col-12">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html"><img src="https://seeklogo.com/images/G/gdex-logo-6838448C0F-seeklogo.com.png" alt="logo"></a>
+                            <a href="https://localhost:44319/Employee/New"><img src="https://seeklogo.com/images/G/gdex-logo-6838448C0F-seeklogo.com.png" alt="logo"></a>
                         </div>
                         <!--/ End Logo -->
-                        <!-- Search Form -->
-                        <div class="search-top">
-                            <div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
-                            <!-- Search Form -->
-                            <div class="search-top">
-                                <form class="search-form">
-                                    <input type="text" placeholder="Search here..." name="search">
-                                    <button value="search" type="submit"><i class="ti-search"></i></button>
-                                </form>
-                            </div>
-                            <!--/ End Search Form -->
-                        </div>
-                        <!--/ End Search Form -->
                         <div class="mobile-nav"></div>
-                    </div>
-                    <div class="col-lg-8 col-md-7 col-12">
-                        <div class="search-bar-top">
-                            <div class="search-bar">
-                                <select>
-                                    <option selected="selected">All Category</option>
-                                    <option>Limited Edition</option>
-                                    <option>Clothes</option>
-                                    <option>Stationery</option>
-                                    <option>Miniature</option>
-                                </select>
-                                <form>
-                                    <input name="search" placeholder="Search Products Here....." type="search">
-                                    <button class="btnn"><i class="fas fa-solid fa-search"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-12">
-                        <div class="right-bar">
-                            <!-- Search Form -->
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-solid fa-heart"></i></a>
-                            </div>
-                            <!--
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-user-circle-o"></i></a>
-                            </div>-->
-                            <div class="sinlge-bar shopping">
-                                <a href="#" class="single-icon"><i class="fa fa-solid fa-shopping-bag"></i></i> <span class="total-count">2</span></a>
-                                <!-- Shopping Item -->
-                                <div class="shopping-item">
-                                    <div class="dropdown-cart-header">
-                                        <span>2 Items</span>
-                                        <a href="#">View Cart</a>
-                                    </div>
-                                    <ul class="shopping-list">
-                                        <li>
-                                            <a href="#" class="remove" title="Remove this item"><i class="fa fa solid fa-times"></i></a>
-                                            <a class="cart-img" href="#"><img src="~/Content/images/sampulraya.jpg" alt="#"></a>
-                                            <h4><a href="#">Sampul Raya 2021</a></h4>
-                                            <p class="quantity">1x - <span class="amount">RM20.00</span></p>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="remove" title="Remove this item"><i class="fa fa solid fa-times"></i></a>
-                                            <a class="cart-img" href="#"><img src="~/Content/images/shirt.png" alt="#"></a>
-                                            <h4><a href="#">GDEX Limited Shirt (M)</a></h4>
-                                            <p class="quantity">2x - <span class="amount">RM80.00</span></p>
-                                        </li>
-                                    </ul>
-                                    <div class="bottom">
-                                        <div class="total">
-                                            <span>Total</span>
-                                            <span class="total-amount">RM100.00</span>
-                                        </div>
-                                        <a href="https://localhost:44319/Cart" class="btn animate">Checkout</a>
-                                    </div>
-                                </div>
-                                <!--/ End Shopping Item -->
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -192,18 +116,53 @@
                                 <nav class="navbar navbar-expand-lg">
                                     <div class="navbar-collapse">
                                         <div class="nav-inner">
-                                            <ul class="nav main-menu menu navbar-nav">
-                                                <li><a href="https://localhost:44319/products">Home</a></li>
-                                                <li><a href="https://localhost:44319/User/Profile">Profile</a></li>
-                                                <li><a href="https://localhost:44319/Order/History">Order History</a></li>
-                                                <li class="active">
-                                                    <a href="#">eWallet<i class="fa fa-solid fa-chevron-down"></i></a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="https://localhost:44319/Wallet/Balance">Balance</a></li>
-                                                        <li><a href="https://localhost:44319/Wallet/Topup">Topup</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
+                                            <nav class="navbar navbar-expand-lg">
+                                                <div class="navbar-collapse">
+                                                    <div class="nav-inner">
+                                                        <ul class="nav main-menu menu navbar-nav">
+                                                            <li>
+                                                                <a href="#">Product<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Products/Add">Add New Product</a></li>
+                                                                    <li><a href="https://localhost:44319/Products/List">Product List</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Order<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Order/Incoming">Incoming</a></li>
+                                                                    <li><a href="https://localhost:44319/Order/List">History</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Application<i class="fa fa-solid fa-chevron-down"></i><span class="new">4</span></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Employee/New">Employee Application</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li class="active">
+                                                                <a href="#">User<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/User/List">User List</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Reporting<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Report/Sales">Sales & orders</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Points<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                                <ul class="dropdown">
+                                                                    <li><a href="https://localhost:44319/Points/Assign">Assign Point</a></li>
+                                                                    <li><a href="https://localhost:44319/Points/Users">Check Users Points</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </nav>
                                         </div>
                                     </div>
                                 </nav>
@@ -224,8 +183,8 @@
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
-                            <li><a href="index.html">e-Wallet<i class="fa fa-solid fa-arrow-right"></i></a></li>
-                            <li class="active"><a href="new.html">Topup</a></li>
+                            <li><a href="index.html">User<i class="fa fa-solid fa-arrow-right"></i></a></li>
+                            <li class="active"><a href="new.html">Edit</a></li>
                         </ul>
                     </div>
                 </div>
@@ -233,47 +192,54 @@
         </div>
     </div>
     <!-- End Breadcrumbs -->
+    <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="checkout-form">
-                        <h2>e-Wallet</h2>
+                        <h2>Edit User</h2>
                         <p></p>
-                        <!-- Form -->
-                        <form class="form" method="post" action="#">
+                        @using (Html.BeginForm("Topup", "Wallet", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.walletID, new { htmlAttributes = new { @readonly = "readonly" } })
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Topup Amount (RM)</label>
-                                        <input type="number" name="name">
+                                        <label>Amount of wallet</label>
+                                        @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="single-widget">
-                                <h2>Payments Methods</h2>
-                                <div class="content">
-                                    <div class="checkbox">
-                                        <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox">Debit/Credit</label>
-                                        <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Online Banking</label>
-                                        <label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox"> PayPal</label>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Amount of points</label>
+                                        @Html.EditorFor(model => model.availablePoints, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.availablePoints, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 single-widget get-button">
-                                <div class="content">
-                                    <div class="button">
-                                        <a href="#" class="btn">Topup</a>
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Save" id="btnView" class="btn btn-default bg-primary" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        }
                         <!--/ End Form -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <!--/ End Checkout -->
     <!-- Start Footer Area -->
     <footer class="footer">
         <!-- Footer Top -->
@@ -394,5 +360,6 @@
 </body>
 
 </html>
+
 
 
