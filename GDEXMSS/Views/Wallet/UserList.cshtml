@@ -207,8 +207,9 @@
                         <div class="card-header">
                             <ul class="navbar nav ml-auto">
                                 <li class="mr-auto p-2">
-                                    <h2 class="card-title">Category List</h2>
-                                    <h5>@ViewBag.Message</h5>
+                                    <h2 class="card-title" style="font-style: bold;">Category List</h2>
+                                    <br />
+                                    <h5 class="card-title" style="font-style: italic;">@ViewBag.Message</h5>
                                 </li>
                                 <li class="p-2">
                                     @Html.ActionLink("Add New Category", "Add", "Category", null, new { @class = "btn bg-primary" })
@@ -254,8 +255,8 @@
                                                     <td>
                                                         @Html.DisplayFor(modelWallet => wallet.availablePoints)
                                                     </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelWallet => wallet.amount)
+                                                    <td>RM
+                                                        @Html.DisplayFor(modelWallet => wallet.amountRM)
                                                     </td>
                                                     <td>
                                                         @* Route value more than 1? how *@

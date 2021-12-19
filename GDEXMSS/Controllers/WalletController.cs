@@ -43,7 +43,7 @@ namespace GDEXMSS.Controllers
         {
             eWallet walletRecord = dbModel.eWallets.Where(x => x.walletID == walletModel.walletID).FirstOrDefault();
             walletRecord.availablePoints = walletRecord.availablePoints + walletModel.availablePoints;
-            walletRecord.amount = walletRecord.amount + walletModel.amount;
+            walletRecord.amountRM = walletRecord.amountRM + walletModel.amountRM;
             dbModel.SaveChanges();
             Session["walletID"] = "";
             return RedirectToAction("UserList", new { message = "success" });

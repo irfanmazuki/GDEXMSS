@@ -17,7 +17,7 @@ namespace GDEXMSS.Models
         public int walletID { get; set; }
         public Nullable<int> userID { get; set; }
         public Nullable<int> availablePoints { get; set; }
-        public Nullable<decimal> amount { get; set; }
+        public Nullable<decimal> amountRM { get; set; }
     }
     public class CombinedWalletUser
     {

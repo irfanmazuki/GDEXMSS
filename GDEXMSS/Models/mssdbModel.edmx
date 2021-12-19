@@ -43,7 +43,7 @@
           <Property Name="walletID" Type="int" Nullable="false" />
           <Property Name="userID" Type="int" />
           <Property Name="availablePoints" Type="int" />
-          <Property Name="amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="amountRM" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="orderLine">
           <Key>
@@ -102,7 +102,7 @@
           <Key>
             <PropertyRef Name="categoryID" />
           </Key>
-          <Property Name="categoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="categoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="200" />
           <Property Name="isExist" Type="bit" />
         </EntityType>
@@ -250,7 +250,7 @@
           <Property Name="walletID" Type="Int32" Nullable="false" />
           <Property Name="userID" Type="Int32" />
           <Property Name="availablePoints" Type="Int32" />
-          <Property Name="amount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="amountRM" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="orderLine">
           <Key>
@@ -458,10 +458,10 @@
           <EntitySetMapping Name="eWallets">
             <EntityTypeMapping TypeName="mssdbEntity.eWallet">
               <MappingFragment StoreEntitySet="eWallet">
+                <ScalarProperty Name="amountRM" ColumnName="amountRM" />
                 <ScalarProperty Name="walletID" ColumnName="walletID" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="availablePoints" ColumnName="availablePoints" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
