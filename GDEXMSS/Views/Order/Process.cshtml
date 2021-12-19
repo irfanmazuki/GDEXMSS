@@ -323,7 +323,6 @@
                                             <thead>
                                                 <tr>
                                                     <th>Item</th>
-                                                    <th>Variation</th>
                                                     <th>Quantity</th>
                                                     <th>Price per unit</th>
                                                     <th>Total Price</th>
@@ -338,18 +337,15 @@
                                                             @Html.DisplayFor(modelItem => item.productName)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.variationName)
-                                                        </td>
-                                                        <td>
                                                             @Html.DisplayFor(modelItem => item.quantity)
                                                         </td>
                                                         <td>
                                                             RM @Html.DisplayFor(modelItem => item.unitCost)
                                                         </td>
                                                         <td>
-                                                            RM @Html.DisplayFor(modelItem => item.lineCost)
+                                                            RM @Html.DisplayFor(modelItem => item.unitCost)
                                                         </td>
-                                                        @{ totalcost += item.lineCost.GetValueOrDefault();}
+                                                        @{ totalcost += item.unitCost.GetValueOrDefault();}
                                                     </tr>
                                                 }
                                                 <tr>

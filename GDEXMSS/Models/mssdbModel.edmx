@@ -35,6 +35,7 @@
           <Property Name="unitCost" Type="decimal" Precision="10" Scale="2" />
           <Property Name="total" Type="decimal" Precision="10" Scale="2" />
           <Property Name="imagePath" Type="varchar(max)" />
+          <Property Name="orderID" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="eWallet">
           <Key>
@@ -50,7 +51,7 @@
             <PropertyRef Name="lineID" />
           </Key>
           <Property Name="lineID" Type="int" Nullable="false" />
-          <Property Name="orderID" Type="int" />
+          <Property Name="orderID" Type="varchar" MaxLength="200" />
           <Property Name="productID" Type="int" />
           <Property Name="variationID" Type="int" />
           <Property Name="quantity" Type="int" />
@@ -62,7 +63,7 @@
           <Key>
             <PropertyRef Name="orderID" />
           </Key>
-          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="orderID" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="createdDT" Type="datetime" />
           <Property Name="shippedDT" Type="datetime" />
           <Property Name="userID" Type="int" />
@@ -84,7 +85,7 @@
           <Property Name="state" Type="varchar" MaxLength="200" />
           <Property Name="branchID" Type="int" />
           <Property Name="isPickup" Type="bit" />
-          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="orderID" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="pointLine">
@@ -242,6 +243,7 @@
           <Property Name="unitCost" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="total" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="imagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="orderID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="eWallet">
           <Key>
@@ -257,7 +259,7 @@
             <PropertyRef Name="lineID" />
           </Key>
           <Property Name="lineID" Type="Int32" Nullable="false" />
-          <Property Name="orderID" Type="Int32" />
+          <Property Name="orderID" Type="String" />
           <Property Name="productID" Type="Int32" />
           <Property Name="variationID" Type="Int32" />
           <Property Name="quantity" Type="Int32" />
@@ -269,7 +271,7 @@
           <Key>
             <PropertyRef Name="orderID" />
           </Key>
-          <Property Name="orderID" Type="Int32" Nullable="false" />
+          <Property Name="orderID" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
           <Property Name="createdDT" Type="DateTime" Precision="3" />
           <Property Name="shippedDT" Type="DateTime" Precision="3" />
           <Property Name="userID" Type="Int32" />
@@ -291,7 +293,7 @@
           <Property Name="state" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="branchID" Type="Int32" />
           <Property Name="isPickup" Type="Boolean" />
-          <Property Name="orderID" Type="Int32" Nullable="false" />
+          <Property Name="orderID" Type="String" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="pointLine">
@@ -443,6 +445,7 @@
           <EntitySetMapping Name="cartItems">
             <EntityTypeMapping TypeName="mssdbEntity.cartItem">
               <MappingFragment StoreEntitySet="cartItem">
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="imagePath" ColumnName="imagePath" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="unitCost" ColumnName="unitCost" />

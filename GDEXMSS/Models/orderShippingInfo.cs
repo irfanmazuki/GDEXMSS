@@ -23,7 +23,7 @@ namespace GDEXMSS.Models
         public string state { get; set; }
         public Nullable<int> branchID { get; set; }
         public Nullable<bool> isPickup { get; set; }
-        public int orderID { get; set; }
+        public string orderID { get; set; }
         public string name { get; set; }
     }
 }

@@ -23,5 +23,6 @@ namespace GDEXMSS.Models
         public Nullable<decimal> unitCost { get; set; }
         public Nullable<decimal> total { get; set; }
         public string imagePath { get; set; }
+        public string orderID { get; set; }
     }
 }

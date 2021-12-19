@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GDEXMSS.Models.order>
+﻿@model GDEXMSS.Models.combinedOrderList
 @{
     ViewBag.Title = "Registration";
     Layout = null;
@@ -273,42 +273,56 @@
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>@Html.DisplayNameFor(model => model.createdDT)</th>
-                                        <th>@Html.DisplayNameFor(model => model.orderID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.userID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.amountPaid)</th>
-                                        <th>@Html.DisplayNameFor(model => model.consignment)</th>
+                                        <th>@Html.DisplayNameFor(model => model.order.createdDT)</th>
+                                        <th>@Html.DisplayNameFor(model => model.order.orderID)</th>
+                                        <th>@Html.DisplayNameFor(model => model.order.amountPaid)</th>
+                                        <th>Tracking Number</th>
                                         <th>Items</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.createdDT)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.orderID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.userID)
-                                        </td>
-                                        <td>
-                                            RM
-                                            @Html.DisplayFor(modelItem => item.amountPaid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.consignment)
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.status)
-                                        </td>
+                                    @foreach (var item in Model.listOrder)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.createdDT)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.orderID)
+                                            </td>
+                                            <td>
+                                                RM
+                                                @Html.DisplayFor(modelItem => item.amountPaid)
+                                            </td>
+                                            <td>
+                                                <h4><a class="badge bg-warning text-white" onclick="linkTrack(this.innerText)">@Html.DisplayFor(modelItem => item.consignment)</a></h4>
+                                                <script src="//www.tracking.my/track-button.js"></script>
+                                                <script>
+                                                    function linkTrack(num) {
+                                                        TrackButton.track({
+                                                            tracking_no: num
+                                                        });
+                                                    }
+                                                </script>
+                                            </td>
+                                            <td>
+                                                @{ 
+                                                    foreach(var cart in Model.listItems)
+                                                    {
+                                                        if (cart.orderID == item.orderID)
+                                                        {
+                                                            <li>@cart.productName x @cart.quantity</li>
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Check", "Details", new { orderID = item.orderID }, new { @class = "badge bg-primary text-white" })
+                                            </td>
 
-                                    </tr>
-                                }
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

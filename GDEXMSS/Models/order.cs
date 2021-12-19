@@ -19,7 +19,7 @@ namespace GDEXMSS.Models
     {
         [Key]
         [DisplayName("Order ID")]
-        public int orderID { get; set; }
+        public string orderID { get; set; }
         [DisplayName("Created Date Time")]
         public Nullable<System.DateTime> createdDT { get; set; }
         [DisplayName("Shipped Date Time")]
@@ -36,7 +36,15 @@ namespace GDEXMSS.Models
     {
         public order order { get; set; }
         public orderShippingInfo orderShippingInfo { get; set; }
-        public orderLine orderLine { get; set; }
-        public List<orderLine> listItems { get; set; }
+        public cartItem cartItem { get; set; }
+        public List<cartItem> listItems { get; set; }
+    }
+    public class combinedOrderList
+    {
+        public order order { get; set; }
+        public List<order> listOrder { get; set; }
+        public orderShippingInfo orderShippingInfo { get; set; }
+        public cartItem cartItem { get; set; }
+        public List<cartItem> listItems { get; set; }
     }
 }

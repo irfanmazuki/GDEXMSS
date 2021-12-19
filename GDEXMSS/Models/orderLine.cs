@@ -15,7 +15,7 @@ namespace GDEXMSS.Models
     public partial class orderLine
     {
         public int lineID { get; set; }
-        public Nullable<int> orderID { get; set; }
+        public string orderID { get; set; }
         public Nullable<int> productID { get; set; }
         public Nullable<int> variationID { get; set; }
         public Nullable<int> quantity { get; set; }

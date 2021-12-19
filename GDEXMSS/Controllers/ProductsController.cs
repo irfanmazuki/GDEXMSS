@@ -106,6 +106,50 @@ namespace GDEXMSS.Controllers
             }
             return RedirectToAction("Cart");
         }
+        [UserSessionCheck]
+        [HttpGet]
+        public ActionResult Checkout()
+        {
+            combinedOrderModel objModel = new combinedOrderModel();
+            return View(objModel);
+        }
+        [UserSessionCheck]
+        [HttpPost]
+        public ActionResult Checkout(combinedOrderModel objModel)
+        {
+            mssdbModel dbModel = new mssdbModel();
+            decimal totalRM = 0;
+            var orderID = Guid.NewGuid().ToString("N");
+            //cartItem
+            listCartItem = Session["CartItem"] as List<cartItem>;
+            foreach (var item in listCartItem)
+            {
+                cartItem objCartItem = new cartItem();
+                objCartItem = item;
+                objCartItem.orderID = orderID;
+                totalRM += item.total.GetValueOrDefault(0.00M);
+                dbModel.cartItems.Add(objCartItem);
+                dbModel.SaveChanges();
+            }
+            //order
+            order objOrder = new order();
+            objOrder = objModel.order;
+            objOrder.status = "new";
+            objOrder.amountPaid = totalRM;
+            objOrder.createdDT = DateTime.Now;
+            objOrder.userID = Int32.Parse(Session["UserID"].ToString());
+            objOrder.orderID = orderID;
+            //orderShippingInfo
+            objModel.orderShippingInfo.orderID = objModel.order.orderID;
+            using (dbModel)
+            {
+                dbModel.orderShippingInfoes.Add(objModel.orderShippingInfo);
+                dbModel.orders.Add(objOrder);
+                dbModel.orders.Add(objModel.order);
+                dbModel.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
         [AdminSessionCheck]
         [HttpGet]
         public ActionResult Add()

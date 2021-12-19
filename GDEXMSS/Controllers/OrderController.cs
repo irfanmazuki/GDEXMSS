@@ -29,17 +29,17 @@ namespace GDEXMSS.Controllers
             var orderList = (from order in dbModel.orders select order).ToList();
             return View(orderList);
         }
-        public ActionResult Process(int orderID)
+        public ActionResult Process(string orderID)
         {
             var orderShippingInfoRecord = (from orderShippingInfo in dbModel.orderShippingInfoes where orderShippingInfo.orderID == orderID select orderShippingInfo).FirstOrDefault();
             var orderRecord = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
-            var orderItems = (from orderLine in dbModel.orderLines where orderLine.orderID == orderID select orderLine).ToList();
+            var cartItems = (from cartItem in dbModel.cartItems where cartItem.orderID == orderID select cartItem).ToList();
             combinedOrderModel objModel = new combinedOrderModel();
             objModel.orderShippingInfo = orderShippingInfoRecord;
             objModel.order = orderRecord;
-            if (orderItems != null)
+            if (cartItems != null)
             {
-                objModel.listItems = orderItems;
+                objModel.listItems = cartItems;
             }
             return View(objModel);
         }
@@ -65,11 +65,16 @@ namespace GDEXMSS.Controllers
         {
             return View();
         }
+        [UserSessionCheck]
         [HttpGet]
         public ActionResult History()
         {
-            var orderList = (from order in dbModel.orders select order).ToList();
-            return View(orderList);
+            mssdbModel dbModel = new mssdbModel();
+            int userID = Int32.Parse(Session["UserID"].ToString());
+            combinedOrderList orderModel = new combinedOrderList();
+            orderModel.listOrder = (from order in dbModel.orders where order.userID == userID select order).ToList();
+            orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
+            return View(orderModel);
         }
     }
 }
