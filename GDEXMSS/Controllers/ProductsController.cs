@@ -7,6 +7,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GDEXMSS.Models;
+using HtmlAgilityPack;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+using Syncfusion.HtmlConverter;
+using Syncfusion.Pdf;
 
 namespace GDEXMSS.Controllers
 {
@@ -121,8 +127,8 @@ namespace GDEXMSS.Controllers
             decimal totalRM = 0;
             var orderID = Guid.NewGuid().ToString("N");
             //cartItem
-            listCartItem = Session["CartItem"] as List<cartItem>;
-            foreach (var item in listCartItem)
+            objModel.listItems = Session["CartItem"] as List<cartItem>;
+            foreach (var item in objModel.listItems)
             {
                 cartItem objCartItem = new cartItem();
                 objCartItem = item;
@@ -148,7 +154,42 @@ namespace GDEXMSS.Controllers
                 dbModel.orders.Add(objModel.order);
                 dbModel.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Receipt", new { @orderID = orderID });
+        }
+        [UserSessionCheck]
+        [HttpGet]
+        public ActionResult Receipt(string orderID)
+        {
+            combinedOrderModel objOrder = new combinedOrderModel();
+            objOrder.listItems = (from cartItem in dbModel.cartItems where cartItem.orderID == orderID select cartItem).ToList();
+            objOrder.order = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
+            objOrder.orderShippingInfo = (from orderShippingInfo in dbModel.orderShippingInfoes where orderShippingInfo.orderID == orderID select orderShippingInfo).FirstOrDefault();
+            return View(objOrder);
+        }
+        [UserSessionCheck]
+        [HttpPost]
+        [ValidateInput(false)]
+        public FileResult Export(string GridHtml)
+        {
+            //thanks to this https://dotnetgenetics.blogspot.com/2017/11/invalid-nested-tag-div-found-expected.html 
+            //and this https://www.aspsnippets.com/Articles/MVC-iTextSharp-Example-Convert-HTML-to-PDF-using-iTextSharp-in-ASPNet-MVC.aspx
+            HtmlNode.ElementsFlags["img"] = HtmlElementFlag.Closed;
+            HtmlNode.ElementsFlags["input"] = HtmlElementFlag.Closed;
+            HtmlDocument doc = new HtmlDocument();
+            doc.OptionFixNestedTags = true;
+            doc.LoadHtml(GridHtml);
+            GridHtml = doc.DocumentNode.OuterHtml;
+
+            using (MemoryStream stream = new System.IO.MemoryStream())
+            {
+                StringReader sr = new StringReader(GridHtml);
+                Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+                XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                pdfDoc.Close();
+                return File(stream.ToArray(), "application/pdf", "Grid.pdf");
+            }
         }
         [AdminSessionCheck]
         [HttpGet]

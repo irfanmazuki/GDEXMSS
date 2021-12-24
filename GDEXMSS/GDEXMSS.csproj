@@ -45,11 +45,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.39.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.39\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.2\lib\itextsharp.xmlworker.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -87,6 +99,15 @@
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Portable, Version=19.4200.0.38, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.HtmlToPdfConverter.QtWebKit.Net.Core.19.4.0.38\lib\netstandard2.0\Syncfusion.Compression.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.HtmlConverter.Portable, Version=19.4200.0.38, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.HtmlToPdfConverter.QtWebKit.Net.Core.19.4.0.38\lib\netstandard2.0\Syncfusion.HtmlConverter.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Portable, Version=19.4200.0.38, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.HtmlToPdfConverter.QtWebKit.Net.Core.19.4.0.38\lib\netstandard2.0\Syncfusion.Pdf.Portable.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -398,6 +419,44 @@
     <Content Include="Content\login\js\jquery.min.js" />
     <Content Include="Content\login\js\main.js" />
     <Content Include="Content\login\js\popper.js" />
+    <Content Include="Content\QtBinariesWindows\icudt49.dll" />
+    <Content Include="Content\QtBinariesWindows\icuin49.dll" />
+    <Content Include="Content\QtBinariesWindows\icuuc49.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qdds.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qgif.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qicns.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qico.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qjp2.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qjpeg.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qmng.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qsvg.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qtga.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qtiff.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qwbmp.dll" />
+    <Content Include="Content\QtBinariesWindows\imageformats\qwebp.dll" />
+    <Content Include="Content\QtBinariesWindows\libEGL.dll" />
+    <Content Include="Content\QtBinariesWindows\libGLESv2.dll" />
+    <Content Include="Content\QtBinariesWindows\platforms\qminimal.dll" />
+    <Content Include="Content\QtBinariesWindows\platforms\qoffscreen.dll" />
+    <Content Include="Content\QtBinariesWindows\platforms\qwindows.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Core.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Gui.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Multimedia.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5MultimediaWidgets.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Network.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5OpenGL.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Positioning.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5PrintSupport.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Qml.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Quick.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Sensors.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Sql.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Svg.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5WebChannel.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5WebKit.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5WebKitWidgets.dll" />
+    <Content Include="Content\QtBinariesWindows\Qt5Widgets.dll" />
+    <Content Include="Content\QtBinariesWindows\zlib1.dll" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -550,6 +609,7 @@
     <Content Include="Content\login\scss\bootstrap\_utilities.scss" />
     <Content Include="Content\login\scss\bootstrap\_variables.scss" />
     <Content Include="Content\login\scss\style.scss" />
+    <Content Include="Content\QtBinariesWindows\Syncfusion.WebKitWrapper" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
@@ -617,6 +677,7 @@
     <Content Include="Views\Category\Add.cshtml" />
     <Content Include="Views\Wallet\UserList.cshtml" />
     <Content Include="Views\Products\Checkout.cshtml" />
+    <Content Include="Views\Products\Receipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

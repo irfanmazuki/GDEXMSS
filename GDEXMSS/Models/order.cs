@@ -14,6 +14,7 @@ namespace GDEXMSS.Models
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Web.Mvc;
 
     public partial class order
     {
@@ -38,6 +39,8 @@ namespace GDEXMSS.Models
         public orderShippingInfo orderShippingInfo { get; set; }
         public cartItem cartItem { get; set; }
         public List<cartItem> listItems { get; set; }
+        [AllowHtml]
+        public string ExportHTML { get; set; }
     }
     public class combinedOrderList
     {
