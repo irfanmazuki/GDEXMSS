@@ -229,6 +229,14 @@ namespace GDEXMSS.Controllers
             var productList = (from product in db.products select product).ToList();
             return View(productList);
         }
+        [AdminSessionCheck]
+        [HttpGet]
+        public ActionResult ListTest()
+        {
+            mssdbModel db = new mssdbModel();
+            var productList = (from product in db.products select product).ToList();
+            return View(productList);
+        }
         public ActionResult Suggested()
         {
             return View();

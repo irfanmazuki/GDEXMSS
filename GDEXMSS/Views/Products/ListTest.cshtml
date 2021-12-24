@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<GDEXMSS.Models.product>
 @{
-    ViewBag.Title = "Products List";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+ViewBag.Title = "Products List";
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<!-- Start Checkout -->
 <section class="shop checkout section">
     <div class="container">
         <div class="row">
@@ -59,46 +58,45 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.productID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.quantity)
-                                        </td>
-                                        <td>
-                                            RM
-                                            @Html.DisplayFor(modelItem => item.unitCost)
-                                        </td>
-                                        <td>
-                                            @if (item.isExist == false)
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.productID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.quantity)
+                                    </td>
+                                    <td>
+                                        RM
+                                        @Html.DisplayFor(modelItem => item.unitCost)
+                                    </td>
+                                    <td>
+                                        @if (item.isExist == false)
+                                        {
+
+
+                                            <h5><span class="badge bg-danger">Discontinued</span></h5>
+                                        }
+                                        else
+                                        {
+                                            if (item.quantity == 0)
                                             {
-
-
-                                                <h5><span class="badge bg-danger">Discontinued</span></h5>
-                                            }
-                                            else
+                                                <h5><span class="badge bg-warning">Sold Out</span></h5>
+                                            }if (item.quantity > 0)
                                             {
-                                                if (item.quantity == 0)
-                                                {
-                                                    <h5><span class="badge bg-warning">Sold Out</span></h5>
-                                                }
-                                                if (item.quantity > 0)
-                                                {
-                                                    <h5><span class="badge bg-success">Available</span></h5>
-                                                }
+                                                <h5><span class="badge bg-success">Available</span></h5>
                                             }
+                                        }
 
-                                        </td>
-                                        <td>
-                                            @* Route value more than 1? how *@
-                                            @Html.ActionLink("Edit", "Edit", new { productID = item.productID, actions = "edit" }, new { @class = "badge bg-primary" })
-                                            @Html.ActionLink("Delete", "Edit", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-danger" })
-                                        </td>
-                                    </tr>
+                                    </td>
+                                    <td>
+                                        @* Route value more than 1? how *@
+                                        @Html.ActionLink("Edit", "Edit", new { productID = item.productID, actions = "edit" }, new { @class = "badge bg-primary" }) 
+                                        @Html.ActionLink("Delete", "Edit", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-danger" })
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
@@ -110,4 +108,5 @@
         </div>
     </div>
 </section>
-<!--/ End Checkout -->
+
+

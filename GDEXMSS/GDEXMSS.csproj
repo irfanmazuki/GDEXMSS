@@ -678,6 +678,9 @@
     <Content Include="Views\Wallet\UserList.cshtml" />
     <Content Include="Views\Products\Checkout.cshtml" />
     <Content Include="Views\Products\Receipt.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Products\ListTest.cshtml" />
+    <Content Include="Views\Shared\_UserLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
