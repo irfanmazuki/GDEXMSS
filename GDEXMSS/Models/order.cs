@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 namespace GDEXMSS.Models
-{
+{ 
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -32,6 +32,7 @@ namespace GDEXMSS.Models
         public Nullable<int> pointRedeemed { get; set; }
         public Nullable<decimal> amountPaid { get; set; }
         public string consignment { get; set; }
+        public Nullable<decimal> totalCost { get; set; }
     }
     public class combinedOrderModel
     {

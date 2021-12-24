@@ -147,6 +147,7 @@ namespace GDEXMSS.Controllers
             objOrder.orderID = orderID;
             //orderShippingInfo
             objModel.orderShippingInfo.orderID = objModel.order.orderID;
+            objModel.orderShippingInfo.cost = decimal.Parse("5.00");
             using (dbModel)
             {
                 dbModel.orderShippingInfoes.Add(objModel.orderShippingInfo);

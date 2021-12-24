@@ -71,6 +71,7 @@
           <Property Name="pointRedeemed" Type="int" />
           <Property Name="amountPaid" Type="decimal" Precision="10" Scale="2" />
           <Property Name="consignment" Type="varchar" MaxLength="200" />
+          <Property Name="totalCost" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="orderShippingInfo">
           <Key>
@@ -259,7 +260,7 @@
             <PropertyRef Name="lineID" />
           </Key>
           <Property Name="lineID" Type="Int32" Nullable="false" />
-          <Property Name="orderID" Type="String" />
+          <Property Name="orderID" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
           <Property Name="productID" Type="Int32" />
           <Property Name="variationID" Type="Int32" />
           <Property Name="quantity" Type="Int32" />
@@ -279,6 +280,7 @@
           <Property Name="pointRedeemed" Type="Int32" />
           <Property Name="amountPaid" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="consignment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="totalCost" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="orderShippingInfo">
           <Key>
@@ -293,7 +295,7 @@
           <Property Name="state" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="branchID" Type="Int32" />
           <Property Name="isPickup" Type="Boolean" />
-          <Property Name="orderID" Type="String" Nullable="false" />
+          <Property Name="orderID" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="pointLine">
@@ -485,6 +487,7 @@
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="mssdbEntity.order">
               <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="totalCost" ColumnName="totalCost" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="createdDT" ColumnName="createdDT" />
                 <ScalarProperty Name="shippedDT" ColumnName="shippedDT" />
