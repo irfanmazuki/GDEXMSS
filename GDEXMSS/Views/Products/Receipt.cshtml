@@ -3,140 +3,141 @@
     ViewBag.Title = "Order Details";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-    <!-- Start Checkout -->
+<!-- Start Checkout -->
 
-    <section class="shop checkout section">
-        <div class="container" id="PrintPDF">
-            <div class="row">
-                <div class="col-12">
-                    <div class="checkout-form">
-                        <!-- Form -->
+<section class="shop checkout section">
+    <div class="container" id="PrintPDF">
+        <div class="row">
+            <div class="col-12">
+                <div class="checkout-form">
+                    <!-- Form -->
 
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.order.shippedDT, new { htmlAttributes = new { @readonly = "readonly" } })
-                        @Html.HiddenFor(model => model.order.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
-                        @Html.HiddenFor(model => model.order.status, new { htmlAttributes = new { @readonly = "readonly" } })
-                        @Html.HiddenFor(model => model.order.pointRedeemed, new { htmlAttributes = new { @readonly = "readonly" } })
-                        @Html.HiddenFor(model => model.order.amountPaid, new { htmlAttributes = new { @readonly = "readonly" } })
-                        @Html.HiddenFor(model => model.order.consignment, new { htmlAttributes = new { @readonly = "readonly" } })
-                        @Html.HiddenFor(model => model.orderShippingInfo.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
-                        @Html.HiddenFor(model => model.orderShippingInfo.cost, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.order.shippedDT, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.order.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.order.status, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.order.pointRedeemed, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.order.amountPaid, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.order.consignment, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.orderShippingInfo.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.orderShippingInfo.cost, new { htmlAttributes = new { @readonly = "readonly" } })
 
-                        <div class="container px-0">
-                            <div><strong>Order ID:</strong> <span>@Model.order.orderID</span></div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="">
-                                        <div class="my-2">
-                                            <strong>Receiver Name:</strong> @Model.orderShippingInfo.name
-                                        </div>
-                                        <div class=my-2>
-                                            @Model.orderShippingInfo.address
-                                        </div>
-                                        <div class=my-2>
-                                            @Model.orderShippingInfo.poscode , @Model.orderShippingInfo.city
-                                        </div>
-                                        <div class=my-2>
-                                            @Model.orderShippingInfo.state
-                                        </div>
+                    <div class="container px-0">
+                        <div><strong>Order ID:</strong> <span>@Model.order.orderID</span></div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <div class="my-2">
+                                        <strong>Receiver Name:</strong> @Model.orderShippingInfo.name
+                                    </div>
+                                    <div class=my-2>
+                                        @Model.orderShippingInfo.address
+                                    </div>
+                                    <div class=my-2>
+                                        @Model.orderShippingInfo.poscode , @Model.orderShippingInfo.city
+                                    </div>
+                                    <div class=my-2>
+                                        @Model.orderShippingInfo.state
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="">
-                                        <div class="my-2">
-                                            <strong>Receipt</strong>
-                                        </div>
-                                        <div class=my-2>
-                                            <strong>Order Date:</strong> @Model.order.createdDT
-                                        </div>
-                                        <div class=my-2>
-                                            <strong>Tracking Number:</strong> @Model.order.consignment
-                                        </div>
-                                        <div class=my-2>
-                                            <strong>Status: </strong> @Model.order.status
-                                        </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <div class="my-2">
+                                        <strong>Receipt</strong>
+                                    </div>
+                                    <div class=my-2>
+                                        <strong>Order Date:</strong> @Model.order.createdDT
+                                    </div>
+                                    <div class=my-2>
+                                        <strong>Tracking Number:</strong> @Model.order.consignment
+                                    </div>
+                                    <div class=my-2>
+                                        <strong>Status: </strong> @Model.order.status
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <p></p>
-                        <div class="container">
-                            <div class="col-8">
-                                <div class="card-body table-responsive p-0">
-                                    <table class="table table-hover text-nowrap">
-                                        <strong>Order Summary</strong>
-                                        <thead>
-                                            <tr>
-                                                <th>Item</th>
-                                                <th>Quantity</th>
-                                                <th>Price per unit</th>
-                                                <th>Total Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{ decimal totalcost = 0;}
-                                            @foreach (var item in Model.listItems)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.productName)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.quantity)
-                                                    </td>
-                                                    <td>
-                                                        RM @Html.DisplayFor(modelItem => item.unitCost)
-                                                    </td>
-                                                    <td>
-                                                        RM @Html.DisplayFor(modelItem => item.unitCost)
-                                                    </td>
-                                                    @{ totalcost += item.unitCost.GetValueOrDefault();}
-                                                </tr>
-                                            }
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <th>Sub Total</th>
-                                                <td>RM @totalcost</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <th>Points Used</th>
-                                                <td>0</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <th>Postage</th>
-                                                @*<td>RM @Html.DisplayFor(model => model.orderShippingInfo.cost)</td>*@
-                                            </tr>
-                                            <tr>
-                                                @*@{ totalcost += Model.orderShippingInfo.cost.GetValueOrDefault();}*@
-                                                <td></td>
-                                                <td></td>
-                                                <th>Total</th>
-                                                <td>RM @totalcost</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--/ End Form -->
                     </div>
+                    <p></p>
+                    <div class="container">
+                        <div class="col-8">
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                    <strong>Order Summary</strong>
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Quantity</th>
+                                            <th>Price per unit</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{ decimal totalcost = 0;}
+                                        @foreach (var item in Model.listItems)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.productName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.quantity)
+                                                </td>
+                                                <td>
+                                                    RM @Html.DisplayFor(modelItem => item.unitCost)
+                                                </td>
+                                                <td>
+                                                    RM @Html.DisplayFor(modelItem => item.unitCost)
+                                                </td>
+                                                @{ totalcost += item.unitCost.GetValueOrDefault();}
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <th>Sub Total</th>
+                                            <td>RM @totalcost</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <th>Points Used</th>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <th>Postage</th>
+                                            <td>RM @Model.orderShippingInfo.cost</td>
+                                        </tr>
+                                        <tr>
+                                            @*@{ totalcost += Model.orderShippingInfo.cost.GetValueOrDefault();}*@
+                                            <td></td>
+                                            <td></td>
+                                            <th>Total</th>
+                                            <td>RM @Model.order.amountPaid</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--/ End Form -->
                 </div>
             </div>
-            @using (Html.BeginForm("Export", "Products", FormMethod.Post))
-            {
-                <div class="form-group">
-                    <div class="col-4">
-                        <input type="hidden" name="GridHtml" />
-                        <input type="submit" value="Print receipt" id="btnSubmit" class="btn bg-primary" />
-                    </div>
-                </div>
-            }
         </div>
-    </section>
+        @using (Html.BeginForm("Export", "Products", FormMethod.Post))
+        {
+            <div class="form-group">
+                <div class="col-4">
+                    <input type="hidden" name="GridHtml" />
+                    <input type="submit" value="Print receipt" id="btnSubmit" class="btn bg-primary" />
+                </div>
+            </div>
+        }
+    </div>
+</section>
+

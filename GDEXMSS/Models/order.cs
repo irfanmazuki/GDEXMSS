@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 namespace GDEXMSS.Models
-{ 
+{
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -40,8 +40,7 @@ namespace GDEXMSS.Models
         public orderShippingInfo orderShippingInfo { get; set; }
         public cartItem cartItem { get; set; }
         public List<cartItem> listItems { get; set; }
-        [AllowHtml]
-        public string ExportHTML { get; set; }
+        public mssSystem mssSystem { get; set; }
     }
     public class combinedOrderList
     {

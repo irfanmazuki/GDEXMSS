@@ -154,7 +154,7 @@
                                         <div class="nav-inner">
                                             <ul class="nav main-menu menu navbar-nav">
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Products" ? "active" : "")">@Html.ActionLink("Home", "Index", "Products")</li>
-                                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active" : "")">@Html.ActionLink("Profile", "Profile", "User")</li>   
+                                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active" : "")">@Html.ActionLink("Profile", "Profile", "User")</li>
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Order" ? "active" : "")">@Html.ActionLink("Order History", "History", "Order")</li>
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Wallet" ? "active" : "")">
                                                     <a href="#">Wallet<i class="fa fa-solid fa-chevron-down"></i></a>
@@ -283,6 +283,13 @@
     <!-- /End Footer Area -->
     <!-- Jquery -->
     <script src="~/Content/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#PrintPDF").html());
+            });
+        });
+    </script>
     <script src="~/Content/js/jquery-migrate-3.0.0.js"></script>
     <script src="~/Content/js/jquery-ui.min.js"></script>
     <!-- Popper JS -->

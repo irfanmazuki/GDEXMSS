@@ -46,6 +46,17 @@
           <Property Name="availablePoints" Type="int" />
           <Property Name="amountRM" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="mssSystem">
+          <Key>
+            <PropertyRef Name="mss_ID" />
+          </Key>
+          <Property Name="mss_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mss_Category" Type="varchar" MaxLength="100" />
+          <Property Name="mss_Name" Type="varchar" MaxLength="200" />
+          <Property Name="mss_Description" Type="varchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="orderLine">
           <Key>
             <PropertyRef Name="lineID" />
@@ -209,6 +220,14 @@
           <EntitySet Name="transactionHistoryWallet" EntityType="Self.transactionHistoryWallet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="userRole" EntityType="Self.userRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mssSystem" EntityType="Self.mssSystem" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [mssSystem].[mss_ID] AS [mss_ID], 
+    [mssSystem].[mss_Category] AS [mss_Category], 
+    [mssSystem].[mss_Name] AS [mss_Name], 
+    [mssSystem].[mss_Description] AS [mss_Description]
+    FROM [dbo].[mssSystem] AS [mssSystem]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -418,7 +437,17 @@
           <EntitySet Name="transactionHistoryWallets" EntityType="Self.transactionHistoryWallet" />
           <EntitySet Name="users" EntityType="Self.user" />
           <EntitySet Name="userRoles" EntityType="Self.userRole" />
+          <EntitySet Name="mssSystems" EntityType="mssdbEntity.mssSystem" />
         </EntityContainer>
+        <EntityType Name="mssSystem">
+          <Key>
+            <PropertyRef Name="mss_ID" />
+          </Key>
+          <Property Name="mss_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mss_Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mss_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="mss_Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -625,6 +654,16 @@
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="user_type" ColumnName="user_type" />
                 <ScalarProperty Name="employee_ID" ColumnName="employee_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mssSystems">
+            <EntityTypeMapping TypeName="mssdbEntity.mssSystem">
+              <MappingFragment StoreEntitySet="mssSystem">
+                <ScalarProperty Name="mss_Description" ColumnName="mss_Description" />
+                <ScalarProperty Name="mss_Name" ColumnName="mss_Name" />
+                <ScalarProperty Name="mss_Category" ColumnName="mss_Category" />
+                <ScalarProperty Name="mss_ID" ColumnName="mss_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

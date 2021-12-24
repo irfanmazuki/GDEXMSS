@@ -117,6 +117,7 @@ namespace GDEXMSS.Controllers
         public ActionResult Checkout()
         {
             combinedOrderModel objModel = new combinedOrderModel();
+            objModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
             return View(objModel);
         }
         [UserSessionCheck]
@@ -126,6 +127,9 @@ namespace GDEXMSS.Controllers
             mssdbModel dbModel = new mssdbModel();
             decimal totalRM = 0;
             var orderID = Guid.NewGuid().ToString("N");
+            //mssSystem
+            objModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
+            decimal shippingFee = decimal.Parse(objModel.mssSystem.mss_Description.ToString());
             //cartItem
             objModel.listItems = Session["CartItem"] as List<cartItem>;
             foreach (var item in objModel.listItems)
@@ -141,13 +145,13 @@ namespace GDEXMSS.Controllers
             order objOrder = new order();
             objOrder = objModel.order;
             objOrder.status = "new";
-            objOrder.amountPaid = totalRM;
+            objOrder.amountPaid = totalRM + shippingFee;
             objOrder.createdDT = DateTime.Now;
             objOrder.userID = Int32.Parse(Session["UserID"].ToString());
             objOrder.orderID = orderID;
             //orderShippingInfo
             objModel.orderShippingInfo.orderID = objModel.order.orderID;
-            objModel.orderShippingInfo.cost = decimal.Parse("5.00");
+            objModel.orderShippingInfo.cost = shippingFee;
             using (dbModel)
             {
                 dbModel.orderShippingInfoes.Add(objModel.orderShippingInfo);
@@ -244,10 +248,11 @@ namespace GDEXMSS.Controllers
         }
         [AdminSessionCheck]
         [HttpGet]
-        public ActionResult Details()
+        public ActionResult Details(int productID)
         {
-            product dbModel = new product();
-            return View(dbModel);
+            product objProduct = new product();
+            objProduct = (from product in dbModel.products where product.productID == productID select product).FirstOrDefault();
+            return View(objProduct);
         }
         [AdminSessionCheck]
         public ActionResult Edit(int productID, string actions)
@@ -315,6 +320,21 @@ namespace GDEXMSS.Controllers
                 return RedirectToAction("List");
             }
         }
+        [UserSessionCheck]
+        [HttpGet]
+        public ActionResult Received(string orderID)
+        {
+            order objOrder = new order();
+            objOrder = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
+            objOrder.status = "received";
+            dbModel.SaveChanges();
+            return RedirectToAction("History","Order");
+        }
+        //[UserSessionCheck]
+        //[HttpGet]
+        //public ActionResult Review(string orderID)
+        //{
 
+        //}
     }
 }

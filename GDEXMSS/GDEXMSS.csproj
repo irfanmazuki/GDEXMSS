@@ -254,6 +254,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>mssdbModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\mssSystem.cs">
+      <DependentUpon>mssdbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\order.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
