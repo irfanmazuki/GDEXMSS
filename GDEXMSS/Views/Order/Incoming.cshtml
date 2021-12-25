@@ -1,80 +1,85 @@
-﻿@model IEnumerable<GDEXMSS.Models.order>
+﻿@model GDEXMSS.Models.combinedOrderList
 @{
     ViewBag.Title = "New Order";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-    <!-- Start Checkout -->
-    <section class="shop checkout section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="navbar nav ml-auto">
-                                <li class="mr-auto p-2">
-                                    <h2 class="card-title">Incoming Orders</h2>
-                                </li>
-                                <li class="p-2">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
+<!-- Start Checkout -->
+<section class="shop checkout section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="navbar nav ml-auto">
+                            <li class="mr-auto p-2">
+                                <h2 class="card-title">Incoming Orders</h2>
+                            </li>
+                            <li class="p-2">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>@Html.DisplayNameFor(model => model.createdDT)</th>
-                                        <th>@Html.DisplayNameFor(model => model.orderID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.userID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.amountPaid)</th>
-                                        <th>@Html.DisplayNameFor(model => model.consignment)</th>
-                                        <th>Items</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.createdDT)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.orderID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.userID)
-                                        </td>
-                                        <td>
-                                            RM
-                                            @Html.DisplayFor(modelItem => item.amountPaid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.consignment)
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.status)
-                                        </td>
-
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- /.card -->
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.order.createdDT)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.orderID)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.userID)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.amountPaid)</th>
+                                    <th>Items</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.listOrder)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.createdDT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.orderID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.userID)
+                                    </td>
+                                    <td>
+                                        RM
+                                        @Html.DisplayFor(modelItem => item.amountPaid)
+                                    </td>
+                                    <td>
+                                        @{
+                                            foreach (var cart in Model.listItems)
+                                            {
+                                                if (cart.orderID == item.orderID)
+                                                {
+                                                    <li>@cart.productName x @cart.quantity</li>
+                                                }
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Process", "Process", new { orderID = item.orderID }, new { @class = "badge bg-primary" })
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
+                <!-- /.card -->
             </div>
         </div>
-    </section>
-    <!--/ End Checkout -->
+    </div>
+</section>
+<!--/ End Checkout -->

@@ -1,97 +1,106 @@
-﻿@model IEnumerable<GDEXMSS.Models.order>
+﻿@model GDEXMSS.Models.combinedOrderList
 @{
     ViewBag.Title = "Order List";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-    <!-- Start Checkout -->
-    <section class="shop checkout section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="navbar nav ml-auto">
-                                <li class="mr-auto p-2">
-                                    <h2 class="card-title">Order History</h2>
-                                </li>
-                                <li class="p-2">
-                                    <div class="form-group form-group-sm" style="width: 210px;">
-                                        <select name="state-province" id="state-province">
-                                            <option selected="selected" disabled>Sort by</option>
-                                            <option>Default</option>
-                                            <option>ID (Ascending)</option>
-                                            <option>ID (Descending)</option>
-                                            <option>Delivering</option>
-                                            <option>Cancelled</option>
-                                            <option>Delivered</option>
-                                        </select>
+<!-- Start Checkout -->
+<section class="shop checkout section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="navbar nav ml-auto">
+                            <li class="mr-auto p-2">
+                                <h2 class="card-title">Order History</h2>
+                            </li>
+                            <li class="p-2">
+                                <div class="form-group form-group-sm" style="width: 210px;">
+                                    <select name="state-province" id="state-province">
+                                        <option selected="selected" disabled>Sort by</option>
+                                        <option>Default</option>
+                                        <option>ID (Ascending)</option>
+                                        <option>ID (Descending)</option>
+                                        <option>Delivering</option>
+                                        <option>Cancelled</option>
+                                        <option>Delivered</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="p-2">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
                                     </div>
-                                </li>
-                                <li class="p-2">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>@Html.DisplayNameFor(model => model.createdDT)</th>
-                                        <th>@Html.DisplayNameFor(model => model.orderID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.userID)</th>
-                                        <th>@Html.DisplayNameFor(model => model.amountPaid)</th>
-                                        <th>@Html.DisplayNameFor(model => model.consignment)</th>
-                                        <th>Status</th>
-                                        <th>Items</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.createdDT)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.orderID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.userID)
-                                        </td>
-                                        <td>
-                                            RM
-                                            @Html.DisplayFor(modelItem => item.amountPaid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.consignment)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.status)
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            @Html.ActionLink("Process", "Process", new { orderID = item.orderID }, new { @class = "badge bg-primary" })
-                                        </td>
-
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- /.card -->
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.order.createdDT)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.orderID)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.userID)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.amountPaid)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.consignment)</th>
+                                    <th>Status</th>
+                                    <th>Items</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.listOrder)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.createdDT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.orderID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.userID)
+                                    </td>
+                                    <td>
+                                        RM
+                                        @Html.DisplayFor(modelItem => item.amountPaid)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.consignment)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.status)
+                                    </td>
+                                    <td>
+                                        @{
+                                            foreach (var cart in Model.listItems)
+                                            {
+                                                if (cart.orderID == item.orderID)
+                                                {
+                                                    <li>@cart.productName x @cart.quantity</li>
+                                                }
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Process", new { orderID = item.orderID }, new { @class = "badge bg-primary" })
+                                    </td>
+
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
+                <!-- /.card -->
             </div>
         </div>
-    </section>
-    <!--/ End Checkout -->
-
+    </div>
+</section>
+<!--/ End Checkout -->

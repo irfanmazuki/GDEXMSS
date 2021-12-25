@@ -23,6 +23,7 @@ namespace GDEXMSS.Controllers
         [HttpPost]
         public ActionResult Registration(user userModel)
         {
+            eWallet objWallet = new eWallet();
             using(mssdbModel dbModel = new mssdbModel())
             {
                 dbModel.users.Add(userModel);
@@ -64,6 +65,8 @@ namespace GDEXMSS.Controllers
         {
             if (ModelState.IsValid)
             {
+                //create the wallet account if the wallet is not existed yet
+
                 using (mssdbModel db = new mssdbModel())
                 {
                     var obj = db.users.Where(a => a.email.Equals(objUser.email) && a.password.Equals(objUser.password)).FirstOrDefault();

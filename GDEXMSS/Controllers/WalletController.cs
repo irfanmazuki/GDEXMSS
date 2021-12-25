@@ -48,10 +48,14 @@ namespace GDEXMSS.Controllers
             Session["walletID"] = "";
             return RedirectToAction("UserList", new { message = "success" });
         }
-        // GET: Wallet
+        [UserSessionCheck]
+        [HttpGet]
         public ActionResult Balance()
         {
-            return View();
+            int userID = Int32.Parse(Session["userID"].ToString());
+            eWallet objWallet = new eWallet();
+            objWallet = (from eWallet in dbModel.eWallets where eWallet.userID == userID select eWallet).FirstOrDefault();
+            return View(objWallet);
         }
     }
 }

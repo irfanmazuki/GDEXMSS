@@ -47,10 +47,12 @@
                                             </div>
                                             <!--/ End Input Order -->
                                         </td>
+                                        @{ 
+                                            total += item.total.GetValueOrDefault(0.00M);
+                                        }
                                         <td class="total-amount" data-title="Total"><span>@item.total</span></td>
                                         <td class="action" data-title="Remove"><a href="#"><i class="far fa-trash-alt"></i></a></td>
                                     </tr>
-                                    total += item.total.GetValueOrDefault(0.00M);
                                     Session["totalCart"] = total;
                                 }
                             }

@@ -89,7 +89,7 @@ namespace GDEXMSS.Controllers
                         if (item.quantity > 1)
                         {
                             item.quantity--;
-                            item.total -= item.quantity * item.unitCost;
+                            item.total = item.quantity * item.unitCost;
                         }
                         else
                         {
@@ -106,7 +106,7 @@ namespace GDEXMSS.Controllers
                     if (item.productID == productID)
                     {
                         item.quantity++;
-                        item.total += item.quantity * item.unitCost;
+                        item.total = item.quantity * item.unitCost;
                     }
                 }
             }
