@@ -51,15 +51,24 @@ namespace GDEXMSS.Controllers
             {
                 objCartItem = listCartItem.Single(model => model.productID == ItemId);
                 objCartItem.quantity = objCartItem.quantity + 1;
+                if(objCartItem.quantity > objProduct.quantity)
+                {
+                    objCartItem.quantity = objCartItem.quantity - 1;
+                    return Json(new { Success = false, Counter = listCartItem.Count() }, JsonRequestBehavior.AllowGet);
+                }
                 objCartItem.total = objCartItem.quantity * objCartItem.unitCost;
             }
             else
             {
+                objCartItem.quantity = 1;
+                if (objCartItem.quantity > objProduct.quantity)
+                {
+                    return Json(new { Success = false, Counter = listCartItem.Count() }, JsonRequestBehavior.AllowGet);
+                }
                 objCartItem.itemID = 0;
                 objCartItem.productID = ItemId;
                 objCartItem.imagePath = objProduct.imagePath;
                 objCartItem.productName = objProduct.name;
-                objCartItem.quantity = 1;
                 objCartItem.total = objProduct.unitCost;
                 objCartItem.unitCost = objProduct.unitCost;
                 listCartItem.Add(objCartItem);
@@ -138,6 +147,11 @@ namespace GDEXMSS.Controllers
                 objCartItem = item;
                 objCartItem.orderID = orderID;
                 totalRM += item.total.GetValueOrDefault(0.00M);
+                //add sold quantity to the product model and remove from quantity
+                product objProduct = new product();
+                objProduct = (from product in dbModel.products where product.productID == item.productID select product).FirstOrDefault();
+                objProduct.quantitySold = objProduct.quantitySold + item.quantity;
+                objProduct.quantity -= item.quantity;
                 dbModel.cartItems.Add(objCartItem);
                 dbModel.SaveChanges();
             }
@@ -159,6 +173,8 @@ namespace GDEXMSS.Controllers
                 dbModel.orders.Add(objModel.order);
                 dbModel.SaveChanges();
             }
+            Session["CartItem"] = 0;
+            Session["CartCounter"] = 0;
             return RedirectToAction("Receipt", new { @orderID = orderID });
         }
         [UserSessionCheck]
@@ -219,6 +235,8 @@ namespace GDEXMSS.Controllers
             productModel.ImageFile.SaveAs(fileName);
             using (mssdbModel dbModel = new mssdbModel())
             {
+                //set quantity sold to zero
+                productModel.product.quantitySold = 0;
                 dbModel.products.Add(productModel.product);
                 dbModel.SaveChanges();
             }

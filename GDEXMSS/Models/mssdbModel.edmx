@@ -141,6 +141,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="isVariation" Type="bit" />
           <Property Name="isExist" Type="bit" />
           <Property Name="imagePath" Type="varchar(max)" />
+          <Property Name="quantitySold" Type="int" />
         </EntityType>
         <EntityType Name="productVariation">
           <Key>
@@ -372,6 +373,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="isVariation" Type="Boolean" />
           <Property Name="isExist" Type="Boolean" />
           <Property Name="imagePath" Type="String" Unicode="false" FixedLength="false" MaxLength="Max" />
+          <Property Name="quantitySold" Type="Int32" />
         </EntityType>
         <EntityType Name="productVariation">
           <Key>
@@ -607,6 +609,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <EntitySetMapping Name="products">
             <EntityTypeMapping TypeName="mssdbEntity.product">
               <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="quantitySold" ColumnName="quantitySold" />
                 <ScalarProperty Name="productID" ColumnName="productID" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />

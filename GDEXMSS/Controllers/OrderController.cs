@@ -29,7 +29,7 @@ namespace GDEXMSS.Controllers
         public ActionResult List()
         {
             combinedOrderList orderModel = new combinedOrderList();
-            orderModel.listOrder = (from order in dbModel.orders select order).ToList();
+            orderModel.listOrder = (from order in dbModel.orders where order.status != "new" select order).ToList();
             orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
             return View(orderModel);
         }

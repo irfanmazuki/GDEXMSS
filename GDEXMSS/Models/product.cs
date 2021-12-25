@@ -34,6 +34,7 @@ namespace GDEXMSS.Models
         public Nullable<bool> isExist { get; set; }
         public string imagePath { get; set; }
         public virtual SelectList CategoriesList { get; set; }
+        public Nullable<int> quantitySold { get; set; }
     }
     public class CombinedProductCategories
     {

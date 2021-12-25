@@ -25,7 +25,7 @@ namespace GDEXMSS.Models
         public Nullable<System.DateTime> createdDT { get; set; }
         [DisplayName("Shipped Date Time")]
         public Nullable<System.DateTime> shippedDT { get; set; }
-        [DisplayName("Purchaser ID")]
+        [DisplayName("User ID")]
         public Nullable<int> userID { get; set; }
         [DisplayName("Status")]
         public string status { get; set; }
