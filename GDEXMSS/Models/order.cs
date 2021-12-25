@@ -50,4 +50,13 @@ namespace GDEXMSS.Models
         public cartItem cartItem { get; set; }
         public List<cartItem> listItems { get; set; }
     }
+    public class combinedOrderReview
+    {
+        public order order { get; set; }
+        public orderShippingInfo orderShippingInfo { get; set; }
+        public List<cartItem> listItem { get; set; }
+        //first need to store single review into the single model then we iterate it into the list
+        public reviewOrder reviewOrder { get; set; }
+        public List<reviewOrder> listReview { get; set; }
+    }
 }

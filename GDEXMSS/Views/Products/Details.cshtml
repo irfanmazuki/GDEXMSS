@@ -1,4 +1,4 @@
-﻿@model GDEXMSS.Models.product
+﻿@model GDEXMSS.Models.CombinedProductReview
 @{
     ViewBag.Title = "Product Details";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -12,73 +12,49 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="blog-detail">
-                                <h2>@Model.name</h2>
-                                <h4>RM @Model.unitCost</h4>
+                                <h2>@Model.product.name</h2>
+                                <h4>RM @Model.product.unitCost</h4>
                                 <div class="content">
-                                    @Model.description
+                                    @Model.product.description
                                 </div>
                             </div>
                             <div class="blog-meta">
-                                <span class="author"><a href="#"><i class="fa fa-star"></i>5 stars</a><a href="#"><i class="fa fa-comments"></i>Reviews (15)</a><a href="#"><i class="fa fa-bar-chart "></i>@Model.quantity units left</a></span>
+                                <span class="author"><a href="#"><i class="fa fa-star"></i>5 stars</a><a href="#"><i class="fa fa-comments"></i>Reviews (15)</a><a href="#"><i class="fa fa-bar-chart "></i>@Model.product.quantity units left</a></span>
                             </div>
                             <div class="image">
-                                <img src="@Model.imagePath" alt="#">
+                                <img src="@Model.product.imagePath" alt="#">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-12">
-                    <div class="comments">
-                        <h3 class="comment-title">Comments (3)</h3>
-                        <!-- Single Comment -->
-                        <div class="single-comment">
-                            <img src="https://via.placeholder.com/80x80" alt="#">
-                            <div class="content">
-                                <h4>Alisa harm <span>At 8:59 pm On Feb 28, 2018</span></h4>
-                                <p>Enthusiastically leverage existing premium quality vectors with enterprise-wide innovation collaboration Phosfluorescently leverage others enterprisee Phosfluorescently leverage.</p>
-                            </div>
-                        </div>
-                        <!-- End Single Comment -->
-                        <!-- Single Comment -->
-                        <div class="single-comment">
-                            <img src="https://via.placeholder.com/80x80" alt="#">
-                            <div class="content">
-                                <h4>john deo <span>Feb 28, 2018 at 8:59 pm</span></h4>
-                                <p>Enthusiastically leverage existing premium quality vectors with enterprise-wide innovation collaboration Phosfluorescently leverage others enterprisee Phosfluorescently leverage.</p>
-                            </div>
-                        </div>
-                        <!-- End Single Comment -->
-                    </div>
-            </div>
-        </div>
-        <p></p>
-        <div class="row">
-            <div class="col-12">
-                <div class="reply">
-                    <div class="reply-head">
-                        <h2 class="reply-title">Leave a review</h2>
-                        <!-- Comment Form -->
-                        <form class="form" action="#">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Review<span>*</span></label>
-                                        <textarea name="message" placeholder=""></textarea>
+                <div class="comments">
+                    @if (Model.listReviews != null)
+                    {
+                        <h3 class="comment-title">Review (@Model.listReviews.Count)</h3>
+                            foreach (var review in Model.listReviews)
+                            {
+                                <!-- Single Comment -->
+                                <div class="single-comment">
+                                    @*<img src="https://via.placeholder.com/80x80" alt="#">*@
+                                    <div class="content">
+                                        <h4>@review.userID <span>At @review.reviewDT</span></h4>
+                                        <p>@review.reviewComment</p>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group button">
-                                        <button type="submit" class="btn">Post comment</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- End Comment Form -->
-                    </div>
+                                <!-- End Single Comment -->
+                            }
+                    }
+            else
+            {
+                <h3 class="comment-title">No review</h3>
+            }
+
                 </div>
             </div>
         </div>
+        <p></p>
     </div>
 </section>
 <!--/ End Blog Single -->

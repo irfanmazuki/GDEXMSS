@@ -47,4 +47,9 @@ namespace GDEXMSS.Models
         public List<product> listProduct { get; set; }
         public List<cartItem> listCartItem { get; set; }
     }
+    public class CombinedProductReview
+    {
+        public product product { get; set; }
+        public List<reviewOrder> listReviews { get; set; }
+    }
 }

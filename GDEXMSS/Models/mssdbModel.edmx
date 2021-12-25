@@ -153,6 +153,18 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="price" Type="decimal" Precision="10" Scale="2" />
           <Property Name="isExist" Type="bit" />
         </EntityType>
+        <EntityType Name="reviewOrder">
+          <Key>
+            <PropertyRef Name="lineID" />
+          </Key>
+          <Property Name="lineID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderID" Type="varchar" MaxLength="300" />
+          <Property Name="reviewDT" Type="datetime" />
+          <Property Name="reviewComment" Type="varchar(max)" />
+          <Property Name="reviewStar" Type="int" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="userID" Type="int" />
+        </EntityType>
         <EntityType Name="transactionHistoryOrder">
           <Key>
             <PropertyRef Name="transactionID" />
@@ -216,6 +228,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <EntitySet Name="productCategoryLine" EntityType="Self.productCategoryLine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="productVariation" EntityType="Self.productVariation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reviewOrder" EntityType="Self.reviewOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionHistoryOrder" EntityType="Self.transactionHistoryOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionHistoryWallet" EntityType="Self.transactionHistoryWallet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
@@ -438,6 +451,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <EntitySet Name="users" EntityType="Self.user" />
           <EntitySet Name="userRoles" EntityType="Self.userRole" />
           <EntitySet Name="mssSystems" EntityType="mssdbEntity.mssSystem" />
+          <EntitySet Name="reviewOrders" EntityType="mssdbEntity.reviewOrder" />
         </EntityContainer>
         <EntityType Name="mssSystem">
           <Key>
@@ -447,6 +461,18 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="mss_Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="mss_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="mss_Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="reviewOrder">
+          <Key>
+            <PropertyRef Name="lineID" />
+          </Key>
+          <Property Name="lineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderID" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="reviewDT" Type="DateTime" Precision="3" />
+          <Property Name="reviewComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="reviewStar" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="userID" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -664,6 +690,19 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
                 <ScalarProperty Name="mss_Name" ColumnName="mss_Name" />
                 <ScalarProperty Name="mss_Category" ColumnName="mss_Category" />
                 <ScalarProperty Name="mss_ID" ColumnName="mss_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reviewOrders">
+            <EntityTypeMapping TypeName="mssdbEntity.reviewOrder">
+              <MappingFragment StoreEntitySet="reviewOrder">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="reviewStar" ColumnName="reviewStar" />
+                <ScalarProperty Name="reviewComment" ColumnName="reviewComment" />
+                <ScalarProperty Name="reviewDT" ColumnName="reviewDT" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="lineID" ColumnName="lineID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

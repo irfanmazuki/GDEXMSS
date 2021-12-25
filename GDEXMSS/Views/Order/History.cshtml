@@ -105,12 +105,23 @@
                                                         @Html.ActionLink("Check", "Receipt", "Products", new { orderID = item.orderID }, new { @class = "badge bg-primary text-white" })
                                                         if (item.status != "received")
                                                         {
-                                                            @Html.ActionLink("Received", "Received", "Products", new { orderID = item.orderID }, new { @class = "badge bg-warning text-white" })
+                                                            if (item.status == "reviewed")
+                                                            {
+                                                                //allow the user to click receive button. change the order status from 'sent' to 'received'
+                                                                @Html.ActionLink("Return", "Return", "Order", new { orderID = item.orderID }, new { @class = "badge bg-secondary text-white" })
+                                                            }
+                                                            else
+                                                            {
+                                                                //allow the user to click receive button. change the order status from 'sent' to 'received'
+                                                                @Html.ActionLink("Received", "Received", "Products", new { orderID = item.orderID }, new { @class = "badge bg-warning text-white" })
+                                                            }
+
 
                                                         }
                                                         else
                                                         {
-                                                            @Html.ActionLink("Review", "Review", "Products", new { orderID = item.orderID }, new { @class = "badge bg-danger text-white" })
+                                                            //allow the user to review the user. redirect user to review page
+                                                            @Html.ActionLink("Review", "Review", "Order", new { orderID = item.orderID }, new { @class = "badge bg-danger text-white" })
 
                                                         }
 

@@ -80,5 +80,42 @@ namespace GDEXMSS.Controllers
             orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
             return View(orderModel);
         }
+        [UserSessionCheck]
+        [HttpGet]
+        public ActionResult Review(string orderID)
+        {
+            combinedOrderReview objOrderReview = new combinedOrderReview();
+            int userID = Int32.Parse(Session["UserID"].ToString());
+            objOrderReview.listItem = (from cartItem in dbModel.cartItems where cartItem.orderID == orderID select cartItem).ToList();
+            objOrderReview.order = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
+            objOrderReview.orderShippingInfo = (from orderShippingInfo in dbModel.orderShippingInfoes where orderShippingInfo.orderID == orderID select orderShippingInfo).FirstOrDefault();
+            return View(objOrderReview);
+        }
+        [UserSessionCheck]
+        [HttpPost]
+        public ActionResult Review(combinedOrderReview objOrderReview)
+        {
+            using (dbModel)
+            {
+                var orderID = objOrderReview.order.orderID;
+                int userID = Int32.Parse(Session["UserID"].ToString());
+                objOrderReview.listItem = (from cartItem in dbModel.cartItems where cartItem.orderID == orderID select cartItem).ToList();
+                foreach(var item in objOrderReview.listItem)
+                {
+                    reviewOrder reviewOrder = new reviewOrder();
+                    reviewOrder.reviewComment = objOrderReview.reviewOrder.reviewComment;
+                    reviewOrder.ProductID = item.productID;
+                    reviewOrder.reviewDT = DateTime.Now;
+                    reviewOrder.userID = userID;
+                    reviewOrder.orderID = orderID;
+                    dbModel.reviewOrders.Add(reviewOrder);
+                }
+                order objOrder = new order();
+                objOrder = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
+                objOrder.status = "reviewed";
+                dbModel.SaveChanges();
+                return RedirectToAction("History", "Order");
+            }
+        }
     }
 }

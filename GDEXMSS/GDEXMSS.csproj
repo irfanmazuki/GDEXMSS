@@ -281,6 +281,9 @@
     <Compile Include="Models\productVariation.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\reviewOrder.cs">
+      <DependentUpon>mssdbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\transactionHistoryOrder.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
@@ -684,6 +687,7 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Products\ListTest.cshtml" />
     <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\Order\Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

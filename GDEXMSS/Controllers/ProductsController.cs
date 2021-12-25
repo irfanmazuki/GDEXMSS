@@ -250,9 +250,11 @@ namespace GDEXMSS.Controllers
         [HttpGet]
         public ActionResult Details(int productID)
         {
-            product objProduct = new product();
-            objProduct = (from product in dbModel.products where product.productID == productID select product).FirstOrDefault();
-            return View(objProduct);
+            CombinedProductReview objProductReview = new CombinedProductReview();
+            int userID = Int32.Parse(Session["UserID"].ToString());
+            objProductReview.product = (from product in dbModel.products where product.productID == productID select product).FirstOrDefault();
+            objProductReview.listReviews = (from reviewOrder in dbModel.reviewOrders where reviewOrder.ProductID == productID select reviewOrder).ToList();
+            return View(objProductReview);
         }
         [AdminSessionCheck]
         public ActionResult Edit(int productID, string actions)
