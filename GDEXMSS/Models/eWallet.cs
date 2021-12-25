@@ -11,7 +11,7 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class eWallet
     {
         public int walletID { get; set; }

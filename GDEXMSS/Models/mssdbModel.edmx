@@ -41,7 +41,7 @@
           <Key>
             <PropertyRef Name="walletID" />
           </Key>
-          <Property Name="walletID" Type="int" Nullable="false" />
+          <Property Name="walletID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userID" Type="int" />
           <Property Name="availablePoints" Type="int" />
           <Property Name="amountRM" Type="decimal" Precision="10" Scale="2" />

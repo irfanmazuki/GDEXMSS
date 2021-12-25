@@ -65,8 +65,6 @@ namespace GDEXMSS.Controllers
         {
             if (ModelState.IsValid)
             {
-                //create the wallet account if the wallet is not existed yet
-
                 using (mssdbModel db = new mssdbModel())
                 {
                     var obj = db.users.Where(a => a.email.Equals(objUser.email) && a.password.Equals(objUser.password)).FirstOrDefault();
@@ -83,6 +81,19 @@ namespace GDEXMSS.Controllers
                             Session["Name"] = obj.fullname.ToString();
                             Session["Role"] = "User";
                             Session["Type"] = obj.user_type.ToString();
+                            //create the wallet account if the wallet is not existed yet
+                            eWallet objWallet = new eWallet();
+                            objWallet = (from eWallet in db.eWallets where eWallet.userID == obj.userID select eWallet).FirstOrDefault();
+                            if(objWallet == null)
+                            {
+                                objWallet = new eWallet();
+                                objWallet.amountRM = 0;
+                                objWallet.availablePoints = 0;
+                                objWallet.userID = obj.userID;
+                                db.eWallets.Add(objWallet);
+                                db.SaveChanges();
+
+                            }
                             return RedirectToAction("Index", "Products");
                         }
                     }
