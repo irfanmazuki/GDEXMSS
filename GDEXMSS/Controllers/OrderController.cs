@@ -33,6 +33,8 @@ namespace GDEXMSS.Controllers
             orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
             return View(orderModel);
         }
+        [AdminSessionCheck]
+        [HttpGet]
         public ActionResult Process(string orderID)
         {
             var orderShippingInfoRecord = (from orderShippingInfo in dbModel.orderShippingInfoes where orderShippingInfo.orderID == orderID select orderShippingInfo).FirstOrDefault();
@@ -47,6 +49,7 @@ namespace GDEXMSS.Controllers
             }
             return View(objModel);
         }
+        [AdminSessionCheck]
         [HttpPost]
         public ActionResult Process(combinedOrderModel orderModel)
         {
@@ -56,6 +59,7 @@ namespace GDEXMSS.Controllers
                 var editedOrderShipping = dbModel.orderShippingInfoes.Where(x => x.orderID == orderModel.orderShippingInfo.orderID).FirstOrDefault();
                 orderModel.order.orderID = editedOrder.orderID;
                 orderModel.orderShippingInfo.orderID = editedOrder.orderID;
+                orderModel.order.status = "sent";
                 dbModel.Entry(editedOrder).CurrentValues.SetValues(orderModel.order);
                 dbModel.SaveChanges();
                 dbModel.Entry(editedOrderShipping).CurrentValues.SetValues(orderModel.orderShippingInfo);
@@ -108,6 +112,7 @@ namespace GDEXMSS.Controllers
                     reviewOrder.reviewDT = DateTime.Now;
                     reviewOrder.userID = userID;
                     reviewOrder.orderID = orderID;
+                    reviewOrder.userName = Session["Name"].ToString();
                     dbModel.reviewOrders.Add(reviewOrder);
                 }
                 order objOrder = new order();

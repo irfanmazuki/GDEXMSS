@@ -164,6 +164,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="reviewStar" Type="int" />
           <Property Name="ProductID" Type="int" />
           <Property Name="userID" Type="int" />
+          <Property Name="userName" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="transactionHistoryOrder">
           <Key>
@@ -473,6 +474,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="reviewStar" Type="Int32" />
           <Property Name="ProductID" Type="Int32" />
           <Property Name="userID" Type="Int32" />
+          <Property Name="userName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -696,6 +698,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <EntitySetMapping Name="reviewOrders">
             <EntityTypeMapping TypeName="mssdbEntity.reviewOrder">
               <MappingFragment StoreEntitySet="reviewOrder">
+                <ScalarProperty Name="userName" ColumnName="userName" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="reviewStar" ColumnName="reviewStar" />

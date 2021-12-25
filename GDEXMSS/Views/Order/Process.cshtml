@@ -19,10 +19,8 @@
                             //Hidden for the order
                             @Html.HiddenFor(model => model.order.shippedDT, new { htmlAttributes = new { @readonly = "readonly" } })
                             @Html.HiddenFor(model => model.order.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
-                            @Html.HiddenFor(model => model.order.status, new { htmlAttributes = new { @readonly = "readonly" } })
                             @Html.HiddenFor(model => model.order.pointRedeemed, new { htmlAttributes = new { @readonly = "readonly" } })
                             @Html.HiddenFor(model => model.order.amountPaid, new { htmlAttributes = new { @readonly = "readonly" } })
-                            @Html.HiddenFor(model => model.order.consignment, new { htmlAttributes = new { @readonly = "readonly" } })
                             //Hidden for the orderShippingInfo
                             @Html.HiddenFor(model => model.orderShippingInfo.orderID, new { htmlAttributes = new { @readonly = "readonly" } })
                             @Html.HiddenFor(model => model.orderShippingInfo.cost, new { htmlAttributes = new { @readonly = "readonly" } })
@@ -103,8 +101,8 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Tracking Number</label>
-                                        @Html.EditorFor(model => model.orderShippingInfo.shippingID, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.shippingID, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.order.consignment, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.order.consignment, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

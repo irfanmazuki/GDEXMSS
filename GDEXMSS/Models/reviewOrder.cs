@@ -21,5 +21,6 @@ namespace GDEXMSS.Models
         public Nullable<int> reviewStar { get; set; }
         public Nullable<int> ProductID { get; set; }
         public Nullable<int> userID { get; set; }
+        public string userName { get; set; }
     }
 }
