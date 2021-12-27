@@ -16,6 +16,7 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.product.isExist, new { @Value = true })
+                            @Html.HiddenFor(model => model.product.isVariation, new { @Value = true })
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
@@ -50,7 +51,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Is there variations?<span class="text-danger">*</span></label>
@@ -62,7 +63,7 @@
                                         @Html.ValidationMessageFor(model => model.product.isVariation, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">

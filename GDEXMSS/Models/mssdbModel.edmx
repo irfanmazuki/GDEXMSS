@@ -167,6 +167,17 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="userID" Type="int" />
           <Property Name="userName" Type="varchar" MaxLength="200" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GDEXMSS.dbo.searchAnalysis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="searchAnalysis">
+          <Key>
+            <PropertyRef Name="searchID" />
+          </Key>
+          <Property Name="searchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="searchKeyword" Type="varchar" MaxLength="200" />
+          <Property Name="searchResult" Type="varchar(max)" />
+          <Property Name="searchDT" Type="datetime" />
+        </EntityType>
         <EntityType Name="transactionHistoryOrder">
           <Key>
             <PropertyRef Name="transactionID" />
@@ -242,6 +253,14 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
     [mssSystem].[mss_Name] AS [mss_Name], 
     [mssSystem].[mss_Description] AS [mss_Description]
     FROM [dbo].[mssSystem] AS [mssSystem]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="searchAnalysis" EntityType="Self.searchAnalysis" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [searchAnalysis].[searchID] AS [searchID], 
+    [searchAnalysis].[searchKeyword] AS [searchKeyword], 
+    [searchAnalysis].[searchResult] AS [searchResult], 
+    [searchAnalysis].[searchDT] AS [searchDT]
+    FROM [dbo].[searchAnalysis] AS [searchAnalysis]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -455,6 +474,7 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <EntitySet Name="userRoles" EntityType="Self.userRole" />
           <EntitySet Name="mssSystems" EntityType="mssdbEntity.mssSystem" />
           <EntitySet Name="reviewOrders" EntityType="mssdbEntity.reviewOrder" />
+          <EntitySet Name="searchAnalysis" EntityType="mssdbEntity.searchAnalysi" />
         </EntityContainer>
         <EntityType Name="mssSystem">
           <Key>
@@ -477,6 +497,15 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
           <Property Name="ProductID" Type="Int32" />
           <Property Name="userID" Type="Int32" />
           <Property Name="userName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="searchAnalysi">
+          <Key>
+            <PropertyRef Name="searchID" />
+          </Key>
+          <Property Name="searchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="searchKeyword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="searchResult" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="searchDT" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -709,6 +738,16 @@ warning 6002: The table/view 'GDEXMSS.dbo.mssSystem' does not have a primary key
                 <ScalarProperty Name="reviewDT" ColumnName="reviewDT" />
                 <ScalarProperty Name="orderID" ColumnName="orderID" />
                 <ScalarProperty Name="lineID" ColumnName="lineID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="searchAnalysis">
+            <EntityTypeMapping TypeName="mssdbEntity.searchAnalysi">
+              <MappingFragment StoreEntitySet="searchAnalysis">
+                <ScalarProperty Name="searchDT" ColumnName="searchDT" />
+                <ScalarProperty Name="searchResult" ColumnName="searchResult" />
+                <ScalarProperty Name="searchKeyword" ColumnName="searchKeyword" />
+                <ScalarProperty Name="searchID" ColumnName="searchID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

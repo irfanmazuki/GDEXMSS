@@ -157,6 +157,12 @@
                                                         <li>@Html.ActionLink("Add New Category", "Add", "User")</li>
                                                     </ul>
                                                 </li>
+                                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Analysis" ? "active" : "")">
+                                                    <a href="#">Analysis<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                    <ul class="dropdown">
+                                                        <li>@Html.ActionLink("Product Analysis", "Index", "Analysis")</li>
+                                                    </ul>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>

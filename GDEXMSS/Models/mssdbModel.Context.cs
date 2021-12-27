@@ -43,5 +43,6 @@ namespace GDEXMSS.Models
         public virtual DbSet<userRole> userRoles { get; set; }
         public virtual DbSet<mssSystem> mssSystems { get; set; }
         public virtual DbSet<reviewOrder> reviewOrders { get; set; }
+        public virtual DbSet<searchAnalysi> searchAnalysis { get; set; }
     }
 }
