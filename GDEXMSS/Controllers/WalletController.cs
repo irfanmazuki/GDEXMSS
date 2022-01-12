@@ -35,6 +35,8 @@ namespace GDEXMSS.Controllers
         {
             Session["walletID"] = walletID;
             eWallet walletModel = new eWallet();
+            walletModel.amountRM = 0;
+            walletModel.availablePoints = 0;
             return View(walletModel);
         }
         [AdminSessionCheck]
@@ -42,8 +44,14 @@ namespace GDEXMSS.Controllers
         public ActionResult Topup(eWallet walletModel)
         {
             eWallet walletRecord = dbModel.eWallets.Where(x => x.walletID == walletModel.walletID).FirstOrDefault();
-            walletRecord.availablePoints = walletRecord.availablePoints + walletModel.availablePoints;
-            walletRecord.amountRM = walletRecord.amountRM + walletModel.amountRM;
+            if (walletModel.availablePoints != null)
+            {
+                walletRecord.availablePoints = walletRecord.availablePoints + walletModel.availablePoints;
+            }
+            if(walletModel.amountRM != null)
+            {
+                walletRecord.amountRM = walletRecord.amountRM + walletModel.amountRM;
+            }
             dbModel.SaveChanges();
             Session["walletID"] = "";
             return RedirectToAction("UserList", new { message = "success" });

@@ -136,6 +136,8 @@ namespace GDEXMSS.Controllers
             mssdbModel dbModel = new mssdbModel();
             decimal totalRM = 0;
             var orderID = Guid.NewGuid().ToString("N");
+            //change length to orderID to 10
+            orderID = orderID.Substring(0, 8);
             //mssSystem
             objModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
             decimal shippingFee = decimal.Parse(objModel.mssSystem.mss_Description.ToString());

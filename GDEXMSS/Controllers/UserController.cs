@@ -67,7 +67,7 @@ namespace GDEXMSS.Controllers
             {
                 using (mssdbModel db = new mssdbModel())
                 {
-                    var obj = db.users.Where(a => a.email.Equals(objUser.email) && a.password.Equals(objUser.password)).FirstOrDefault();
+                    var obj = db.users.Where(a => a.username.Equals(objUser.email) && a.password.Equals(objUser.password)).FirstOrDefault();
                     if (obj != null)
                     {
                         if (obj.isExist == false)
@@ -76,7 +76,7 @@ namespace GDEXMSS.Controllers
                         }
                         else
                         {
-                            Session["Email"] = obj.email.ToString();
+                            Session["Email"] = obj.username.ToString();
                             Session["UserID"] = obj.userID.ToString();
                             Session["Name"] = obj.fullname.ToString();
                             Session["Role"] = "User";
