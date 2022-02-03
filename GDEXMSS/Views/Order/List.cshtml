@@ -10,41 +10,50 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <ul class="navbar nav ml-auto">
-                            <li class="mr-auto p-2">
-                                <h2 class="card-title">Order History</h2>
-                            </li>
-                            <li class="p-2">
-                                <div class="form-group form-group-sm" style="width: 210px;">
-                                    <select name="state-province" id="state-province">
-                                        <option selected="selected" disabled>Sort by</option>
-                                        <option>Default</option>
-                                        <option>ID (Ascending)</option>
-                                        <option>ID (Descending)</option>
-                                        <option>Delivering</option>
-                                        <option>Cancelled</option>
-                                        <option>Delivered</option>
-                                    </select>
-                                </div>
-                            </li>
-                            <li class="p-2">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="table_search" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                        @using (Html.BeginForm("List", "Order", FormMethod.Post, new { id = "Form1", @class = "form-group" }))
+                        {
+                            <ul class="navbar nav ml-auto">
+                                <li class="mr-auto p-2">
+                                    <h5 class="card-title"><b>Order History</b></h5>
+                                </li>
+                                <li class="p-2">
+                                    <div style="width:220px">
+                                    @Html.DropDownList("Sortby", new SelectListItem[]
+                                    {
+                                         new SelectListItem() { Text = "Sort By", Value="0", Disabled = true, Selected  = true },
+                                         new SelectListItem() { Text = "Default", Value = "default" },
+                                         new SelectListItem() { Text = "Amount Paid", Value = "paid" },
+                                         new SelectListItem() { Text = "User ID", Value = "userID" },
+                                         new SelectListItem() { Text = "Order ID", Value = "orderID" },
+                                         new SelectListItem() { Text = "Status - Sent", Value = "sent" },
+                                         new SelectListItem() { Text = "Status - Received", Value = "received" },
+                                         new SelectListItem() { Text = "Status - Reviewed", Value = "reviewed" } },
+                                         new
+                                         {
+                                             @onchange = "document.getElementById('Form1').submit();",
+                                             @class = "form-group"
+                                         })
+                                        </div>
+                                </li>
+                                <li class="p-2">
+                                    <div class="input-group input-group-sm" style="width: 230px;">
+                                        <input type="text" name="query" class="form-control" placeholder="Search" value="@Session["query"]">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                         }
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover text-nowrap">
                             <thead>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.order.createdDT)</th>
+                                    <th>@Html.DisplayNameFor(model => model.order.shippedDT)</th>
                                     <th>@Html.DisplayNameFor(model => model.order.orderID)</th>
                                     <th>@Html.DisplayNameFor(model => model.order.userID)</th>
                                     <th>@Html.DisplayNameFor(model => model.order.amountPaid)</th>
@@ -58,7 +67,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.createdDT)
+                                        @Html.DisplayFor(modelItem => item.shippedDT)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.orderID)
@@ -74,7 +83,18 @@
                                         @Html.DisplayFor(modelItem => item.consignment)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.status)
+                                        @if (item.status == "sent")
+                                        {
+                                            <h5><span class="badge bg-primary">Sent</span></h5>
+                                        }
+                                        else if (item.status == "reviewed")
+                                        {
+                                            <h5><span class="badge bg-success">Reviewed</span></h5>
+                                        }
+                                        else if (item.status == "received")
+                                        {
+                                            <h5><span class="badge bg-warning">Received</span></h5>
+                                        }
                                     </td>
                                     <td>
                                         @{
@@ -88,7 +108,9 @@
                                         }
                                     </td>
                                     <td>
+                                        <h5>
                                         @Html.ActionLink("Edit", "Process", new { orderID = item.orderID }, new { @class = "badge bg-primary" })
+                                        </h5>
                                     </td>
 
                                 </tr>

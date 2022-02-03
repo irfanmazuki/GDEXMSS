@@ -6,7 +6,7 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
-            @using (Html.BeginForm("Checkout", "Products", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
+            @using (Html.BeginForm("Receipt", "Products", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
             {
                 <div class="row">
                     <div class="col-lg-8 col-12">
@@ -79,6 +79,8 @@
                                         @{ 
                                             totalIncShipping = decimal.Parse(Session["totalCart"].ToString()) + shippingFee;
                                         }
+                                        <li>Points Redeemed <span> @Model.order.pointRedeemed points</span></li>
+                                        <!-- way of redemption? Formula!-->
                                         <li class="last">Total<span>RM @totalIncShipping</span></li>
                                     </ul>
                                 </div>

@@ -20,7 +20,7 @@ namespace GDEXMSS.Controllers
         {
             if (message=="success")
             {
-                ViewBag.Message = "e-Wallet successfully updated";
+                ViewBag.Message = "points successfully added";
             }
             CombinedListWalletUser walletUserModel = new CombinedListWalletUser();
             walletUserModel.listWallet = (from eWallet in dbModel.eWallets select eWallet).ToList();
@@ -48,10 +48,10 @@ namespace GDEXMSS.Controllers
             {
                 walletRecord.availablePoints = walletRecord.availablePoints + walletModel.availablePoints;
             }
-            if(walletModel.amountRM != null)
-            {
-                walletRecord.amountRM = walletRecord.amountRM + walletModel.amountRM;
-            }
+            //if(walletModel.amountRM != null)
+            //{
+            //    walletRecord.amountRM = walletRecord.amountRM + walletModel.amountRM;
+            //}
             dbModel.SaveChanges();
             Session["walletID"] = "";
             return RedirectToAction("UserList", new { message = "success" });

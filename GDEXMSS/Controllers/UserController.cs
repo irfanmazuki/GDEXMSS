@@ -108,10 +108,48 @@ namespace GDEXMSS.Controllers
             return RedirectToAction("Login");
         }
         [AdminSessionCheck]
+        [HttpGet]
         public ActionResult List()
         {
             mssdbModel dbModel = new mssdbModel();
+            Session["query"] = "";
             var objUser = (from user in dbModel.users select user).ToList();
+            return View(objUser);
+        }
+        [AdminSessionCheck]
+        [HttpPost]
+        public ActionResult List(string Sortby, string query)
+        {
+            mssdbModel dbModel = new mssdbModel();
+            var objUser = (from user in dbModel.users select user).OrderByDescending(user => user.userID).ToList();
+            if (query == "")
+            {
+                if (Sortby == "default")
+                {
+                    objUser = (from user in dbModel.users select user).OrderByDescending(user => user.userID).ToList();
+                }
+                else if(Sortby == "employee")
+                {
+                    objUser = (from user in dbModel.users where user.user_type == "Employee" select user).OrderByDescending(user => user.userID).ToList();
+                }
+                else if (Sortby == "public")
+                {
+                    objUser = (from user in dbModel.users where user.user_type == "Public" select user).OrderByDescending(user => user.userID).ToList();
+                }
+                else if (Sortby == "fullname")
+                {
+                    objUser = (from user in dbModel.users select user).OrderByDescending(user => user.fullname).ToList();
+                }
+                else if (Sortby == "race")
+                {
+                    objUser = (from user in dbModel.users select user).OrderByDescending(user => user.race).ToList();
+                }
+            }
+            else
+            {
+                objUser = (from user in dbModel.users where user.fullname.Contains(query) || user.race == query || user.icnumber.ToString() == query || user.userID.ToString() == query || user.contact_number.ToString() == query select user).OrderByDescending(user => user.userID).ToList();
+            }
+            Session["query"] = "";
             return View(objUser);
         }
         [AdminSessionCheck]

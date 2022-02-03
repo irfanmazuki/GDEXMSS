@@ -9,6 +9,7 @@
 
 namespace GDEXMSS.Models
 {
+    using Foolproof;
     using System;
     using System.Collections.Generic;
 

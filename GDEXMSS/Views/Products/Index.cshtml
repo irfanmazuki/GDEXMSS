@@ -81,8 +81,8 @@
                         <!-- Top Right -->
                         <div class="right-content">
                             <ul class="list-main">
-                                <li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
-                                <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>
+                                @*<li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
+                                <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>*@
                                 <li><i class="fa fa-solid fa-power-off"></i>@Session["Name"].ToString()</li>
                                 <li>@Html.ActionLink("Logout", "Logout", "User")</li>
                             </ul>
@@ -173,10 +173,9 @@
                                                 <li><a href="https://localhost:44319/User/Profile">Profile</a></li>
                                                 <li><a href="https://localhost:44319/Order/History">Order History</a></li>
                                                 <li>
-                                                    <a href="#">eWallet<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                    <a href="#">Points<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
-                                                        <li><a href="https://localhost:44319/Wallet/Balance">Balance</a></li>
-                                                        <li><a href="https://localhost:44319/Wallet/Topup">Topup</a></li>
+                                                        <li>@Html.ActionLink("Balance", "Balance", "Wallet")</li>
                                                     </ul>
                                                 </li>
                                             </ul>
@@ -304,7 +303,12 @@
                                                                 <a href="@Url.Action("Details", "Products",  new { productID = product.productID })">
                                                                     <img class="default-img" src="@Html.DisplayFor(modelItem => product.imagePath)" alt="#">
                                                                     <img class="hover-img" src="@Html.DisplayFor(modelItem => product.imagePath)" alt="#">
-                                                                    <span class="new">New</span>
+                                                                    @{
+                                                                        if (product.quantity == 0)
+                                                                        {
+                                                                            <span class="out-of-stock">Out of Stock</span>
+                                                                        }
+                                                                    }
                                                                 </a>
                                                                 <div class="button-head">
                                                                     <div class="product-action">

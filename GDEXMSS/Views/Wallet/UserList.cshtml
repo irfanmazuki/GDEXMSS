@@ -12,7 +12,7 @@
                         <div class="card-header">
                             <ul class="navbar nav ml-auto">
                                 <li class="mr-auto p-2">
-                                    <h2 class="card-title" style="font-style: bold;">User Wallet List</h2>
+                                    <h2 class="card-title" style="font-style: bold;">User Points List</h2>
                                     <br />
                                     <h5 class="card-title" style="font-style: italic;">@ViewBag.Message</h5>
                                 </li>
@@ -36,8 +36,8 @@
                                         <th>User ID</th>
                                         <th>Name</th>
                                         <th>Available Points</th>
-                                        <th>Available e-Wallet</th>
-                                        <th>Topup</th>
+                                        @*<th>Available e-Wallet</th>*@
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,13 +57,15 @@
                                                     <td>
                                                         @Html.DisplayFor(modelWallet => wallet.availablePoints)
                                                     </td>
-                                                    <td>
+                                                    @*<td>
                                                         RM
                                                         @Html.DisplayFor(modelWallet => wallet.amountRM)
-                                                    </td>
+                                                    </td>*@
                                                     <td>
                                                         @* Route value more than 1? how *@
-                                                        @Html.ActionLink("Topup", "Topup", new { walletID = wallet.walletID }, new { @class = "badge bg-primary" })
+                                                        <h5>
+                                                            @Html.ActionLink("Add Points", "Topup", new { walletID = wallet.walletID }, new { @class = "badge bg-primary" })
+                                                        </h5>
                                                     </td>
                                                 }
                                             }

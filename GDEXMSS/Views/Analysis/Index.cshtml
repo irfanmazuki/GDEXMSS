@@ -39,6 +39,7 @@
                         if(Model.searchResult != null)
                         {
                             @Html.Raw(Model.searchResult);
+                            @Html.ActionLink("Add this product", "Add", "Products", new { productName = Model.searchKeyword}, new { @class = "badge bg-primary" });
                         }
                     }</h4>
                 </div>

@@ -33,6 +33,7 @@ namespace GDEXMSS.Models
         public Nullable<decimal> amountPaid { get; set; }
         public string consignment { get; set; }
         public Nullable<decimal> totalCost { get; set; }
+        public IEnumerable<SelectListItem> orderByListItems { get; set; }
     }
     public class combinedOrderModel
     {

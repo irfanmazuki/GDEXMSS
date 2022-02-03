@@ -15,7 +15,7 @@ namespace GDEXMSS.Controllers
         public ActionResult Incoming()
         {
             combinedOrderList orderModel = new combinedOrderList();
-            orderModel.listOrder = (from order in dbModel.orders where order.status == "new" select order).ToList();
+            orderModel.listOrder = (from order in dbModel.orders where order.status == "new" select order).OrderByDescending(order => order.createdDT).ToList();
             orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
             return View(orderModel);
         }
@@ -25,12 +25,63 @@ namespace GDEXMSS.Controllers
             var data = dbModel.orders.ToList();
             return View(data);
         }
+        [AdminSessionCheck]
         [HttpGet]
         public ActionResult List()
         {
             combinedOrderList orderModel = new combinedOrderList();
-            orderModel.listOrder = (from order in dbModel.orders where order.status != "new" select order).ToList();
+            //orderModel.order.orderByListItems = new List<SelectListItem>()
+            //{
+            //  new SelectListItem(){ Value = "paid", Text = "Amount Paid" },
+            //  new SelectListItem(){ Value = "userID", Text = "user ID" },
+            //};
+            orderModel.listOrder = (from order in dbModel.orders where order.status != "new" select order).OrderByDescending(order => order.shippedDT).ToList();
             orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
+            Session["query"] = "";
+            return View(orderModel);
+        }
+        [AdminSessionCheck]
+        [HttpPost]
+        public ActionResult List(string Sortby, string query)
+        {
+            combinedOrderList orderModel = new combinedOrderList();
+            if (query == "")
+            {
+                if (Sortby == "paid")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.status != "new" select order).OrderByDescending(order => order.amountPaid).ToList();
+                }
+                else if (Sortby == "userID")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.status != "new" select order).OrderByDescending(order => order.userID).ToList();
+                }
+                else if (Sortby == "orderID")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.status != "new" select order).OrderByDescending(order => order.orderID).ToList();
+                }
+                else if (Sortby == "sent")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.status == "sent" select order).OrderByDescending(order => order.orderID).ToList();
+                }
+                else if (Sortby == "received")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.status == "received" select order).OrderByDescending(order => order.orderID).ToList();
+                }
+                else if (Sortby == "reviewed")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.status == "reviewed" select order).OrderByDescending(order => order.orderID).ToList();
+                }
+                else if (Sortby == "default")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.status != "new" select order).OrderByDescending(order => order.shippedDT).ToList();
+                }
+            }
+            else
+            {
+                orderModel.listOrder = (from order in dbModel.orders where order.orderID == query || order.consignment == query || order.status == query || order.userID.ToString() == query select order).OrderByDescending(order => order.shippedDT).ToList();
+            }
+            orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
+            Session["query"] = "";
             return View(orderModel);
         }
         [AdminSessionCheck]
@@ -60,6 +111,7 @@ namespace GDEXMSS.Controllers
                 orderModel.order.orderID = editedOrder.orderID;
                 orderModel.orderShippingInfo.orderID = editedOrder.orderID;
                 orderModel.order.status = "sent";
+                orderModel.order.shippedDT = DateTime.Now;
                 dbModel.Entry(editedOrder).CurrentValues.SetValues(orderModel.order);
                 dbModel.SaveChanges();
                 dbModel.Entry(editedOrderShipping).CurrentValues.SetValues(orderModel.orderShippingInfo);

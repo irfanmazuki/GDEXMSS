@@ -4,6 +4,7 @@ using System.Data.Entity.Migrations;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using GDEXMSS.Models;
@@ -11,6 +12,12 @@ using HtmlAgilityPack;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
+using iTextSharp.tool.xml.css;
+using iTextSharp.tool.xml.html;
+using iTextSharp.tool.xml.parser;
+using iTextSharp.tool.xml.pipeline.css;
+using iTextSharp.tool.xml.pipeline.end;
+using iTextSharp.tool.xml.pipeline.html;
 using Syncfusion.HtmlConverter;
 using Syncfusion.Pdf;
 
@@ -82,8 +89,35 @@ namespace GDEXMSS.Controllers
         [HttpGet]
         public ActionResult Cart()
         {
-            listCartItem = Session["CartItem"] as List<cartItem>;
-            return View(listCartItem);
+            ViewBag.ErrorMassage = "";
+            mssdbModel dbModel = new mssdbModel();
+            int userID = Int32.Parse(Session["UserID"].ToString());
+            CombinedCartUser objCartUser = new CombinedCartUser();
+            objCartUser.listCartItems = Session["CartItem"] as List<cartItem>;
+            objCartUser.eWallet = dbModel.eWallets.Where(x => x.userID == userID).FirstOrDefault();
+            return View(objCartUser);
+        }
+        [UserSessionCheck]
+        [HttpPost]
+        public ActionResult Cart(CombinedCartUser objCartUser)
+        {
+            mssdbModel dbModel = new mssdbModel();
+            int userID = Int32.Parse(Session["UserID"].ToString());
+            objCartUser.eWallet = dbModel.eWallets.Where(x => x.userID == userID).FirstOrDefault();
+            objCartUser.listCartItems = Session["CartItem"] as List<cartItem>;
+            if(objCartUser.eWallet.availablePoints < objCartUser.order.pointRedeemed)
+            {
+                ViewBag.ErrorMassage = "Not enough point";
+                return View(objCartUser);
+            }
+            else
+            {
+                combinedOrderModel objOrderModel = new combinedOrderModel();
+                objOrderModel.listItems = objCartUser.listCartItems;
+                objOrderModel.order = objCartUser.order;
+                objOrderModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
+                return View("Checkout", objOrderModel);
+            }
         }
         public ActionResult EditCart(int productID, string actions)
         {
@@ -123,15 +157,24 @@ namespace GDEXMSS.Controllers
         }
         [UserSessionCheck]
         [HttpGet]
-        public ActionResult Checkout()
+        public ActionResult Checkout(combinedOrderModel objModel)
         {
-            combinedOrderModel objModel = new combinedOrderModel();
-            objModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
+            //objModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
             return View(objModel);
         }
         [UserSessionCheck]
+        [HttpGet]
+        public ActionResult Receipt(string orderID)
+        {
+            combinedOrderModel objOrder = new combinedOrderModel();
+            objOrder.listItems = (from cartItem in dbModel.cartItems where cartItem.orderID == orderID select cartItem).ToList();
+            objOrder.order = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
+            objOrder.orderShippingInfo = (from orderShippingInfo in dbModel.orderShippingInfoes where orderShippingInfo.orderID == orderID select orderShippingInfo).FirstOrDefault();
+            return View(objOrder);
+        }
+        [UserSessionCheck]
         [HttpPost]
-        public ActionResult Checkout(combinedOrderModel objModel)
+        public ActionResult Receipt(combinedOrderModel objModel)
         {
             mssdbModel dbModel = new mssdbModel();
             decimal totalRM = 0;
@@ -180,28 +223,30 @@ namespace GDEXMSS.Controllers
             return RedirectToAction("Receipt", new { @orderID = orderID });
         }
         [UserSessionCheck]
-        [HttpGet]
-        public ActionResult Receipt(string orderID)
-        {
-            combinedOrderModel objOrder = new combinedOrderModel();
-            objOrder.listItems = (from cartItem in dbModel.cartItems where cartItem.orderID == orderID select cartItem).ToList();
-            objOrder.order = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
-            objOrder.orderShippingInfo = (from orderShippingInfo in dbModel.orderShippingInfoes where orderShippingInfo.orderID == orderID select orderShippingInfo).FirstOrDefault();
-            return View(objOrder);
-        }
-        [UserSessionCheck]
         [HttpPost]
         [ValidateInput(false)]
         public FileResult Export(string GridHtml)
         {
             //thanks to this https://dotnetgenetics.blogspot.com/2017/11/invalid-nested-tag-div-found-expected.html 
             //and this https://www.aspsnippets.com/Articles/MVC-iTextSharp-Example-Convert-HTML-to-PDF-using-iTextSharp-in-ASPNet-MVC.aspx
+            //and this https://sanushabalan.wordpress.com/2017/09/21/add-css-file-while-generating-pdf-using-itextsharp/comment-page-1/
             HtmlNode.ElementsFlags["img"] = HtmlElementFlag.Closed;
             HtmlNode.ElementsFlags["input"] = HtmlElementFlag.Closed;
             HtmlDocument doc = new HtmlDocument();
             doc.OptionFixNestedTags = true;
             doc.LoadHtml(GridHtml);
             GridHtml = doc.DocumentNode.OuterHtml;
+            //css
+            List<string> cssFiles = new List<string>();
+            cssFiles.Add(@"~/Content/css/style.css");
+            cssFiles.Add(@"~/Content/css/adminltev2.css");
+            cssFiles.Add(@"~/Content/css/bootstrap.css");
+            cssFiles.Add(@"~/Content/css/reset.css");
+            cssFiles.Add(@"~/Content/css/responsive.css");
+            cssFiles.Add(@"~/Content/lib/font-awesome/css/all.css");
+            cssFiles.Add(@"~/Content/css/owl-carousel.css");
+
+            //end css
 
             using (MemoryStream stream = new System.IO.MemoryStream())
             {
@@ -209,19 +254,38 @@ namespace GDEXMSS.Controllers
                 Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
                 pdfDoc.Open();
-                XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                //create CSS resolver to apply css
+                HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
+                htmlContext.SetTagFactory(Tags.GetHtmlTagProcessorFactory());
+                ICSSResolver cssResolver = XMLWorkerHelper.GetInstance().GetDefaultCssResolver(false);
+                cssFiles.ForEach(i => cssResolver.AddCssFile(System.Web.HttpContext.Current.Server.MapPath(i), true));
+
+                //create and attach pipelines
+                IPipeline pipeline = new CssResolverPipeline(cssResolver,
+                    new HtmlPipeline(htmlContext, new PdfWriterPipeline(pdfDoc, writer)));
+
+                //XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                //create XMLWorker
+                XMLWorker worker = new XMLWorker(pipeline, true);
+                XMLParser xmlParser = new XMLParser(worker);
+                xmlParser.Parse(new MemoryStream(Encoding.UTF8.GetBytes(GridHtml)));
+
                 pdfDoc.Close();
                 return File(stream.ToArray(), "application/pdf", "Grid.pdf");
             }
         }
         [AdminSessionCheck]
         [HttpGet]
-        public ActionResult Add()
+        public ActionResult Add(string productName)
         {
             mssdbModel db = new mssdbModel();
             CombinedProductCategories objModel = new CombinedProductCategories();
             objModel.product = new product();
             objModel.product.CategoriesList = new SelectList(db.productCategories, "categoryID", "name");
+            if (productName != null)
+            {
+                objModel.product.name = productName;
+            }
 
             return View(objModel);
         }
@@ -252,6 +316,67 @@ namespace GDEXMSS.Controllers
         {
             mssdbModel db = new mssdbModel();
             var productList = (from product in db.products select product).ToList();
+            Session["query"] = "";
+            return View(productList);
+        }
+        [AdminSessionCheck]
+        [HttpPost]
+        public ActionResult List(string Sortby, string query)
+        {
+            mssdbModel db = new mssdbModel();
+            var productList = (from product in db.products select product).ToList();
+            if (query == "")
+            {
+                if(Sortby == "default" || Sortby == "nameasc")
+                {
+                    productList = (from product in db.products select product).OrderBy(product => product.name).ToList();
+                }
+                else if(Sortby == "namedesc")
+                {
+                    productList = (from product in db.products select product).OrderByDescending(product => product.name).ToList();
+                }
+                else if (Sortby == "priceasc")
+                {
+                    productList = (from product in db.products select product).OrderBy(product => product.unitCost).ToList();
+                }
+                else if (Sortby == "pricedesc")
+                {
+                    productList = (from product in db.products select product).OrderByDescending(product => product.unitCost).ToList();
+                }
+                else if (Sortby == "quantityasc")
+                {
+                    productList = (from product in db.products select product).OrderBy(product => product.quantity).ToList();
+                }
+                else if (Sortby == "quantitydesc")
+                {
+                    productList = (from product in db.products select product).OrderByDescending(product => product.quantity).ToList();
+                }
+                else if (Sortby == "aoldasc")
+                {
+                    productList = (from product in db.products select product).OrderBy(product => product.quantitySold).ToList();
+                }
+                else if (Sortby == "solddesc")
+                {
+                    productList = (from product in db.products select product).OrderByDescending(product => product.quantitySold).ToList();
+                }
+                else if (Sortby == "available")
+                {
+                    productList = (from product in db.products where product.quantity > 0 select product).OrderBy(product => product.name).ToList();
+                }
+                else if (Sortby == "soldout")
+                {
+                    productList = (from product in db.products where product.quantity == 0 select product).OrderBy(product => product.name).ToList();
+                }
+                else if (Sortby == "discontinued")
+                {
+                    productList = (from product in db.products where product.isExist == false select product).OrderBy(product => product.name).ToList();
+                }
+            }
+            else
+            {
+                productList = (from product in db.products where product.name.Contains(query) || product.description.Contains(query) select product).OrderBy(product => product.name).ToList();
+            }
+            Session["query"] = "";
             return View(productList);
         }
         [AdminSessionCheck]
@@ -281,19 +406,23 @@ namespace GDEXMSS.Controllers
         {
             if (actions == "delete")
             {
-                bool oldValidateOnSaveEnabled = dbModel.Configuration.ValidateOnSaveEnabled;
-                try
-                {
-                    dbModel.Configuration.ValidateOnSaveEnabled = false;
-                    var tryProductID = new product { productID = productID };
-                    dbModel.products.Attach(tryProductID);
-                    dbModel.Entry(tryProductID).State = System.Data.Entity.EntityState.Deleted;
-                    dbModel.SaveChanges();
-                }
-                finally
-                {
-                    dbModel.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
-                }
+                //delete the product
+                //bool oldValidateOnSaveEnabled = dbModel.Configuration.ValidateOnSaveEnabled;
+                //try
+                //{
+                //    dbModel.Configuration.ValidateOnSaveEnabled = false;
+                //    var tryProductID = new product { productID = productID };
+                //    dbModel.products.Attach(tryProductID);
+                //    dbModel.Entry(tryProductID).State = System.Data.Entity.EntityState.Deleted;
+                //    dbModel.SaveChanges();
+                //}
+                //finally
+                //{
+                //    dbModel.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
+                //}
+                product deactivateProduct = dbModel.products.FirstOrDefault(x => x.productID == productID);
+                deactivateProduct.isExist = false;
+                dbModel.SaveChanges();
                 return RedirectToAction("List");
             }
             //if the actions is not delete then show all the records in edit form
@@ -327,12 +456,13 @@ namespace GDEXMSS.Controllers
                 string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
                 string extension = Path.GetExtension(productModel.ImageFile.FileName);
                 fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
-                productModel.product.imagePath = "../Image/" + fileName;
+                productModel.product.imagePath = "/Image/" + fileName;
                 fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
+                productModel.ImageFile.SaveAs(fileName);
                 using (mssdbModel dbModel = new mssdbModel())
                 {
                     var EditedObj = dbModel.products.Where(x => x.productID == productModel.product.productID).FirstOrDefault();
-                    productModel.product.productID = EditedObj.productID;
+                    EditedObj.imagePath = productModel.product.imagePath;
                     dbModel.Entry(EditedObj).CurrentValues.SetValues(productModel.product);
                     //dbModel.products.Add(productModel.product);
                     dbModel.SaveChanges();

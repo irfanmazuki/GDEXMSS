@@ -76,7 +76,7 @@
                         <!-- Top Right -->
                         <div class="right-content">
                             <ul class="list-main">
-                                <li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
+                                @*<li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>*@
                                 @if (Session["UserID"] != null)
                                 {
                                     <li><i class="fa fa-solid fa-user"></i> <a href="#">@Session["Name"].ToString()</a></li>
@@ -134,7 +134,7 @@
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active" : "")">
                                                     <a href="#">User<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
-                                                        <li>@Html.ActionLink("Employee Application", "List", "User")</li>
+                                                        @*<li>@Html.ActionLink("Employee Application", "List", "User")</li>*@
                                                         <li>@Html.ActionLink("User List", "List", "User")</li>
                                                     </ul>
                                                 </li>
@@ -145,7 +145,7 @@
                                                     </ul>
                                                 </li>
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Wallet" ? "active" : "")">
-                                                    <a href="#">Wallet & Points<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                    <a href="#">Points<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
                                                         <li>@Html.ActionLink("User List", "UserList", "Wallet")</li>
                                                     </ul>

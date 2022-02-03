@@ -25,4 +25,10 @@ namespace GDEXMSS.Models
         public string imagePath { get; set; }
         public string orderID { get; set; }
     }
+    public class CombinedCartUser
+    {
+        public List<cartItem> listCartItems { get; set; }
+        public eWallet eWallet { get; set; }
+        public order order { get; set; }
+    }
 }

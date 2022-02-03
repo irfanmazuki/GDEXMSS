@@ -1,100 +1,124 @@
-﻿@model IEnumerable<GDEXMSS.Models.cartItem>
+﻿@model GDEXMSS.Models.CombinedCartUser
 @{
     ViewBag.Title = "My Cart";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-    <!-- Shopping Cart -->
-    <div class="shopping-cart section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Shopping Summery -->
-                    <table class="table shopping-summery">
-                        <thead>
-                            <tr class="main-hading">
-                                <th>PRODUCT</th>
-                                <th>NAME</th>
-                                <th class="text-center">UNIT PRICE</th>
-                                <th class="text-center">QUANTITY</th>
-                                <th class="text-center">TOTAL</th>
-                                <th class="text-center"><i class="far fa-trash-alt"></i></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                decimal total = 0.00M;
-
-
-                            }
-                            @if (Model != null)
+<!-- Shopping Cart -->
+<div class="shopping-cart section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Shopping Summery -->
+                <table class="table shopping-summery">
+                    <thead>
+                        <tr class="main-hading">
+                            <th>PRODUCT</th>
+                            <th>NAME</th>
+                            <th class="text-center">UNIT PRICE</th>
+                            <th class="text-center">QUANTITY</th>
+                            <th class="text-center">TOTAL</th>
+                            <th class="text-center"><i class="far fa-trash-alt"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            decimal total = 0.00M;
+                        }
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model.listCartItems)
                             {
-                                foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td class="image" data-title="No"><img src="@item.imagePath" alt="#"></td>
-                                        <td class="product-des" data-title="Description">
-                                            <p class="product-name"><a href="#">@item.productName</a></p>
-                                        </td>
-                                        <td class="price" data-title="Price"><span>@item.unitCost</span></td>
-                                        <td class="qty" data-title="Qty">
-                                            <!-- Input Order -->
-                                            <div class="row">
-                                                    <h4>
-                                                        @Html.ActionLink("-", "EditCart", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-primary" })
-                                                        <span class="badge bg-secondary">@item.quantity</span>
-                                                        @Html.ActionLink("+", "EditCart", new { productID = item.productID, actions = "add" }, new { @class = "badge bg-primary" })
-                                                    </h4>
-                                            </div>
-                                            <!--/ End Input Order -->
-                                        </td>
-                                        @{ 
-                                            total += item.total.GetValueOrDefault(0.00M);
-                                        }
-                                        <td class="total-amount" data-title="Total"><span>@item.total</span></td>
-                                        <td class="action" data-title="Remove"><a href="#"><i class="far fa-trash-alt"></i></a></td>
-                                    </tr>
-                                    Session["totalCart"] = total;
-                                }
+                                <tr>
+                                    <td class="image" data-title="No"><img src="@item.imagePath" alt="#"></td>
+                                    <td class="product-des" data-title="Description">
+                                        <p class="product-name"><a href="#">@item.productName</a></p>
+                                    </td>
+                                    <td class="price" data-title="Price"><span>@item.unitCost</span></td>
+                                    <td class="qty" data-title="Qty">
+                                        <!-- Input Order -->
+                                        <div class="row">
+                                            <h4>
+                                                @Html.ActionLink("-", "EditCart", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-primary" })
+                                                <span class="badge bg-secondary">@item.quantity</span>
+                                                @Html.ActionLink("+", "EditCart", new { productID = item.productID, actions = "add" }, new { @class = "badge bg-primary" })
+                                            </h4>
+                                        </div>
+                                        <!--/ End Input Order -->
+                                    </td>
+                                    @{
+                                        total += item.total.GetValueOrDefault(0.00M);
+                                    }
+                                    <td class="total-amount" data-title="Total"><span>@item.total</span></td>
+                                    <td class="action" data-title="Remove"><a href="#"><i class="far fa-trash-alt"></i></a></td>
+                                </tr>
+                                Session["totalCart"] = total;
                             }
+                        }
 
-                        </tbody>
-                    </table>
-                    <!--/ End Shopping Summery -->
-                </div>
+                    </tbody>
+                </table>
+                <!--/ End Shopping Summery -->
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <!-- Total Amount -->
-                    <div class="total-amount">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-5 col-12">
-                                <!-- <div class="left">
-                                    <div class="coupon">
-                                        <form action="#" target="_blank">
-                                            <input name="Coupon" placeholder="Enter Your Coupon">
-                                            <button class="btn">Apply</button>
-                                        </form>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Shipping (+10RM)</label>
-                                    </div>
-                                </div> -->
+        </div>
+        <div class="row">
+            <p></p>
+            <div class="col-12">
+                <div class="col-md-offset-2 col-md-10 text-danger">
+                    <label>@ViewBag.ErrorMassage</label>
+                </div>
+                @using (Html.BeginForm("Cart", "Products", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label>Enter amount of points you want to use. Available points is @Model.eWallet.availablePoints <span></span></label>
+                        @Html.EditorFor(model => model.order.pointRedeemed)
+                        @Html.ValidationMessageFor(model => model.order.pointRedeemed, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" id="btnView" class="btn btn-default bg-primary" />
                             </div>
-                            <div class="col-lg-4 col-md-7 col-12">
-                                <div class="right">
-                                    <ul>
-                                        <li>Cart Subtotal<span>RM @total</span></li>
-                                    </ul>
-                                    <div class="button5">
-                                        <a href="https://localhost:44319/Products/Checkout" class="btn">Checkout</a>
-                                    </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- Total Amount -->
+                <div class="total-amount">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-5 col-12">
+                            <!-- <div class="left">
+                                <div class="coupon">
+                                    <form action="#" target="_blank">
+                                        <input name="Coupon" placeholder="Enter Your Coupon">
+                                        <button class="btn">Apply</button>
+                                    </form>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Shipping (+10RM)</label>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-lg-4 col-md-7 col-12">
+                            <div class="right">
+                                <ul>
+                                    <li>Cart Subtotal<span>RM @total</span></li>
+                                </ul>
+                                <div class="button5">
+                                    <a href="https://localhost:44319/Products/Checkout" class="btn">Checkout</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--/ End Total Amount -->
                 </div>
+                <!--/ End Total Amount -->
             </div>
         </div>
     </div>
-    <!--/ End Shopping Cart -->
+</div>
+<!--/ End Shopping Cart -->

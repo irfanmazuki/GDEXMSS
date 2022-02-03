@@ -45,14 +45,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="customFile">Upload image file</label>
-                                        <input type="file" class="form-control" id="ImageFile" name="ImageFile" />
+                                <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+                                    <div class="form-group single-product">
+                                        <img class="default-img" src="@Html.DisplayFor(model => model.product.imagePath)" alt="#">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="customFile">Upload new image</label>
+                                        <input type="file" class="form-control" id="ImageFile" name="ImageFile" />
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Is there variations?<span class="text-danger">*</span></label>
@@ -64,7 +71,7 @@
                                         @Html.ValidationMessageFor(model => model.product.isVariation, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">

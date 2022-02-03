@@ -9,14 +9,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="checkout-form">
-                        <h2>Edit User</h2>
+                        <h2>Add Points</h2>
                         <p></p>
                         @using (Html.BeginForm("Topup", "Wallet", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.walletID, new { htmlAttributes = new { @readonly = "readonly" } })
-                            <div class="row">
+                            @Html.HiddenFor(model => model.amountRM, new { htmlAttributes = new { @readonly = "readonly", value = "0" } })
+                            @*<div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Amount of wallet</label>
@@ -24,7 +25,7 @@
                                         @Html.ValidationMessageFor(model => model.amountRM, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">

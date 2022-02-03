@@ -76,8 +76,8 @@
                         <!-- Top Right -->
                         <div class="right-content">
                             <ul class="list-main">
-                                <li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
-                                <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>
+                                @*<li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
+                                <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>*@
                                 <li><i class="fa fa-solid fa-power-off"></i>@Session["Name"].ToString()</li>
                                 <li>@Html.ActionLink("Logout", "Logout", "User")</li>
                             </ul>
@@ -157,10 +157,10 @@
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active" : "")">@Html.ActionLink("Profile", "Profile", "User")</li>
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Order" ? "active" : "")">@Html.ActionLink("Order History", "History", "Order")</li>
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Wallet" ? "active" : "")">
-                                                    <a href="#">Wallet<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                    <a href="#">Points<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
                                                         <li>@Html.ActionLink("Balance", "Balance", "Wallet")</li>
-                                                        <li>@Html.ActionLink("Topup Wallet", "TopupWallet", "Wallet")</li>
+                                                        @*<li>@Html.ActionLink("Topup Wallet", "TopupWallet", "Wallet")</li>*@
                                                     </ul>
                                                 </li>
                                             </ul>

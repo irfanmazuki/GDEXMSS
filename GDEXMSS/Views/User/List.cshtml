@@ -11,37 +11,47 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <ul class="navbar nav ml-auto">
-                                <li class="mr-auto p-2">
-                                    <h2 class="card-title">User List</h2>
-                                </li>
-                                <li class="p-2">
-                                    <div class="form-group form-group-sm" style="width: 210px;">
-                                        <select name="state-province" id="state-province">
-                                            <option selected="selected" disabled>Sort by</option>
-                                            <option>Employee</option>
-                                            <option>User</option>
-                                        </select>
-                                    </div>
-                                </li>
-                                <li class="p-2">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="table_search" class="form-control" placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default">
-                                                <i class="fas fa-search"></i>
-                                            </button>
+                            @using (Html.BeginForm("List", "User", FormMethod.Post, new { id = "Form1", @class = "form-group" }))
+                            {
+                                <ul class="navbar nav ml-auto">
+                                    <li class="mr-auto p-2">
+                                        <h5 class="card-title"><b>User List</b></h5>
+                                    </li>
+                                    <li class="p-2">
+                                        <div style="width:220px">
+                                            @Html.DropDownList("Sortby", new SelectListItem[]
+                                            {
+                                                 new SelectListItem() { Text = "Sort By", Value="0", Disabled = true, Selected  = true },
+                                                 new SelectListItem() { Text = "Default", Value = "default" },
+                                                 new SelectListItem() { Text = "User Type - Employee", Value = "employee" },
+                                                 new SelectListItem() { Text = "User Type - Public", Value = "public" },
+                                                 new SelectListItem() { Text = "Fullname", Value = "fullname" },
+                                                 new SelectListItem() { Text = "Race", Value = "race" } },
+                                                 new
+                                                 {
+                                                     @onchange = "document.getElementById('Form1').submit();",
+                                                     @class = "form-group"
+                                                 })
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                    <li class="p-2">
+                                        <div class="input-group input-group-sm" style="width: 230px;">
+                                            <input type="text" name="query" class="form-control" placeholder="Search" value="@Session["query"]">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-default">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>User ID</th>
                                         <th>User Type</th>
                                         <th>Fullname</th>
@@ -54,7 +64,6 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@(rowNo += 1) </td>
                                             <td>@Html.DisplayFor(modelItem => item.userID)</td>
                                             <td>@Html.DisplayFor(modelItem => item.user_type)</td>
                                             <td>@Html.DisplayFor(modelItem => item.fullname)</td>

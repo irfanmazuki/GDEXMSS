@@ -24,7 +24,7 @@ namespace GDEXMSS.Models
         public string name { get; set; }
         [DisplayName("Description")]
         public string description { get; set; }
-        [DisplayName("Available Quantity")]
+        [DisplayName("Quantity")]
         public Nullable<int> quantity { get; set; }
         [DisplayName("Price")]
         public Nullable<decimal> unitCost { get; set; }
@@ -34,6 +34,7 @@ namespace GDEXMSS.Models
         public Nullable<bool> isExist { get; set; }
         public string imagePath { get; set; }
         public virtual SelectList CategoriesList { get; set; }
+        [DisplayName("Sold")]
         public Nullable<int> quantitySold { get; set; }
     }
     public class CombinedProductCategories
