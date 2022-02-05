@@ -3,6 +3,7 @@
     ViewBag.Title = "My Cart";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+
 <!-- Shopping Cart -->
 <div class="shopping-cart section">
     <div class="container">
@@ -24,7 +25,7 @@
                         @{
                             decimal total = 0.00M;
                         }
-                        @if (Model != null)
+                        @if (Model.listCartItems != null)
                         {
                             foreach (var item in Model.listCartItems)
                             {
@@ -60,65 +61,49 @@
                 <!--/ End Shopping Summery -->
             </div>
         </div>
-        <div class="row">
-            <p></p>
-            <div class="col-12">
-                <div class="col-md-offset-2 col-md-10 text-danger">
-                    <label>@ViewBag.ErrorMassage</label>
-                </div>
-                @using (Html.BeginForm("Cart", "Products", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
-                {
+        @using (Html.BeginForm("Cart", "Products", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
+        {
+            <div class="row">
+                <p></p>
+                <div class="col-6">
+                    <div class="col-md-offset-2 col-md-10 text-danger">
+                        <label>@ViewBag.ErrorMassage</label>
+                        @{ decimal maxPoints = total * 100;}
+                    </div>
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        <label>Enter amount of points you want to use. Available points is @Model.eWallet.availablePoints <span></span></label>
+                    <div class="form-group alert alert-primary">
+                        <label>Your available points is <div class="badge bg-primary">@Model.eWallet.availablePoints</div> <span></span></label><p></p>
+                        <label>Maximum points can be used for this cart is <div class="badge bg-danger">@Convert.ToInt32(maxPoints)</div> <span></span></label>
+                        <p></p>
+                        <label>Enter amount of points you would like to use : <span></span></label>
                         @Html.EditorFor(model => model.order.pointRedeemed)
                         @Html.ValidationMessageFor(model => model.order.pointRedeemed, "", new { @class = "text-danger" })
-
-                    </div>
-                    <div class="col-2">
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Save" id="btnView" class="btn btn-default bg-primary" />
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <!-- Total Amount -->
-                <div class="total-amount">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-5 col-12">
-                            <!-- <div class="left">
-                                <div class="coupon">
-                                    <form action="#" target="_blank">
-                                        <input name="Coupon" placeholder="Enter Your Coupon">
-                                        <button class="btn">Apply</button>
-                                    </form>
-                                </div>
-                                <div class="checkbox">
-                                    <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Shipping (+10RM)</label>
-                                </div>
-                            </div> -->
-                        </div>
-                        <div class="col-lg-4 col-md-7 col-12">
-                            <div class="right">
-                                <ul>
-                                    <li>Cart Subtotal<span>RM @total</span></li>
-                                </ul>
-                                <div class="button5">
-                                    <a href="https://localhost:44319/Products/Checkout" class="btn">Checkout</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <!--/ End Total Amount -->
+                <div class="col-6">
+                    <!-- Total Amount -->
+                    <div class="total-amount">
+                        <div class="right">
+                            <ul>
+                                <li>Cart Subtotal<span>RM @total</span></li>
+                            </ul>
+                            <div class="button5">
+                                <input type="submit" value="Checkout" class="btn bg-gray" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ End Total Amount -->
+                </div>
             </div>
-        </div>
+            @*<div class="col-2">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Save" id="btnView" class="btn btn-default bg-primary" />
+                        </div>
+                    </div>
+                </div>*@
+        }
     </div>
 </div>
 <!--/ End Shopping Cart -->

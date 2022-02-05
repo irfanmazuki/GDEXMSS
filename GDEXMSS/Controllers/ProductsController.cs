@@ -38,6 +38,10 @@ namespace GDEXMSS.Controllers
         {
             mssdbModel dbModel = new mssdbModel();
             CombinedProductIndex objModel = new CombinedProductIndex();
+            if (Session["CartCounter"] == null)
+            {
+                Session["CartCounter"] = 0;
+            }
             var categories = (from productCategory in dbModel.productCategories select productCategory).ToList();
             var products = (from product in dbModel.products select product).ToList();
             objModel.listCategories = categories;
@@ -103,11 +107,18 @@ namespace GDEXMSS.Controllers
         {
             mssdbModel dbModel = new mssdbModel();
             int userID = Int32.Parse(Session["UserID"].ToString());
+            double totalCart = Convert.ToDouble(Session["totalCart"].ToString());
+            double pointInRM = objCartUser.order.pointRedeemed.GetValueOrDefault() / 100.0;
             objCartUser.eWallet = dbModel.eWallets.Where(x => x.userID == userID).FirstOrDefault();
             objCartUser.listCartItems = Session["CartItem"] as List<cartItem>;
             if(objCartUser.eWallet.availablePoints < objCartUser.order.pointRedeemed)
             {
                 ViewBag.ErrorMassage = "Not enough point";
+                return View(objCartUser);
+            }
+            else if (pointInRM > totalCart)
+            {
+                ViewBag.ErrorMassage = "Reached maximum points";
                 return View(objCartUser);
             }
             else
@@ -116,12 +127,18 @@ namespace GDEXMSS.Controllers
                 objOrderModel.listItems = objCartUser.listCartItems;
                 objOrderModel.order = objCartUser.order;
                 objOrderModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
+                objOrderModel.listStates = dbModel.mssSystems.Where(x => x.mss_Category == "states_name").ToList().Select(x => new SelectListItem
+                {
+                    Value = x.mss_Name,
+                    Text = x.mss_Description
+                });
                 return View("Checkout", objOrderModel);
             }
         }
         public ActionResult EditCart(int productID, string actions)
         {
             listCartItem = Session["CartItem"] as List<cartItem>;
+            var objProduct = (from product in dbModel.products where product.productID == productID select product).FirstOrDefault();
             if (actions == "delete")
             {
                 foreach(var item in listCartItem)
@@ -149,7 +166,15 @@ namespace GDEXMSS.Controllers
                     if (item.productID == productID)
                     {
                         item.quantity++;
-                        item.total = item.quantity * item.unitCost;
+                        if (item.quantity > objProduct.quantity)
+                        {
+                            TempData["CartError"] = "maximumItems";
+                            item.quantity--;
+                        }
+                        else
+                        {
+                            item.total = item.quantity * item.unitCost;
+                        }
                     }
                 }
             }
@@ -166,61 +191,78 @@ namespace GDEXMSS.Controllers
         [HttpGet]
         public ActionResult Receipt(string orderID)
         {
+            Session["orderID"] = orderID;
             combinedOrderModel objOrder = new combinedOrderModel();
             objOrder.listItems = (from cartItem in dbModel.cartItems where cartItem.orderID == orderID select cartItem).ToList();
             objOrder.order = (from order in dbModel.orders where order.orderID == orderID select order).FirstOrDefault();
             objOrder.orderShippingInfo = (from orderShippingInfo in dbModel.orderShippingInfoes where orderShippingInfo.orderID == orderID select orderShippingInfo).FirstOrDefault();
             return View(objOrder);
         }
+        //checkout will go here
         [UserSessionCheck]
         [HttpPost]
         public ActionResult Receipt(combinedOrderModel objModel)
         {
-            mssdbModel dbModel = new mssdbModel();
-            decimal totalRM = 0;
-            var orderID = Guid.NewGuid().ToString("N");
-            //change length to orderID to 10
-            orderID = orderID.Substring(0, 8);
-            //mssSystem
+            objModel.listStates = dbModel.mssSystems.Where(x => x.mss_Category == "states_name").ToList().Select(x => new SelectListItem
+            {
+                Value = x.mss_Name,
+                Text = x.mss_Description
+            });
+            if (ModelState.IsValid)
+            {
+                mssdbModel dbModel = new mssdbModel();
+                decimal totalRM = 0;
+                var orderID = Guid.NewGuid().ToString("N");
+                //change length to orderID to 8
+                orderID = orderID.Substring(0, 8);
+                //mssSystem
+                objModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
+                decimal shippingFee = decimal.Parse(objModel.mssSystem.mss_Description.ToString());
+                //cartItem
+                objModel.listItems = Session["CartItem"] as List<cartItem>;
+                foreach (var item in objModel.listItems)
+                {
+                    cartItem objCartItem = new cartItem();
+                    objCartItem = item;
+                    objCartItem.orderID = orderID;
+                    totalRM += item.total.GetValueOrDefault(0.00M);
+                    //add sold quantity to the product model and remove from quantity
+                    product objProduct = new product();
+                    objProduct = (from product in dbModel.products where product.productID == item.productID select product).FirstOrDefault();
+                    objProduct.quantitySold = objProduct.quantitySold + item.quantity;
+                    objProduct.quantity -= item.quantity;
+                    dbModel.cartItems.Add(objCartItem);
+                    dbModel.SaveChanges();
+                }
+                //order
+                order objOrder = new order();
+                objOrder = objModel.order;
+                objOrder.status = "new";
+                objOrder.totalCost = totalRM;
+                objOrder.amountPaid = totalRM + shippingFee - (Convert.ToDecimal(objOrder.pointRedeemed.GetValueOrDefault() / 100.0));
+                objOrder.createdDT = DateTime.Now;
+                objOrder.userID = Int32.Parse(Session["UserID"].ToString());
+                objOrder.orderID = orderID;
+                Session["orderID"] = orderID;
+                //minus point from wallet
+                objModel.wallet = (from eWallet in dbModel.eWallets where eWallet.userID == objOrder.userID select eWallet).FirstOrDefault();
+                objModel.wallet.availablePoints -= objOrder.pointRedeemed;
+                //orderShippingInfo
+                objModel.orderShippingInfo.orderID = objModel.order.orderID;
+                objModel.orderShippingInfo.cost = shippingFee;
+                using (dbModel)
+                {
+                    dbModel.orderShippingInfoes.Add(objModel.orderShippingInfo);
+                    dbModel.orders.Add(objOrder);
+                    dbModel.orders.Add(objModel.order);
+                    dbModel.SaveChanges();
+                }
+                Session["CartItem"] = null;
+                Session["CartCounter"] = 0;
+                return RedirectToAction("Receipt", new { @orderID = orderID });
+            }
             objModel.mssSystem = (from mssSystem in dbModel.mssSystems where mssSystem.mss_Category == "shippingFee" select mssSystem).FirstOrDefault();
-            decimal shippingFee = decimal.Parse(objModel.mssSystem.mss_Description.ToString());
-            //cartItem
-            objModel.listItems = Session["CartItem"] as List<cartItem>;
-            foreach (var item in objModel.listItems)
-            {
-                cartItem objCartItem = new cartItem();
-                objCartItem = item;
-                objCartItem.orderID = orderID;
-                totalRM += item.total.GetValueOrDefault(0.00M);
-                //add sold quantity to the product model and remove from quantity
-                product objProduct = new product();
-                objProduct = (from product in dbModel.products where product.productID == item.productID select product).FirstOrDefault();
-                objProduct.quantitySold = objProduct.quantitySold + item.quantity;
-                objProduct.quantity -= item.quantity;
-                dbModel.cartItems.Add(objCartItem);
-                dbModel.SaveChanges();
-            }
-            //order
-            order objOrder = new order();
-            objOrder = objModel.order;
-            objOrder.status = "new";
-            objOrder.amountPaid = totalRM + shippingFee;
-            objOrder.createdDT = DateTime.Now;
-            objOrder.userID = Int32.Parse(Session["UserID"].ToString());
-            objOrder.orderID = orderID;
-            //orderShippingInfo
-            objModel.orderShippingInfo.orderID = objModel.order.orderID;
-            objModel.orderShippingInfo.cost = shippingFee;
-            using (dbModel)
-            {
-                dbModel.orderShippingInfoes.Add(objModel.orderShippingInfo);
-                dbModel.orders.Add(objOrder);
-                dbModel.orders.Add(objModel.order);
-                dbModel.SaveChanges();
-            }
-            Session["CartItem"] = 0;
-            Session["CartCounter"] = 0;
-            return RedirectToAction("Receipt", new { @orderID = orderID });
+            return View("Checkout", objModel);
         }
         [UserSessionCheck]
         [HttpPost]
@@ -230,11 +272,12 @@ namespace GDEXMSS.Controllers
             //thanks to this https://dotnetgenetics.blogspot.com/2017/11/invalid-nested-tag-div-found-expected.html 
             //and this https://www.aspsnippets.com/Articles/MVC-iTextSharp-Example-Convert-HTML-to-PDF-using-iTextSharp-in-ASPNet-MVC.aspx
             //and this https://sanushabalan.wordpress.com/2017/09/21/add-css-file-while-generating-pdf-using-itextsharp/comment-page-1/
+            string extraElements = "<div class=\"text-center\"><img src=\"https://seeklogo.com/images/G/gdex-logo-6838448C0F-seeklogo.com.png\" class=\"rounded mx-auto d-block \" style=\"width:90%\"></div>";
             HtmlNode.ElementsFlags["img"] = HtmlElementFlag.Closed;
             HtmlNode.ElementsFlags["input"] = HtmlElementFlag.Closed;
             HtmlDocument doc = new HtmlDocument();
             doc.OptionFixNestedTags = true;
-            doc.LoadHtml(GridHtml);
+            doc.LoadHtml(extraElements+GridHtml);
             GridHtml = doc.DocumentNode.OuterHtml;
             //css
             List<string> cssFiles = new List<string>();
@@ -269,9 +312,9 @@ namespace GDEXMSS.Controllers
                 XMLWorker worker = new XMLWorker(pipeline, true);
                 XMLParser xmlParser = new XMLParser(worker);
                 xmlParser.Parse(new MemoryStream(Encoding.UTF8.GetBytes(GridHtml)));
-
+                string fileName = "Receipt for order "+ Session["orderID"].ToString() + ".pdf";
                 pdfDoc.Close();
-                return File(stream.ToArray(), "application/pdf", "Grid.pdf");
+                return File(stream.ToArray(), "application/pdf", fileName);
             }
         }
         [AdminSessionCheck]
@@ -293,22 +336,28 @@ namespace GDEXMSS.Controllers
         [HttpPost]
         public ActionResult Add(CombinedProductCategories productModel)
         {
-            string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
-            string extension = Path.GetExtension(productModel.ImageFile.FileName);
-            fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
-            productModel.product.imagePath = "/Image/" + fileName;
-            fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
-            productModel.ImageFile.SaveAs(fileName);
-            using (mssdbModel dbModel = new mssdbModel())
+            mssdbModel db = new mssdbModel();
+            productModel.product.CategoriesList = new SelectList(db.productCategories, "categoryID", "name");
+            if (ModelState.IsValid)
             {
-                //set quantity sold to zero
-                productModel.product.quantitySold = 0;
-                dbModel.products.Add(productModel.product);
-                dbModel.SaveChanges();
+                string fileName = Path.GetFileNameWithoutExtension(productModel.ImageFile.FileName);
+                string extension = Path.GetExtension(productModel.ImageFile.FileName);
+                fileName = productModel.product.name.ToString() + "-" + DateTime.Now.ToString("MMddyyyy") + "" + extension;
+                productModel.product.imagePath = "/Image/" + fileName;
+                fileName = Path.Combine(Server.MapPath("../Image/"), fileName);
+                productModel.ImageFile.SaveAs(fileName);
+                using (mssdbModel dbModel = new mssdbModel())
+                {
+                    //set quantity sold to zero
+                    productModel.product.quantitySold = 0;
+                    dbModel.products.Add(productModel.product);
+                    dbModel.SaveChanges();
+                }
+                ModelState.Clear();
+                ViewBag.SuccessMassage = "Add Successful";
+                return RedirectToAction("List");
             }
-            ModelState.Clear();
-            ViewBag.SuccessMassage = "Add Successful";
-            return RedirectToAction("List");
+            return View(productModel);
         }
         [AdminSessionCheck]
         [HttpGet]
@@ -419,9 +468,30 @@ namespace GDEXMSS.Controllers
                 //finally
                 //{
                 //    dbModel.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
-                //}
+                //}ch
                 product deactivateProduct = dbModel.products.FirstOrDefault(x => x.productID == productID);
                 deactivateProduct.isExist = false;
+                dbModel.SaveChanges();
+                return RedirectToAction("List");
+            }
+            if (actions == "activate")
+            {
+                //delete the product
+                //bool oldValidateOnSaveEnabled = dbModel.Configuration.ValidateOnSaveEnabled;
+                //try
+                //{
+                //    dbModel.Configuration.ValidateOnSaveEnabled = false;
+                //    var tryProductID = new product { productID = productID };
+                //    dbModel.products.Attach(tryProductID);
+                //    dbModel.Entry(tryProductID).State = System.Data.Entity.EntityState.Deleted;
+                //    dbModel.SaveChanges();
+                //}
+                //finally
+                //{
+                //    dbModel.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
+                //}ch
+                product deactivateProduct = dbModel.products.FirstOrDefault(x => x.productID == productID);
+                deactivateProduct.isExist = true;
                 dbModel.SaveChanges();
                 return RedirectToAction("List");
             }
@@ -482,11 +552,43 @@ namespace GDEXMSS.Controllers
             dbModel.SaveChanges();
             return RedirectToAction("History","Order");
         }
-        //[UserSessionCheck]
-        //[HttpGet]
-        //public ActionResult Review(string orderID)
-        //{
-
-        //}
+        [UserSessionCheck]
+        [HttpGet]
+        public ActionResult Search(int categoryID)
+        {
+            mssdbModel dbModel = new mssdbModel();
+            CombinedProductIndex objModel = new CombinedProductIndex();
+            var categories = (from productCategory in dbModel.productCategories select productCategory).ToList();
+            var products = (from product in dbModel.products select product).ToList();
+            if (categoryID > 0)
+            {
+                products = (from product in dbModel.products where product.categoryID == categoryID select product).ToList();
+            }
+            objModel.listCategories = categories;
+            objModel.listProduct = products;
+            return View(objModel);
+        }
+        [UserSessionCheck]
+        [HttpPost]
+        public ActionResult Search(string query, int categoryID)
+        {
+            mssdbModel dbModel = new mssdbModel();
+            CombinedProductIndex objModel = new CombinedProductIndex();
+            if (query != null)
+            {
+                var categories = (from productCategory in dbModel.productCategories select productCategory).ToList();
+                var products = (from product in dbModel.products where product.name.Contains(query) select product).ToList();
+                objModel.listCategories = categories;
+                objModel.listProduct = products;
+            }
+            else
+            {
+                var categories = (from productCategory in dbModel.productCategories select productCategory).ToList();
+                var products = (from product in dbModel.products where product.categoryID == categoryID select product).ToList();
+                objModel.listCategories = categories;
+                objModel.listProduct = products;
+            }
+            return View(objModel);
+        }
     }
 }

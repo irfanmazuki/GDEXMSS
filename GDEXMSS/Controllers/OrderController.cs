@@ -132,8 +132,56 @@ namespace GDEXMSS.Controllers
             mssdbModel dbModel = new mssdbModel();
             int userID = Int32.Parse(Session["UserID"].ToString());
             combinedOrderList orderModel = new combinedOrderList();
-            orderModel.listOrder = (from order in dbModel.orders where order.userID == userID select order).ToList();
+            orderModel.listOrder = (from order in dbModel.orders where order.userID == userID select order).OrderByDescending(order => order.createdDT).ToList();
             orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
+            Session["query"] = "";
+            return View(orderModel);
+        }
+        [UserSessionCheck]
+        [HttpPost]
+        public ActionResult History(string Sortby, string query)
+        {
+            mssdbModel dbModel = new mssdbModel();
+            int userID = Int32.Parse(Session["UserID"].ToString());
+            combinedOrderList orderModel = new combinedOrderList();
+            orderModel.listOrder = (from order in dbModel.orders where order.userID == userID select order).OrderByDescending(order => order.createdDT).ToList();
+            if(query == "")
+            {
+                if(Sortby == "dateasc")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.userID == userID select order).OrderBy(order => order.createdDT).ToList();
+                }
+                else if(Sortby == "priceasc")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.userID == userID select order).OrderBy(order => order.amountPaid).ToList();
+                }
+                else if (Sortby == "pricedesc")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.userID == userID select order).OrderByDescending(order => order.amountPaid).ToList();
+                }
+                else if (Sortby == "processing")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.userID == userID && order.status == "new" select order).OrderByDescending(order => order.amountPaid).ToList();
+                }
+                else if (Sortby == "sent")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.userID == userID && order.status == "sent" select order).OrderByDescending(order => order.amountPaid).ToList();
+                }
+                else if (Sortby == "received")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.userID == userID && order.status == "received" select order).OrderByDescending(order => order.amountPaid).ToList();
+                }
+                else if (Sortby == "reviewed")
+                {
+                    orderModel.listOrder = (from order in dbModel.orders where order.userID == userID && order.status == "reviewed" select order).OrderByDescending(order => order.amountPaid).ToList();
+                }
+            }
+            else
+            {
+                orderModel.listOrder = (from order in dbModel.orders where order.userID == userID && order.orderID == query select order).OrderByDescending(order => order.createdDT).ToList();
+            }
+            orderModel.listItems = (from cartItem in dbModel.cartItems select cartItem).ToList();
+            Session["query"] = "";
             return View(orderModel);
         }
         [UserSessionCheck]

@@ -1,3 +1,11 @@
 ﻿<div class="sinlge-bar shopping">
-    @Html.ActionLink("Cart(" + Session["CartCounter"] + ")", "Cart", "Products", new { id = "cartItem" })
+    @*@Html.ActionLink("View Cart(" + Session["CartCounter"] + ")", "Cart", "Products", new { id = "cartItem" })*@
+    <h4>
+        <a href="@Url.Action("Cart", "Products")" id="cartItem">
+            <div class="badge badge-danger">
+                View Cart <span class="badge badge-secondary" id="cartCounter">@Session["CartCounter"]<span>
+            </div>
+        </a>
+    </h4>
+
 </div>

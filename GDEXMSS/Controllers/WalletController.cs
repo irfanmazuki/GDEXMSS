@@ -16,15 +16,22 @@ namespace GDEXMSS.Controllers
         private mssdbModel dbModel = new mssdbModel();
         [AdminSessionCheck]
         [HttpGet]
-        public ActionResult UserList(string message) 
+        public ActionResult UserList() 
         {
-            if (message=="success")
-            {
-                ViewBag.Message = "points successfully added";
-            }
             CombinedListWalletUser walletUserModel = new CombinedListWalletUser();
             walletUserModel.listWallet = (from eWallet in dbModel.eWallets select eWallet).ToList();
             walletUserModel.listUser = (from user in dbModel.users  select user).ToList();
+            //walletUserModel.eWallet = (from eWallet in dbModel.eWallets where eWallet.userID == Int32.Parse(Session["UserID"].ToString()) select eWallet).FirstOrDefault();
+            //walletUserModel.userObj = (from user in dbModel.users where user.userID == Int32.Parse(Session["UserID"].ToString()) select user).FirstOrDefault();
+            return View(walletUserModel);
+        }
+        [AdminSessionCheck]
+        [HttpPost]
+        public ActionResult UserList(string query)
+        {
+            CombinedListWalletUser walletUserModel = new CombinedListWalletUser();
+            walletUserModel.listWallet = (from eWallet in dbModel.eWallets select eWallet).ToList();
+            walletUserModel.listUser = (from user in dbModel.users where user.fullname.Contains(query) select user).ToList();
             //walletUserModel.eWallet = (from eWallet in dbModel.eWallets where eWallet.userID == Int32.Parse(Session["UserID"].ToString()) select eWallet).FirstOrDefault();
             //walletUserModel.userObj = (from user in dbModel.users where user.userID == Int32.Parse(Session["UserID"].ToString()) select user).FirstOrDefault();
             return View(walletUserModel);
@@ -53,8 +60,8 @@ namespace GDEXMSS.Controllers
             //    walletRecord.amountRM = walletRecord.amountRM + walletModel.amountRM;
             //}
             dbModel.SaveChanges();
-            Session["walletID"] = "";
-            return RedirectToAction("UserList", new { message = "success" });
+            TempData["point_success"] = "success";
+            return RedirectToAction("UserList");
         }
         [UserSessionCheck]
         [HttpGet]

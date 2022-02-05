@@ -70,14 +70,19 @@ namespace GDEXMSS.Controllers
         [HttpPost]
         public ActionResult Add(productCategory categoryModel)
         {
-            categoryModel.isExist = true;
-            using (mssdbModel dbModel = new mssdbModel())
+            if (ModelState.IsValid)
             {
-                dbModel.productCategories.Add(categoryModel);
-                dbModel.SaveChanges();
+                categoryModel.isExist = true;
+                using (mssdbModel dbModel = new mssdbModel())
+                {
+                    dbModel.productCategories.Add(categoryModel);
+                    dbModel.SaveChanges();
+                }
+
+                return RedirectToAction("List");
             }
-               
-            return RedirectToAction("List");
+            return View(categoryModel);
+
         }
 
     }

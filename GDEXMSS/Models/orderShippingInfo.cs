@@ -11,19 +11,25 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class orderShippingInfo
     {
         public string shippingID { get; set; }
         public string type { get; set; }
         public Nullable<decimal> cost { get; set; }
+        [Required]
         public string address { get; set; }
+        [Required]
         public Nullable<int> poscode { get; set; }
+        [Required]
         public string city { get; set; }
+        [Required]
         public string state { get; set; }
         public Nullable<int> branchID { get; set; }
         public Nullable<bool> isPickup { get; set; }
         public string orderID { get; set; }
+        [Required]
         public string name { get; set; }
     }
 }

@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group button">
-                                        <button type="submit" class="btn">Search</button>
+                                        <button type="submit" class="btn btn-primary">Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                         if(Model.searchResult != null)
                         {
                             @Html.Raw(Model.searchResult);
-                            @Html.ActionLink("Add this product", "Add", "Products", new { productName = Model.searchKeyword}, new { @class = "badge bg-primary" });
+                            @Html.ActionLink("Add this product?", "Add", "Products", new { productName = Model.searchKeyword}, new { @class = "badge bg-primary" });
                         }
                     }</h4>
                 </div>

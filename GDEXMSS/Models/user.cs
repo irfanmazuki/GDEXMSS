@@ -11,7 +11,9 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
     public partial class user
     {
         public int userID { get; set; }
@@ -30,5 +32,8 @@ namespace GDEXMSS.Models
         public string home_state { get; set; }
         public Nullable<bool> isExist { get; set; }
         public string username { get; set; }
+        public IEnumerable<SelectListItem> listRaces { get; set; }
+        public IEnumerable<SelectListItem> listBankType { get; set; }
+        public IEnumerable<SelectListItem> listStates { get; set; }
     }
 }

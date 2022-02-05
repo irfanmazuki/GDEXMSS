@@ -249,6 +249,7 @@
     <Compile Include="Controllers\PointsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserSessionCheck.cs" />
     <Compile Include="Controllers\WalletController.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Models\cartItem.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataPoint.cs" />
     <Compile Include="Models\eWallet.cs">
       <DependentUpon>mssdbModel.tt</DependentUpon>
     </Compile>
@@ -727,6 +729,9 @@
     <Content Include="Views\Shared\_UserLayout.cshtml" />
     <Content Include="Views\Order\Review.cshtml" />
     <Content Include="Views\Analysis\Index.cshtml" />
+    <Content Include="Views\Products\Search.cshtml" />
+    <Content Include="Views\Setting\Shipping.cshtml" />
+    <Content Include="Views\Setting\PromoPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

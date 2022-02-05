@@ -12,18 +12,19 @@
                         <h2>Your Profile</h2>
                         <p></p>
                         <!-- Form -->
-                        @using (Html.BeginForm("Profile_Edit", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("Profile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.isExist, new { htmlAttributes = new { @readonly = "readonly" } })
                             @Html.HiddenFor(model => model.user_type, new { htmlAttributes = new { @readonly = "readonly" } })
+                            @Html.HiddenFor(model => model.userID, new { htmlAttributes = new { @readonly = "readonly" } })
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>User ID</label>
-                                        @Html.EditorFor(model => model.userID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                        @Html.ValidationMessageFor(model => model.userID, "", new { @class = "text-danger" })
+                                        <label>Username</label>
+                                        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +32,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Fullname</label>
-                                        @Html.EditorFor(model => model.fullname, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.fullname, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.fullname, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -40,7 +41,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -50,7 +51,7 @@
                                     <div class="form-group">
                                         <label>Password</label>
                                         @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @type = "password", @readonly = "readonly" } })
-                                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -67,8 +68,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Race</label>
-                                        @Html.EditorFor(model => model.race, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                        @Html.ValidationMessageFor(model => model.race, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.race, Model.listRaces, "Select Race")
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Contact Number</label>
-                                        @Html.EditorFor(model => model.contact_number, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.contact_number, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.contact_number, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -85,8 +85,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Bank Name</label>
-                                        @Html.EditorFor(model => model.bank_name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                        @Html.ValidationMessageFor(model => model.bank_name, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.bank_name, Model.listBankType, "Select Bank")
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +93,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Bank Number</label>
-                                        @Html.EditorFor(model => model.bank_number, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.bank_number, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.bank_number, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -103,7 +102,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Home Address</label>
-                                        @Html.EditorFor(model => model.home_address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.home_address, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.home_address, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -112,7 +111,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Poscode</label>
-                                        @Html.EditorFor(model => model.home_poscode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.home_poscode, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.home_poscode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -121,7 +120,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>City</label>
-                                        @Html.EditorFor(model => model.home_city, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.home_city, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.home_city, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -130,8 +129,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>State</label>
-                                        @Html.EditorFor(model => model.home_state, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                        @Html.ValidationMessageFor(model => model.home_state, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.home_state, Model.listStates, "Select States")
                                     </div>
                                 </div>
                             </div>

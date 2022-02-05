@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="~/Content/css/reset.css" type="text/css" runat="server">
     <link rel="stylesheet" href="~/Content/css/responsive.css" type="text/css" runat="server">
     <link rel="stylesheet" href="~/Content/css/style.css" type="text/css" runat="server">
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
 
 <body class="js">
@@ -138,10 +139,10 @@
                                                         <li>@Html.ActionLink("User List", "List", "User")</li>
                                                     </ul>
                                                 </li>
-                                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Reports" ? "active" : "")">
+                                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Report" ? "active" : "")">
                                                     <a href="#">Reporting<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
-                                                        <li>@Html.ActionLink("Sales & Report", "Sales", "Reports")</li>
+                                                        <li>@Html.ActionLink("Sales & Report", "Sales", "Report")</li>
                                                     </ul>
                                                 </li>
                                                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Wallet" ? "active" : "")">
@@ -161,6 +162,13 @@
                                                     <a href="#">Analysis<i class="fa fa-solid fa-chevron-down"></i></a>
                                                     <ul class="dropdown">
                                                         <li>@Html.ActionLink("Product Analysis", "Index", "Analysis")</li>
+                                                    </ul>
+                                                </li>
+                                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Setting" ? "active" : "")">
+                                                    <a href="#">Setting<i class="fa fa-solid fa-chevron-down"></i></a>
+                                                    <ul class="dropdown">
+                                                        <li>@Html.ActionLink("Change Shipping Fee", "Shipping", "Setting")</li>
+                                                        @*<li>@Html.ActionLink("Change Promopage", "PromoPage", "Analysis")</li>*@
                                                     </ul>
                                                 </li>
                                             </ul>
@@ -282,6 +290,14 @@
     </footer>
     <!-- /End Footer Area -->
     <!-- Jquery -->
+    @if (TempData["point_success"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                $('#pointsAdded').modal('toggle');
+            };
+        </script>
+    }
     <script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/jquery-migrate-3.0.0.js"></script>
     <script src="~/Content/js/jquery-ui.min.js"></script>

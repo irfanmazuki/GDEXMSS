@@ -1226,13 +1226,13 @@ object {
     display: inline-block;
 }
 
-.modal-dialog {
+/*.modal-dialog {
     margin: 12% auto 8%;
     max-width: 1358px;
     width: 1358px;
-}
+}*/
 
-@media only screen and (min-width: 1366px) and (max-width: 1600px) {
+/*@media only screen and (min-width: 1366px) and (max-width: 1600px) {
     .modal-dialog {
         width: 1145px;
         max-width: 1145px;
@@ -1251,14 +1251,14 @@ object {
         width: 960px;
         max-width: 960px;
     }
-}
+}*/
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+/*@media only screen and (min-width: 768px) and (max-width: 991px) {
     .modal-dialog {
         width: 720px;
         max-width: 720px;
     }
-}
+}*/
 
 @media only screen and (max-width: 767px) {
     .modal-dialog {
@@ -1268,9 +1268,9 @@ object {
     }
 }
 
-.modal-dialog .modal-content {
+/*.modal-dialog .modal-content {
     border-radius: 0;
-}
+}*/
 
 .modal-dialog .modal-content .modal-header {
     border: none;
@@ -1324,10 +1324,10 @@ object {
 }
 
 .modal-dialog .modal-content .modal-body {
-    padding: 0px;
+/*    padding: 0px;*/
     overflow-y: auto;
-    max-height: 510px;
-    height: 700px;
+/*    max-height: 200px;*/
+    height: auto;
 }
 
 .quickview-content {

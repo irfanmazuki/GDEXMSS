@@ -77,7 +77,7 @@
                         <div class="right-content">
                             <ul class="list-main">
                                 @*<li><i class="fa fa-solid fa-map-pin"></i> Branch location</li>
-                                <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>*@
+                                    <li><i class="fa fa-solid fa-star"></i> <a href="#">Daily deal</a></li>*@
                                 <li><i class="fa fa-solid fa-power-off"></i>@Session["Name"].ToString()</li>
                                 <li>@Html.ActionLink("Logout", "Logout", "User")</li>
                             </ul>
@@ -115,26 +115,17 @@
                     <div class="col-lg-8 col-md-7 col-12">
                         <div class="search-bar-top">
                             <div class="search-bar">
-                                <select>
-                                    <option selected="selected">All Category</option>
-                                    <option>Limited Edition</option>
-                                    <option>Clothes</option>
-                                    <option>Stationery</option>
-                                    <option>Miniature</option>
-                                </select>
-                                <form>
-                                    <input name="search" placeholder="Search Products Here....." type="search">
+                                @using (Html.BeginForm("Search", "Products", FormMethod.Post, new { id = "Form1" }))
+                                {
+                                    <input type="text" placeholder="Search here..." name="query">
+                                    <input type="text" placeholder="Search here..." name="categoryID" value=0 hidden>
                                     <button class="btnn"><i class="fas fa-solid fa-search"></i></button>
-                                </form>
+                                }
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-12">
                         <div class="right-bar">
-                            <!-- Search Form -->
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-solid fa-heart"></i></a>
-                            </div>
                             @Html.Partial("_ShoppingCart")
                         </div>
                     </div>
@@ -193,6 +184,7 @@
         </div>
     </div>
     <!-- End Breadcrumbs -->
+    <!-- Modal -->
     <!-- Start Checkout -->
     @RenderBody()
     <!--/ End Checkout -->
@@ -290,6 +282,14 @@
             });
         });
     </script>
+    @if (TempData["CartError"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("Maximum number of items");
+            };
+        </script>
+    }
     <script src="~/Content/js/jquery-migrate-3.0.0.js"></script>
     <script src="~/Content/js/jquery-ui.min.js"></script>
     <!-- Popper JS -->

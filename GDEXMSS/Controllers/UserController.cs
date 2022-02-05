@@ -191,14 +191,72 @@ namespace GDEXMSS.Controllers
             return RedirectToAction("List");
         }
         [UserSessionCheck]
+        [HttpGet]
         public ActionResult Profile()
         {
             mssdbModel dbModel = new mssdbModel();
             int userID = Int32.Parse(Session["UserID"].ToString()) ;
             var userRecord = dbModel.users.Where(x => x.userID == userID).FirstOrDefault();
+            userRecord.listRaces = dbModel.mssSystems.Where(x => x.mss_Category == "user_race").ToList().Select(x => new SelectListItem
+            {
+                Value = x.mss_Name,
+                Text = x.mss_Description
+            });
+            userRecord.listBankType = dbModel.mssSystems.Where(x => x.mss_Category == "bank_name").ToList().Select(x => new SelectListItem
+            {
+                Value = x.mss_Name,
+                Text = x.mss_Description
+            });
+            userRecord.listStates = dbModel.mssSystems.Where(x => x.mss_Category == "states_name").ToList().Select(x => new SelectListItem
+            {
+                Value = x.mss_Name,
+                Text = x.mss_Description
+            });
             return View(userRecord);
         }
-
+        [UserSessionCheck]
+        [HttpPost]
+        public ActionResult Profile(user objUser)
+        {
+            mssdbModel dbModel = new mssdbModel();
+            //You need to populate it again, probably with the same code used before
+            objUser.listRaces = dbModel.mssSystems.Where(x => x.mss_Category == "user_race").ToList().Select(x => new SelectListItem
+            {
+                Value = x.mss_Name,
+                Text = x.mss_Description
+            });
+            objUser.listBankType = dbModel.mssSystems.Where(x => x.mss_Category == "bank_name").ToList().Select(x => new SelectListItem
+            {
+                Value = x.mss_Name,
+                Text = x.mss_Description
+            });
+            objUser.listStates = dbModel.mssSystems.Where(x => x.mss_Category == "states_name").ToList().Select(x => new SelectListItem
+            {
+                Value = x.mss_Name,
+                Text = x.mss_Description
+            });
+            var EditedObj = dbModel.users.Where(x => x.userID == objUser.userID).FirstOrDefault();
+            bool anyExist = false;
+            bool checkUsernameExist = dbModel.users.Where(x => x.username == objUser.username).Any();
+            bool checkEmailExist = dbModel.users.Where(x => x.email == objUser.email).Any();
+            if (checkUsernameExist && objUser.username != EditedObj.username)
+            {
+                ModelState.AddModelError("username", "Username is taken");
+                anyExist = true;
+            }
+            if (checkEmailExist && objUser.email != EditedObj.email)
+            {
+                ModelState.AddModelError("email", "Email is taken");
+                anyExist = true;
+            }
+            if (anyExist)
+            {
+                return View(objUser);
+            }
+            dbModel.Entry(EditedObj).CurrentValues.SetValues(objUser);
+            dbModel.SaveChanges();
+            return RedirectToAction("Profile");
+        }
         public ActionResult Test11()
         {
             using (mssdbModel dbModel = new mssdbModel()){

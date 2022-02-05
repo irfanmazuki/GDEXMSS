@@ -107,10 +107,11 @@
                             <div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
                             <!-- Search Form -->
                             <div class="search-top">
-                                <form class="search-form">
-                                    <input type="text" placeholder="Search here..." name="search">
+                                @using (Html.BeginForm("Search", "Products", FormMethod.Post, new { id = "Form1", @class = "search-form" }))
+                                {
+                                    <input type="text" placeholder="Search here..." name="query">
                                     <button value="search" type="submit"><i class="ti-search"></i></button>
-                                </form>
+                                }
                             </div>
                             <!--/ End Search Form -->
                         </div>
@@ -120,26 +121,17 @@
                     <div class="col-lg-8 col-md-7 col-12">
                         <div class="search-bar-top">
                             <div class="search-bar">
-                                <select>
-                                    <option selected="selected">All Category</option>
-                                    <option>Limited Edition</option>
-                                    <option>Clothes</option>
-                                    <option>Stationery</option>
-                                    <option>Miniature</option>
-                                </select>
-                                <form>
-                                    <input name="search" placeholder="Search Products Here....." type="search">
+                                @using (Html.BeginForm("Search", "Products", FormMethod.Post, new { id = "Form1" }))
+                                {
+                                    <input type="text" placeholder="Search here..." name="query">
+                                    <input type="text" placeholder="Search here..." name="categoryID" value=0 hidden>
                                     <button class="btnn"><i class="fas fa-solid fa-search"></i></button>
-                                </form>
+                                }
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-12">
                         <div class="right-bar">
-                            <!-- Search Form -->
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-solid fa-heart"></i></a>
-                            </div>
                             @Html.Partial("_ShoppingCart")
                         </div>
                     </div>
@@ -157,7 +149,7 @@
                                 <ul class="main-category">
                                     @foreach (var item in Model.listCategories)
                                     {
-                                        <li><a href="">@Html.DisplayFor(modelItem => item.name)</a></li>
+                                        <li>@Html.ActionLink(item.name, "Search", new {categoryID = item.categoryID })</li>
                                     }
                                 </ul>
                             </div>
@@ -244,7 +236,7 @@
                         url: '/Products/Index',
                         success: function (data) {
                             if (data.Success) {
-                                $("#cartItem").text("Cart(" + data.Counter + ")");
+                                $("#cartCounter").text(data.Counter);
                             }
                             else {
                                 alert("Maximum number of product");
@@ -311,9 +303,9 @@
                                                                     }
                                                                 </a>
                                                                 <div class="button-head">
-                                                                    <div class="product-action">
+                                                                    @*<div class="product-action">
                                                                         <a title="Wishlist" href="#"><i class="fa fa-solid fa-heart"></i><span>Add to Wishlist</span></a>
-                                                                    </div>
+                                                                    </div>*@
                                                                     <div class="product-action-2">
                                                                         @*<a title="Add to cart" href="@Url.Action("AddToCart", "Products",product.productID)" id="">Add to cart</a>*@
                                                                         <input type="button" name="AddToCart" class="btn" value="Add to cart" style="border: none; background: none;" itemid="@product.productID" id="btnAddCart" onclick="AddToCart(this)" />

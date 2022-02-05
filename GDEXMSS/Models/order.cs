@@ -14,6 +14,7 @@ namespace GDEXMSS.Models
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Runtime.Serialization;
     using System.Web.Mvc;
 
     public partial class order
@@ -38,10 +39,12 @@ namespace GDEXMSS.Models
     public class combinedOrderModel
     {
         public order order { get; set; }
+        public eWallet wallet { get; set; }
         public orderShippingInfo orderShippingInfo { get; set; }
         public cartItem cartItem { get; set; }
         public List<cartItem> listItems { get; set; }
         public mssSystem mssSystem { get; set; }
+        public IEnumerable<SelectListItem> listStates { get; set; }
     }
     public class combinedOrderList
     {
@@ -59,5 +62,15 @@ namespace GDEXMSS.Models
         //first need to store single review into the single model then we iterate it into the list
         public reviewOrder reviewOrder { get; set; }
         public List<reviewOrder> listReview { get; set; }
+    }
+    public class combinedSalesReport
+    {
+        public order order { get; set; }
+        public List<order> listOrder { get; set; }
+        public orderShippingInfo orderShippingInfo { get; set; }
+        public cartItem cartItem { get; set; }
+        public List<cartItem> listItems { get; set; }
+        public List<product> listProducts { get; set; }
+        public eWallet wallet { get; set; }
     }
 }

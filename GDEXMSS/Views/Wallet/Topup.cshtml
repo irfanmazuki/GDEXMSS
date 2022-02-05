@@ -18,28 +18,37 @@
                             @Html.HiddenFor(model => model.walletID, new { htmlAttributes = new { @readonly = "readonly" } })
                             @Html.HiddenFor(model => model.amountRM, new { htmlAttributes = new { @readonly = "readonly", value = "0" } })
                             @*<div class="row">
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Amount of wallet</label>
-                                        @Html.EditorFor(model => model.amountRM, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.amountRM, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>*@
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="form-group">
+                        <label>Amount of wallet</label>
+                        @Html.EditorFor(model => model.amountRM, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.amountRM, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>*@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Amount of points</label>
+                                        <label>Enter the amount of points</label>
                                         @Html.EditorFor(model => model.availablePoints, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.availablePoints, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Save" id="btnView" class="btn btn-default bg-primary" />
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" style="width:150px;" data-toggle="modal" data-target="#ConfirmTopupPoint">
+                                Confirm Topup
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="ConfirmTopupPoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body d-flex align-items-center">
+                                            <h5>Confirm the point topup?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Confirm</button>
                                         </div>
                                     </div>
                                 </div>

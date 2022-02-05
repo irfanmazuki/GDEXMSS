@@ -20,14 +20,19 @@ namespace GDEXMSS.Models
     {
         [DisplayName("Product ID")]
         public int productID { get; set; }
+        [Required]
         [DisplayName("Name")]
         public string name { get; set; }
+        [Required]
         [DisplayName("Description")]
         public string description { get; set; }
+        [Required]
         [DisplayName("Quantity")]
         public Nullable<int> quantity { get; set; }
+        [Required]
         [DisplayName("Price")]
         public Nullable<decimal> unitCost { get; set; }
+        [Required]
         [DisplayName("Category")]
         public Nullable<int> categoryID { get; set; }
         public Nullable<bool> isVariation { get; set; }

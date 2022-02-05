@@ -11,10 +11,12 @@ namespace GDEXMSS.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class productCategory
     {
         public int categoryID { get; set; }
+        [Required]
         public string name { get; set; }
         public Nullable<bool> isExist { get; set; }
     }

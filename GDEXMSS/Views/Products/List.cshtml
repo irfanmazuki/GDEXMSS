@@ -16,7 +16,7 @@
                                 <li class="mr-auto p-2">
                                     <h5 class="card-title"><b>Order History</b></h5>
                                 </li>
-                                <li class="p-2">
+                                <li class="p-2 " style="align-items: center;">
                                     <div style="width:220px">
                                         @Html.DropDownList("Sortby", new SelectListItem[]
                                         {
@@ -70,47 +70,69 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.productID)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.quantity)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.quantitySold)
-                                    </td>
-                                    <td>
-                                        RM
-                                        @Html.DisplayFor(modelItem => item.unitCost)
-                                    </td>
-                                    <td>
-                                        @if (item.isExist == false)
-                                        {
-                                            <h5><span class="badge bg-danger">Discontinued</span></h5>
-                                        }
-                                        else
-                                        {
-                                            if (item.quantity == 0)
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.productID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.quantity)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.quantitySold)
+                                        </td>
+                                        <td>
+                                            RM
+                                            @Html.DisplayFor(modelItem => item.unitCost)
+                                        </td>
+                                        <td>
+                                            @if (item.isExist == false)
                                             {
-                                                <h5><span class="badge bg-warning">Sold Out</span></h5>
+                                                <h5><span class="badge bg-danger">Discontinued</span></h5>
                                             }
-                                            if (item.quantity > 0)
+                                            else
                                             {
-                                                <h5><span class="badge bg-success">Available</span></h5>
+                                                if (item.quantity == 0)
+                                                {
+                                                    <h5><span class="badge bg-warning">Sold Out</span></h5>
+                                                }
+                                                if (item.quantity > 0)
+                                                {
+                                                    <h5><span class="badge bg-success">Available</span></h5>
+                                                }
                                             }
-                                        }
 
-                                    </td>
-                                    <td>
-                                        @* Route value more than 1? how *@
-                                        @Html.ActionLink("Edit", "Edit", new { productID = item.productID, actions = "edit" }, new { @class = "badge bg-primary" })
-                                        @Html.ActionLink("Delete", "Edit", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-danger" })
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            <h5>
+                                                @Html.ActionLink("Edit", "Edit", new { productID = item.productID, actions = "edit" }, new { @class = "badge bg-primary" })
+                                                @if (item.isExist == true)
+                                                {
+                                                    @Html.ActionLink("Delete", "Edit", new { productID = item.productID, actions = "delete" }, new { @class = "badge bg-danger", @data_toggle = "modal", @data_target = "#product_" + item.productID })
+                                                }
+                                                else
+                                                {
+                                                    @Html.ActionLink("Activate", "Edit", new { productID = item.productID, actions = "activate" }, new { @class = "badge bg-success" })
+                                                }
+                                            </h5>
+                                        </td>
+                                    </tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="product_@item.productID" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body d-flex align-items-center">
+                                                    <h5>Are you sure to delete @item.name</h5>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    @Html.ActionLink("Confirm", "Edit", new { productID = item.productID, actions = "delete" }, new { @class = "btn btn-primary" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             </tbody>
                         </table>

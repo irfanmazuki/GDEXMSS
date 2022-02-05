@@ -58,7 +58,9 @@
                                         }
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Process", "Process", new { orderID = item.orderID }, new { @class = "badge bg-primary" })
+                                        <h5>
+                                            @Html.ActionLink("Process", "Process", new { orderID = item.orderID }, new { @class = "badge bg-primary" })
+                                        </h5>
                                     </td>
                                 </tr>
                                 }

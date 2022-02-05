@@ -88,9 +88,10 @@
                                                     RM @Html.DisplayFor(modelItem => item.unitCost)
                                                 </td>
                                                 <td>
-                                                    RM @Html.DisplayFor(modelItem => item.unitCost)
+                                                    @{ totalcost += (Convert.ToDecimal(item.unitCost.GetValueOrDefault() * item.quantity));}
+                                                    RM @totalcost
                                                 </td>
-                                                @{ totalcost += item.unitCost.GetValueOrDefault();}
+                                                
                                             </tr>
                                         }
                                         <tr>
@@ -102,21 +103,21 @@
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <th>Points Used</th>
-                                            <td>0</td>
+                                            <th>Postage</th>
+                                            <td>RM @Model.orderShippingInfo.cost</td>
                                         </tr>
                                         <tr>
                                             <td></td>
                                             <td></td>
-                                            <th>Postage</th>
-                                            <td>RM @Model.orderShippingInfo.cost</td>
+                                            <th>Points Used</th>
+                                            <td>@Model.order.pointRedeemed</td>
                                         </tr>
                                         <tr>
                                             @*@{ totalcost += Model.orderShippingInfo.cost.GetValueOrDefault();}*@
                                             <td></td>
                                             <td></td>
-                                            <th>Total</th>
-                                            <td>RM @Model.order.amountPaid</td>
+                                            <th class="bg-secondary">Total</th>
+                                            <td class="bg-secondary">RM @Model.order.amountPaid</td>
                                         </tr>
                                     </tbody>
                                 </table>

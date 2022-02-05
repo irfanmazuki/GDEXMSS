@@ -53,9 +53,9 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>State<span>*</span></label>
-                                        @Html.EditorFor(model => model.orderShippingInfo.state)
-                                        @Html.ValidationMessageFor(model => model.orderShippingInfo.state, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.orderShippingInfo.state, Model.listStates, "Select States")
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.orderShippingInfo.state, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <!--/ End Form -->
@@ -69,19 +69,24 @@
                                 <div class="content">
                                     <ul>
                                         <li>Sub Total<span>RM @Session["totalCart"]</span></li>
-                                        <li>(+) Shipping<span> RM
-                                            @{ decimal shippingFee = 0;
-                                                decimal totalIncShipping = 0;
-                                                     @Model.mssSystem.mss_Description.ToString();
-                                                     shippingFee = decimal.Parse(Model.mssSystem.mss_Description.ToString());
-                                                 }
-                                             </span></li>
-                                        @{ 
+                                        <li>
+                                            (+) Shipping<span>
+                                                RM
+                                                @{ decimal shippingFee = 0;
+                                                    decimal totalIncShipping = 0;
+                                                    @Model.mssSystem.mss_Description.ToString();
+                                                    shippingFee = decimal.Parse(Model.mssSystem.mss_Description.ToString());
+                                                }
+                                            </span>
+                                        </li>
+                                        @{
                                             totalIncShipping = decimal.Parse(Session["totalCart"].ToString()) + shippingFee;
                                         }
                                         <li>Points Redeemed <span> @Model.order.pointRedeemed points</span></li>
+                                        @{ double doubleTotalCost = Decimal.ToDouble(totalIncShipping); }
+                                        @{ doubleTotalCost -= ((Decimal.ToDouble(Model.order.pointRedeemed.GetValueOrDefault()) / 100.0));}
                                         <!-- way of redemption? Formula!-->
-                                        <li class="last">Total<span>RM @totalIncShipping</span></li>
+                                        <li class="last">Total<span>RM @string.Format("{0:N2}", doubleTotalCost)</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -90,8 +95,13 @@
                             <div class="single-widget get-button">
                                 <div class="content">
                                     <div class="button">
-                                        <input type="submit" value="Proceed to checkout" class="btn" />
+                                        <input type="submit" value="Proceed to checkout" class="btn bg-gray" />
                                     </div>
+                                    <a href="~/Products/Cart">
+                                        <div class="button">
+                                            <input value="Back to cart" class="btn bg-red" />
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                             <!--/ End Button Widget -->
